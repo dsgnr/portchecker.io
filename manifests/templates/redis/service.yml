@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.redis.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterIP: None
+  ports:
+  - port: {{ .Values.service.redis.port }}
+    name: {{ .Values.service.redis.name }}
+  selector:
+    app: {{ .Values.service.redis.name }}

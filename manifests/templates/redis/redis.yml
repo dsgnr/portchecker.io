@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.redis.name }}
+  namespace: {{ .Release.Namespace }}
+  labels: &Labels
+    app: {{ .Values.service.redis.name }}
+spec:
+  replicas: {{ .Values.service.redis.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+    spec:
+      containers:
+      - name: {{ .Values.service.redis.name }}
+        image: "{{ .Values.service.redis.image }}"
+        imagePullPolicy: IfNotPresent

@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.api.name }}
+  namespace: {{ .Release.Namespace }}
+  labels: &Labels
+    app: {{ .Values.service.api.name }}
+spec:
+  replicas: {{ .Values.service.api.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+    spec:
+      containers:
+      - name: {{ .Values.service.api.name }}
+        image: "{{ .Values.service.api.image }}"
+        imagePullPolicy: Always
+        command: ["sh", "-c", "/entrypoint.sh"]
+        ports:
+          - containerPort: {{ .Values.service.api.port }}
+        env:
+          {{- range .Values.service.api.secrets }}
+          - name: {{ .env_variable }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .secret_map }}
+                key: {{ .secret_key }}
+          {{- end }}

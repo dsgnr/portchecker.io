@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.service.rabbitmq.name }}
+  namespace: {{ .Release.Namespace }}
+  labels: &Labels
+    app: {{ .Values.service.rabbitmq.name }}
+spec:
+  serviceName: {{ .Values.service.rabbitmq.name }}
+  replicas: {{ .Values.service.rabbitmq.replicas }}
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+    spec:
+      serviceAccountName: {{ .Release.Namespace }}-{{ .Values.service.rabbitmq.name }}
+      initContainers:
+      - name: {{ .Values.service.rabbitmq.name }}-init
+        image: {{ .Values.service.rabbitmq.image }}
+        imagePullPolicy: IfNotPresent
+        command: [ "sh", "-c" ]
+        args:
+          - |
+            cp /tmp/config/rabbitmq.conf /config/rabbitmq.conf
+            cp /tmp/config/enabled_plugins /etc/rabbitmq/enabled_plugins
+            chmod 755 /config/rabbitmq.conf
+        volumeMounts:
+        - name: config
+          mountPath: /tmp/config/
+          readOnly: false
+        - name: config-file
+          mountPath: /config/
+          readOnly: false
+        - name: plugins-file
+          mountPath: /etc/rabbitmq/
+      containers:
+      - name: {{ .Values.service.rabbitmq.name }}
+        image: {{ .Values.service.rabbitmq.image }}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 4369
+          name: discovery
+        - containerPort: 5672
+          name: amqp
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.service.rabbitmq.name }}-env
+        env:
+        - name: RABBIT_POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        {{- range .Values.service.celery.secrets }}
+        - name: {{ .env_variable }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .secret_map }}
+              key: {{ .secret_key }}
+        {{- end }}
+        - name: RABBIT_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: RABBITMQ_NODENAME
+          value: rabbit@$(RABBIT_POD_NAME).{{ .Values.service.rabbitmq.name }}.$(RABBIT_POD_NAMESPACE).svc.cluster.local
+        - name: RABBITMQ_USE_LONGNAME
+          value: "true"
+        - name: RABBITMQ_CONFIG_FILE
+          value: "/config/rabbitmq"
+        - name: K8S_HOSTNAME_SUFFIX
+          value: .{{ .Values.service.rabbitmq.name }}.$(RABBIT_POD_NAMESPACE).svc.cluster.local
+        volumeMounts:
+        - name: config-file
+          mountPath: /config/
+          readOnly: false
+        - name: plugins-file
+          mountPath: /etc/rabbitmq/
+          readOnly: false
+      volumes:
+      - name: config-file
+        emptyDir: {}
+      - name: plugins-file
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: {{ .Values.service.rabbitmq.name }}-config
+          defaultMode: 0755
