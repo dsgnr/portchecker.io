@@ -34,3 +34,16 @@ spec:
                 name: {{ .secret_map }}
                 key: {{ .secret_key }}
           {{- end }}
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.service.api.port }}
+          failureThreshold: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.service.api.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          timeoutSeconds: 1
