@@ -14,6 +14,14 @@ from worker import celery_init
 app = Flask(__name__)
 
 
+@app.route("/healthz", methods=["GET"])
+def healthcheck():
+    """
+    Healthcheck to determine the API is up
+    """
+    return jsonify({"msg": "OK"}), 200
+
+
 @app.route("/api", methods=["GET"])
 def catch_all():
     """
