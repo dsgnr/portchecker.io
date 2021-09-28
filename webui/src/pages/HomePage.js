@@ -2,6 +2,8 @@ import React, { useState,useEffect,Component } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
 const api_url = "/api";
+const hosterr_msg = "Host cannot be empty";
+const porterr_msg = "Port cannot be empty";
 
 export class HomePage extends Component {
     constructor(props) {
@@ -18,7 +20,7 @@ export class HomePage extends Component {
             msg: ""
         };
         this.portChange = this.portChange.bind(this);
-        this.ipChange = this.ipChange.bind(this);
+        this.hostChange = this.hostChange.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -29,11 +31,11 @@ export class HomePage extends Component {
         });
     }
 
-    ipChange(event) {
+    hostChange(event) {
         this.setState(
             {
                 error: false,
-                hostError: "",
+                hostError: !event.target.value.length ? hosterr_msg : "",
                 host: event.target.value,
                 results: [],
                 msg: "",
@@ -46,7 +48,7 @@ export class HomePage extends Component {
         this.setState(
             {
                 error: false,
-                portError: "",
+                portError: !event.target.value.length ? porterr_msg : "",
                 ports: event.target.value,
                 results: [],
                 msg: "",
@@ -56,12 +58,16 @@ export class HomePage extends Component {
     }
 
     formErrors() {
+        let hosterr, porterr;
         if (!this.state.host) {
-            this.setState({hostError: "Host cannot be empty"});
-            return true;
+            porterr = true;
+            this.setState({hostError: hosterr_msg});
         }
         if (!this.state.ports) {
-            this.setState({portError: "Port cannot be empty"});
+            hosterr = true;
+            this.setState({portError: porterr_msg});
+        }
+        if (porterr || hosterr) {
             return true;
         }
         return false;
@@ -143,13 +149,13 @@ export class HomePage extends Component {
                   <div className="form">
                     <div className="input-group host-group">
                         <div className="form-group">
-                            <input className="input" type="text" placeholder="Hostame or IP address" defaultValue={this.state.host} onChange={this.ipChange} required/>
+                            <input className="input" type="text" placeholder="Hostame or IP address" defaultValue={this.state.host} onChange={this.hostChange} onKeyUp={this.hostChange}/>
                         </div>
                         { this.state.hostError ? <span className="form-error">{this.state.hostError}</span> : null }
                     </div>
                     <div className="input-group ports-group">
                         <div className="form-group">
-                            <input className="input" type="number" placeholder="Port" value={this.state.value} onChange={this.portChange} required/>
+                            <input className="input" type="number" placeholder="Port" value={this.state.value} onChange={this.portChange} onKeyUp={this.portChange}/>
                         </div>
                         { this.state.portError ? <span className="form-error">{this.state.portError}</span> : null }
                     </div>
