@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "description": "React Single Page App template without CRA",
   "main": "src/index.js",
-  "homepage": "https://github.com/dsgnr/portcheckerio#readme",
+  "homepage": "https://github.com/dsgnr/portchecker.io#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dsgnr/portcheckerio.git"
+    "url": "git+https://github.com/dsgnr/portchecker.io.git"
   },
   "author": "dsgnr <email@danielhand.io>",
   "license": "MIT",
@@ -16,12 +16,12 @@
   },
   "proxy": "http://api.portchecker.io",
   "bugs": {
-    "url": "http://github.com/dsgnr/portcheckerio/issues",
+    "url": "http://github.com/dsgnr/portchecker.io/issues",
     "email": "email@danielhand.io"
   },
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --progress --history-api-fallback",
-    "build": "NODE_ENV=production webpack serve --progress --history-api-fallback",
+    "start": "NODE_ENV=development webpack serve --history-api-fallback",
+    "build": "NODE_ENV=production webpack serve --no-web-socket-server --history-api-fallback",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
