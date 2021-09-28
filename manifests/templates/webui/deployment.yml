@@ -36,5 +36,5 @@ spec:
             path: /
             port: {{ .Values.service.webui.port }}
           initialDelaySeconds: 10
-          periodSeconds: 2
+          periodSeconds: 30
           timeoutSeconds: 1

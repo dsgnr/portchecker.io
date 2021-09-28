@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Increase the check time on front-end and API Kubernetes deployments
+
 ## [1.0.2] - 2021-09-28
 
 - Add liveness and startup probe to api and front-end Kubernetes manifest
