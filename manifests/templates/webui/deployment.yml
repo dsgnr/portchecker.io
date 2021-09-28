@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.webui.name }}
+  namespace: {{ .Release.Namespace }}
+  labels: &Labels
+    app: {{ .Values.service.webui.name }}
+spec:
+  replicas: {{ .Values.service.webui.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+    spec:
+      containers:
+      - name: {{ .Values.service.webui.name }}
+        image: "{{ .Values.service.webui.image }}"
+        imagePullPolicy: Always
+        ports:
+          - containerPort: {{ .Values.service.webui.port }}

@@ -138,4 +138,6 @@ dmypy.json
 cython_debug/
 
 # Project
+.DS_Store
+webui/node_modules
 k8s.yml

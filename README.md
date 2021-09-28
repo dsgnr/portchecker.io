@@ -13,14 +13,16 @@ Therefore, the task is queued and executed as quickly as possible.
 
 Results for the task are stored in a Redis cache for 15 minutes (to allow for the user to poll the task results at their own pace).
 
+The front-end is built using React, and is forked from [ofnullable/react-spa-template](https://github.com/ofnullable/react-spa-template).
+
 ## 📝 To Do
 
 - [ ] Improve Redis resilience using Sentinel
 - [ ] More tests
 - [ ] Kubernetes liveness/readiness
-- [ ] Implement front-end
+- [x] Implement front-end
 - [ ] SEO/search engine submissions
-- [ ] Bugfix/security 
+- [ ] Bugfix/security
 
 ### 🏠 [Homepage](portchecker.io)
 
