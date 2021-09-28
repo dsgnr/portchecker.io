@@ -2,93 +2,6 @@ import React, { useState,useEffect,Component } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
 const api_url = "/api";
-const HomePageStyle = css`
-* {
-  font-size: 14px;
-}
-p {
-  font-size:14px;
-}
-.container {
-  max-width: 960px;
-  margin: 150px auto;
-}
-.description {
-  text-align: center;
-}
-.input {
-  box-shadow: inset 0 0.0625em 0.125em rgb(10 10 10 / 5%);
-  background-color: #fff;
-  border-color: #dbdbdb;
-  color: #363636;
-  border: 1px solid transparent;
-  border-radius: .375em;
-  box-shadow: none;
-  padding: 15px;
-}
-.form-group, .form-group input {
-    min-width: 100%;
-}
-.host-group {
-    width: calc(60% - 30px);
-    display: table;
-    margin-right: 20px;
-    float: left;
-}
-.ports-group {
-    width: calc(25% - 30px);
-    display: table;
-    margin-right: 20px;
-    float: left;
-}
-.button {
-  width: calc(20% - 30px);
-  float:left;
-  padding: 15px;
-  background-color: #fff;
-  border-color: #dbdbdb;
-  border-width: 1px;
-  color: #363636;
-  cursor: pointer;
-  justify-content: center;
-  text-align: center;
-  white-space: nowrap;
-  border-radius: .375em;
-}
-
-.button.is-success {
-  background-color: #48c78e;
-  border-color: transparent;
-  color: #fff;
-}
-.form {
-  margin-top:50px;
-}
-.box {
-    clear: both;
-    padding: 21px 20px;
-    margin-top: 50px;
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    border-radius: .375em;
-}
-.results {
-    border: 1px solid #888;
-}
-.error_message{
-    border: 1px solid #dc3545;
-    background-color: #dc3545;
-    opacity: 0.9;
-    color: #ececec;
-}
-.form-error {
-    padding: 10px;
-    clear: both;
-    display: table;
-    color: #dc3545;
-}
-`;
 
 export class HomePage extends Component {
     constructor(props) {
@@ -222,7 +135,7 @@ export class HomePage extends Component {
 
     render() {
         return (
-            <div css={[HomePageStyle]}>
+            <div className="home">
               <div className="container">
                 <p className="description">
                     portchecker.io is a free utility to check the port status of a given hostname of IP address.
