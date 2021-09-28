@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Add liveness and startup probe to api and front-end Kubernetes manifest
 - Update webpack to version 5.55.0
 - Add healthz for API
 - Stop scaling on mobile

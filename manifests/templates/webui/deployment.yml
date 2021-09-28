@@ -25,3 +25,16 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: {{ .Values.service.webui.port }}
+        startupProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.webui.port }}
+          failureThreshold: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.webui.port }}
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          timeoutSeconds: 1
