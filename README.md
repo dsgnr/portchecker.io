@@ -26,9 +26,9 @@ The front-end is built using React, and is forked from [ofnullable/react-spa-tem
 - [ ] SEO/search engine submissions
 - [ ] Bugfix/security
 
-### 🏠 [Homepage](portchecker.io)
+### 🏠 [Homepage](https://portchecker.io)
 
-### ✨ [Demo](portchecker.io)
+### ✨ [Demo](https://portchecker.io)
 
 ## Author
 
