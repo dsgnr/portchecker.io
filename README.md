@@ -17,7 +17,7 @@ The front-end is built using React, and is forked from [ofnullable/react-spa-tem
 
 ## 📝 To Do
 
-- [ ] Improve mobile browsing style
+- [x] Improve mobile browsing style
 - [ ] Document API route
 - [ ] Improve Redis resilience using Sentinel
 - [ ] More tests
