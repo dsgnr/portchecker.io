@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Ensure the form captures errors better
 - Make the form submit on return key press
 - Increase the check time on front-end and API Kubernetes deployments
 

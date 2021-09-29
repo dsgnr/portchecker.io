@@ -4,6 +4,7 @@ import axios from 'axios';
 const api_url = "/api";
 const hosterr_msg = "Host cannot be empty";
 const porterr_msg = "Port cannot be empty";
+const apierr_msg = "Something bad happened and we couldn't process the request.";
 
 export class HomePage extends Component {
     constructor(props) {
@@ -91,56 +92,35 @@ export class HomePage extends Component {
             if(response.data.results === null || response.data.results.length === 0){
                 return this.poll_delay(1000) .then(() => this.poll_task(task_id));
             } else {
-                this.setState({showResults: true, results: response.data.results});
-                this.setState({msg: "Completed"});
+                this.setState(
+                    {msg: "Completed", showResults: true, results: response.data.results}
+                );
             }
         })
         .catch((error) => {
-            console.log(this.state);
-            if (error.response) {
-                // Request made and server responded
+            if (error.response.status === 400) {
                 this.setState({error: true, msg: error.response.data.msg});
-            } else if (error.request) {
-                // The request was made but no response was received
-                this.setState(
-                    {
-                        error: true,
-                        msg: "Something bad happened and we couldn't process the request"
-                    }
-                );
             } else {
-                // Something happened in setting up the request that triggered an Error
-                this.setState({error: true, msg: error.message});
+                this.setState({error: true, msg: apierr_msg});
             }
         });
     }
 
     submit() {
         if (this.formErrors()) {
-          return false;
+            return false;
         }
         this.setState({results: [], showResults: false});
         axios.post(api_url, {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))})
         .then((res) => {
-          this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
-          this.poll_task(res.data.task_id);
+            this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
+            this.poll_task(res.data.task_id);
         })
         .catch((error) => {
-            console.log(this.state);
-            if (error.response) {
-                // Request made and server responded
+            if (error.response.status === 400) {
                 this.setState({error: true, msg: error.response.data.msg});
-            } else if (error.request) {
-                // The request was made but no response was received
-                this.setState(
-                    {
-                        error: true,
-                        msg: "Something bad happened and we couldn't process the request"
-                    }
-                );
             } else {
-                // Something happened in setting up the request that triggered an Error
-                this.setState({error: true, msg: error.message});
+                this.setState({error: true, msg: apierr_msg});
             }
         });
     }
