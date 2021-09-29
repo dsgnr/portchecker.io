@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [1.0.3] - 2021-09-29
 
 - Add Kubernetes probes for RabbitMQ
 - Rename Redis manifest file and add Kubernetes probes

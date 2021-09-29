@@ -21,7 +21,7 @@ The front-end is built using React, and is forked from [ofnullable/react-spa-tem
 - [ ] Document API route
 - [ ] Improve Redis resilience using Sentinel
 - [ ] More tests
-- [ ] Kubernetes liveness/readiness
+- [x] Kubernetes liveness/readiness
 - [x] Implement front-end
 - [ ] SEO/search engine submissions
 - [ ] Bugfix/security
