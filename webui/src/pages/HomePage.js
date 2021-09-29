@@ -42,6 +42,9 @@ export class HomePage extends Component {
                 showResults: false
             }
         );
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+            this.submit();
+        }
     }
 
     portChange(event) {
@@ -55,6 +58,9 @@ export class HomePage extends Component {
                 showResults: false
             }
         );
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+            this.submit();
+        }
     }
 
     formErrors() {

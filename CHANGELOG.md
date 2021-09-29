@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Make the form submit on return key press
 - Increase the check time on front-end and API Kubernetes deployments
 
 ## [1.0.2] - 2021-09-28
