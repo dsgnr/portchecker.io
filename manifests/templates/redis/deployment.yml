@@ -22,4 +22,18 @@ spec:
       containers:
       - name: {{ .Values.service.redis.name }}
         image: "{{ .Values.service.redis.image }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
