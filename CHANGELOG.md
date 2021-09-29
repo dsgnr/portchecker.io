@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Add Kubernetes probes for RabbitMQ
 - Rename Redis manifest file and add Kubernetes probes
 - Ensure the form captures errors better
 - Make the form submit on return key press
