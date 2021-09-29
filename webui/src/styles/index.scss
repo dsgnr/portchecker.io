@@ -104,6 +104,10 @@ a {
 
 .results {
   border: 1px solid #888;
+  line-height: 2.5em;
+  li {
+    list-style: none;
+  }
 }
 
 .error_message {
