@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [1.0.4] - 2021-11-02
 
 - Improve results styling
 - Migrate WebUI to AWS Beanstalk
