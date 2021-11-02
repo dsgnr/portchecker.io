@@ -1,7 +1,7 @@
 import React, { useState,useEffect,Component } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
-const api_url = "/api";
+const api_url = "https://api.portchecker.io/v1";
 const hosterr_msg = "Host cannot be empty";
 const porterr_msg = "Port cannot be empty";
 const apierr_msg = "Something bad happened and we couldn't process the request.";
@@ -80,41 +80,21 @@ export class HomePage extends Component {
         return false;
     }
 
-    poll_delay(ms) {
-        return new Promise(resolve => {
-            setTimeout(resolve, ms);
-        });
-    }
-
-    poll_task(task_id) {
-        return axios.get(`${api_url}/results/${task_id}`)
-        .then(response => {
-            if(response.data.results === null || response.data.results.length === 0){
-                return this.poll_delay(1000) .then(() => this.poll_task(task_id));
-            } else {
-                this.setState(
-                    {msg: "Completed", showResults: true, results: response.data.results}
-                );
-            }
-        })
-        .catch((error) => {
-            if (error.response.status === 400) {
-                this.setState({error: true, msg: error.response.data.msg});
-            } else {
-                this.setState({error: true, msg: apierr_msg});
-            }
-        });
-    }
-
     submit() {
         if (this.formErrors()) {
             return false;
         }
         this.setState({results: [], showResults: false});
-        axios.post(api_url, {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))})
+        axios.post(api_url, {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))}, {
+        headers: {
+    'content-type': 'application/json'
+  }
+        })
         .then((res) => {
             this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
-            this.poll_task(res.data.task_id);
+            this.setState(
+                {msg: "Completed", showResults: true, results: res.data.results}
+            );
         })
         .catch((error) => {
             if (error.response.status === 400) {

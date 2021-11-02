@@ -36,7 +36,6 @@ module.exports = {
   mode: prod ? 'production' : 'development',
   devtool: prod ? false : 'eval-source-map',
   devServer: {
-    proxy: { "/api/**": { target: 'http://api.default.svc.cluster.local:3000', secure: false }},
     allowedHosts: 'portchecker.io',
   },
   performance: { hints: false },
