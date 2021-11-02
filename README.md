@@ -2,16 +2,8 @@
 <p>
 </p>
 
-[![Pylint](https://github.com/dsgnr/portchecker.io/actions/workflows/pylint.yml/badge.svg)](https://github.com/dsgnr/portchecker.io/actions/workflows/pylint.yml)
-
-
 This project aims to be a simple, go-to place for querying the port status for a provided hostname or IP address.
-The system is API-based and making a `POST` request to the API will trigger a task to be queued in the messaging system (RabbitMQ), and executed by Celery. The user will be presented with a task ID they can then poll.
-
-Why do we need a message queue? Simple! If traffic increases, we don't want the user to be met with a hanging API.
-Therefore, the task is queued and executed as quickly as possible.
-
-Results for the task are stored in a Redis cache for 15 minutes (to allow for the user to poll the task results at their own pace).
+The system is API-based and making a `POST` request to the API will trigger an AWS Lambda function.
 
 The front-end is built using React, and is forked from [ofnullable/react-spa-template](https://github.com/ofnullable/react-spa-template).
 
@@ -21,7 +13,6 @@ The front-end is built using React, and is forked from [ofnullable/react-spa-tem
 - [ ] Document API route
 - [ ] Improve Redis resilience using Sentinel
 - [ ] More tests
-- [x] Kubernetes liveness/readiness
 - [x] Implement front-end
 - [ ] SEO/search engine submissions
 - [ ] Bugfix/security
