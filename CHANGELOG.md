@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Move users IP detector (for form auto population) to Cloudflare DNS to avoid some spam filters
 - Improve styling for pending/in-progress tasks
+- Update UI to use improved Lambda API task
 
 ## [1.0.4] - 2021-11-02
 
