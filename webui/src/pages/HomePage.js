@@ -26,10 +26,16 @@ export class HomePage extends Component {
     }
 
     componentDidMount() {
-      axios.get('https://geolocation-db.com/json/')
-        .then((res) => {
-            this.setState({host: res.data.IPv4});
-        });
+        // Attempts to obtain the users public IP address from
+        // Cloudflares DNS to be helpful and prepopulate the form
+        axios.get('https://1.1.1.1/cdn-cgi/trace').then((response) => {
+            let output = response.data.trim().split('\n').map(e=>e.split('='));
+            let json_parsed_output = Object.fromEntries(output);
+            this.setState({host: json_parsed_output.ip});
+        })
+        .catch((e) => {
+            console.log('error', e)
+        })
     }
 
     hostChange(event) {
