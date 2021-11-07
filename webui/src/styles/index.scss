@@ -108,9 +108,23 @@ a {
   li {
     list-style: none;
   }
+  span.is-true {
+      color: #48c78e;
+  }
+  span.is-false {
+      color: #dc3545;
+  }
 }
 
-.error_message {
+.success-box {
+    border-color: #48c78e;
+}
+
+.pending-box {
+    border-color: #F29339;
+}
+
+.error-box {
   border: 1px solid #dc3545;
   background-color: #dc3545;
   opacity: 0.9;

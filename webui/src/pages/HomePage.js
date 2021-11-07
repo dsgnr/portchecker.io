@@ -10,6 +10,7 @@ export class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            pending: false,
             error: false,
             hostError: "",
             portError: "",
@@ -17,7 +18,6 @@ export class HomePage extends Component {
             host: "",
             ports: "",
             results: [],
-            task_id: "",
             msg: ""
         };
         this.portChange = this.portChange.bind(this);
@@ -90,23 +90,23 @@ export class HomePage extends Component {
         if (this.formErrors()) {
             return false;
         }
-        this.setState({results: [], showResults: false});
-        axios.post(api_url, {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))}, {
-        headers: {
-    'content-type': 'application/json'
-  }
-        })
+        this.setState({results: [], pending: true, showResults: false, msg: `Querying host ${this.state.host}...`});
+        axios.post(
+            api_url,
+            {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))},
+            {headers: {'content-type': 'application/json'}}
+        )
         .then((res) => {
-            this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
+            //this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
             this.setState(
-                {msg: "Completed", showResults: true, results: res.data.results}
+                {msg: "Completed", pending: false, showResults: true, results: res.data.results}
             );
         })
         .catch((error) => {
             if (error.response.status === 400) {
-                this.setState({error: true, msg: error.response.data.msg});
+                this.setState({error: true, pending: false, msg: error.response.data.msg});
             } else {
-                this.setState({error: true, msg: apierr_msg});
+                this.setState({error: true, pending: false, msg: apierr_msg});
             }
         });
     }
@@ -116,7 +116,7 @@ export class HomePage extends Component {
             <div className="home">
               <div className="container">
                 <p className="description">
-                    portchecker.io is a free utility to check the port status of a given hostname of IP address.
+                    portchecker.io is a free utility to check the port status of a given hostname or IP address.
                 </p>
                   <div className="form">
                     <div className="input-group host-group">
@@ -134,20 +134,31 @@ export class HomePage extends Component {
                     <button className="button is-success" onClick={this.submit}>Check</button>
                   </div>
 
+                { this.state.pending ?
+                    <div className="box results pending-box">
+                    <p>{this.state.msg}</p>
+                    </div>
+                    : null
+                }
                 { this.state.error ?
-                    <div className="box error_message">
+                    <div className="box error-box">
                     <p>Error: {this.state.msg}</p>
                     </div>
                     : null
                 }
-                { this.state.showResults ? <div className="box results">
+                { this.state.showResults ?
+                    <div className="box results success-box">
                     {this.state.msg !== "Completed" ? this.state.msg : <p>Results for {this.state.host}:</p>}
                     {this.state.results && this.state.results.check
                     && Object.keys(this.state.results.check).map((key, i) =>
-                        <li key={key}>{this.state.results.check[key].port} - {String(this.state.results.check[key].status)}</li>
+                        <li key={key}>{this.state.results.check[key].port} - <span className={
+                            `${this.state.results.check[key].status ? "is-true" : "is-false"}`
+                        }>
+                            {String(this.state.results.check[key].status)}</span>
+                        </li>
                     )}
                     </div>
-                : null
+                    : null
                 }
               </div>
             </div>
