@@ -34,8 +34,8 @@ export class HomePage extends Component {
             this.setState({host: json_parsed_output.ip});
         })
         .catch((e) => {
-            console.log('error', e)
-        })
+            console.log('error', e);
+        });
     }
 
     hostChange(event) {
@@ -90,16 +90,28 @@ export class HomePage extends Component {
         if (this.formErrors()) {
             return false;
         }
-        this.setState({results: [], pending: true, showResults: false, msg: `Querying host ${this.state.host}...`});
+        this.setState(
+            {
+                results: [],
+                pending: true,
+                showResults: false,
+                msg: `Querying host ${this.state.host}...`
+            }
+        );
         axios.post(
             api_url,
             {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))},
             {headers: {'content-type': 'application/json'}}
         )
         .then((res) => {
-            //this.setState({error: false, msg: res.data.msg, showResults: true, results: []});
             this.setState(
-                {msg: "Completed", pending: false, showResults: true, results: res.data.results}
+                {
+                    msg: res.data.msg,
+                    error: res.data.error,
+                    pending: false,
+                    showResults: !res.data.error,
+                    results: res.data.check
+                }
             );
         })
         .catch((error) => {
@@ -148,13 +160,13 @@ export class HomePage extends Component {
                 }
                 { this.state.showResults ?
                     <div className="box results success-box">
-                    {this.state.msg !== "Completed" ? this.state.msg : <p>Results for {this.state.host}:</p>}
-                    {this.state.results && this.state.results.check
-                    && Object.keys(this.state.results.check).map((key, i) =>
-                        <li key={key}>{this.state.results.check[key].port} - <span className={
-                            `${this.state.results.check[key].status ? "is-true" : "is-false"}`
+                    {this.state.msg !== null ? this.state.msg : <p>Results for {this.state.host}:</p>}
+                    {this.state.results && this.state.results
+                    && Object.keys(this.state.results).map((key, i) =>
+                        <li key={key}>{this.state.results[key].port} - <span className={
+                            `${this.state.results[key].status ? "is-true" : "is-false"}`
                         }>
-                            {String(this.state.results.check[key].status)}</span>
+                            {String(this.state.results[key].status)}</span>
                         </li>
                     )}
                     </div>
