@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 - Update package.json dependencies
+- Improve webui styling for when the users browser does not have JavaScript enabled
 
 ## [1.0.5] - 2021-11-07
 

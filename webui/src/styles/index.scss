@@ -16,7 +16,7 @@ body,
   flex-direction: column;
 }
 
-#root>main {
+#root > main {
   flex: 1 1;
 }
 
@@ -32,8 +32,43 @@ a {
   width: auto;
 }
 
+header {
+  height: 60px;
+
+  & > nav {
+    height: 100%;
+    display: flex;
+    padding: 0 12px;
+    margin: 0 auto;
+    max-width: 1440px;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+      text-decoration: none;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+      }
+    }
+
+    svg.theme {
+      cursor: pointer;
+      display: flex;
+      user-select: none;
+    }
+  }
+}
 .description {
   text-align: center;
+  line-height: 2;
 }
 
 .input {
@@ -42,7 +77,7 @@ a {
   border-color: #dbdbdb;
   color: #363636;
   border: 1px solid transparent;
-  border-radius: .375em;
+  border-radius: 0.375em;
   box-shadow: none;
   padding: 15px;
 }
@@ -79,7 +114,7 @@ a {
   justify-content: center;
   text-align: center;
   white-space: nowrap;
-  border-radius: .375em;
+  border-radius: 0.375em;
 
   &.is-success {
     background-color: #48c78e;
@@ -99,7 +134,7 @@ a {
   display: inline-block;
   position: relative;
   width: 100%;
-  border-radius: .375em;
+  border-radius: 0.375em;
 }
 
 .results {
@@ -109,19 +144,19 @@ a {
     list-style: none;
   }
   span.is-true {
-      color: #48c78e;
+    color: #48c78e;
   }
   span.is-false {
-      color: #dc3545;
+    color: #dc3545;
   }
 }
 
 .success-box {
-    border-color: #48c78e;
+  border-color: #48c78e;
 }
 
 .pending-box {
-    border-color: #F29339;
+  border-color: #f29339;
 }
 
 .error-box {
@@ -136,6 +171,26 @@ a {
   clear: both;
   display: table;
   color: #dc3545;
+}
+
+#footer {
+  padding: 40px 16px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  & > nav {
+    margin: 0 auto;
+    max-width: 1440px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
 }
 
 @media only screen and (max-width: 768px) {
