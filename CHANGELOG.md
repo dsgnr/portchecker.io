@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Update package.json dependencies
+
 ## [1.0.5] - 2021-11-07
 
 - Move users IP detector (for form auto population) to Cloudflare DNS to avoid some spam filters
