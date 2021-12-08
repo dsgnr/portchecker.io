@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7] - 2021-12-08
+
+- Migrate from NPM to Yarn to resolve dependencies
+- Upgrade react-router-dom to v6
+
 ## [1.0.6] - 2021-11-11
 
 - Update package.json dependencies

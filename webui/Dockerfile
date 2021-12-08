@@ -1,9 +1,8 @@
-FROM node:lts-alpine3.14 
+FROM node:alpine
 
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent && yarn add -D webpack-cli
+COPY package.json yarn.lock ./
+RUN yarn install && yarn global add webpack
 COPY . ./webui
 WORKDIR /webui
 EXPOSE 8080
-CMD ["npm", "run", "build"]
+CMD ["yarn", "run", "build"]

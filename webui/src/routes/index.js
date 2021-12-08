@@ -1,18 +1,16 @@
 import React, { Suspense, lazy } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const ErrorPage = lazy(() => import('../pages/ErrorPage'));
 
-const Routes = () => {
+export default function AppRouter() {
   return (
     <Suspense fallback={<div />}>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={_ => <ErrorPage status={404} message="Page not found." />} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<ErrorPage status={404} message="Page not found." />} />
+      </Routes>
     </Suspense>
   );
-};
-
-export default Routes;
+}
