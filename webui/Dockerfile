@@ -1,7 +1,8 @@
 FROM node:alpine
-
-COPY package.json yarn.lock ./
-RUN yarn install && yarn global add webpack
+WORKDIR /srv
+COPY .yarn/ ./.yarn
+COPY .yarnrc.yml yarn.lock package.json ./
+RUN yarn install && yarn add webpack
 COPY . ./webui
 WORKDIR /webui
 EXPOSE 8080
