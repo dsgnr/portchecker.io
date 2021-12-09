@@ -90,5 +90,8 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
