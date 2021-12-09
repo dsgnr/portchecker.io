@@ -16,7 +16,7 @@ export class HomePage extends Component {
             portError: "",
             showResults: false,
             host: "",
-            ports: "",
+            ports: parseInt(process.env.DEFAULT_PORT),
             results: [],
             msg: ""
         };
@@ -139,7 +139,7 @@ export class HomePage extends Component {
                     </div>
                     <div className="input-group ports-group">
                         <div className="form-group">
-                            <input className="input" type="number" placeholder="Port" value={this.state.value} onChange={this.portChange} onKeyUp={this.portChange}/>
+                            <input className="input" type="number" placeholder="Port" value={this.state.ports} onChange={this.portChange} onKeyUp={this.portChange}/>
                         </div>
                         { this.state.portError ? <span className="form-error">{this.state.portError}</span> : null }
                     </div>
