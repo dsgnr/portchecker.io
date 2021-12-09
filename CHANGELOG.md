@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Add dependabot monitoring to repository
+
 ## [1.0.7] - 2021-12-08
 
 - Migrate from NPM to Yarn to resolve dependencies
