@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -73,6 +74,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.DEFAULT_PORT': JSON.stringify(process.env.DEFAULT_PORT) || null
+    }),
     new HtmlWebpackPlugin({
       hash: true,
       template: 'public/index.html',
