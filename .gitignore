@@ -141,3 +141,8 @@ cython_debug/
 .DS_Store
 webui/node_modules
 k8s.yml
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
