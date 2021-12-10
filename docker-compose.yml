@@ -5,6 +5,8 @@ services:
     image: dsgnr/portcheckerio-ui:latest
     pull_policy: always
     container_name: portcheckerio
+    environment:
+      - DEFAULT_PORT=
     ports:
       - 80:80
     restart: unless-stopped
