@@ -16,7 +16,7 @@ export class HomePage extends Component {
             portError: "",
             showResults: false,
             host: "",
-            ports: parseInt(process.env.DEFAULT_PORT),
+            ports: parseInt(process.env.DEFAULT_PORT) || "",
             results: [],
             msg: ""
         };

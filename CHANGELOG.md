@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9] - 2021-12-10
+
+- Resolve console warning about undefined DEFAULT_PORT var in production
+
 ## [1.0.8] - 2021-12-10
 
 - Add dependabot monitoring to repository

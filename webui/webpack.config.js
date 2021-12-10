@@ -75,7 +75,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.DEFAULT_PORT': JSON.stringify(process.env.DEFAULT_PORT) || null
+      'process.env.DEFAULT_PORT': process.env.DEFAULT_PORT || null
     }),
     new HtmlWebpackPlugin({
       hash: true,
