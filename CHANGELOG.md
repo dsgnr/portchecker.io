@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [1.0.8] - 2021-12-10
 
 - Add dependabot monitoring to repository
 - Allow default port to be defined as an environment variable
 - Make Dockerfile serve from Nginx instead of webpack serve to improve performance
+- Separate development and production environments and add docker-compose files
 
 ## [1.0.7] - 2021-12-08
 

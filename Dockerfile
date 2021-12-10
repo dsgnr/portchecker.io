@@ -5,9 +5,9 @@ FROM node:alpine AS builder
 ARG DEFAULT_PORT
 ENV DEFAULT_PORT=$DEFAULT_PORT
 
-COPY package.json yarn.lock ./
+COPY webui/package.json webui/yarn.lock ./
 RUN yarn install && yarn global add webpack
-COPY . ./app
+COPY ./webui ./app
 WORKDIR /app
 RUN yarn build
 

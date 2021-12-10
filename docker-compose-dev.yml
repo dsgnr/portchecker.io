@@ -1,0 +1,14 @@
+---
+version: "3.8"
+services:
+  portchecker-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: portcheckerio-dev
+    environment:
+      - DEFAULT_PORT=
+    volumes:
+      - ./webui:/app
+    ports:
+      - 8080:8080

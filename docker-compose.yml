@@ -1,0 +1,10 @@
+---
+version: "3.8"
+services:
+  portchecker:
+    image: dsgnr/portcheckerio-ui:latest
+    pull_policy: always
+    container_name: portcheckerio
+    ports:
+      - 80:80
+    restart: unless-stopped
