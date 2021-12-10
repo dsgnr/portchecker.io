@@ -21,8 +21,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development webpack serve --history-api-fallback",
-    "build": "NODE_ENV=production webpack serve --no-web-socket-server --history-api-fallback",
-    "predeploy": "npm run build",
+    "build": "NODE_ENV=production webpack build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

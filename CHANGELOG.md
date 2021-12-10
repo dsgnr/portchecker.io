@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 
 - Add dependabot monitoring to repository
+- Make Dockerfile serve from Nginx instead of webpack serve to improve performance
 
 ## [1.0.7] - 2021-12-08
 
