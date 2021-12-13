@@ -1,6 +1,7 @@
 <h1 align="center">Welcome to portchecker.io 👋</h1>
 <p>
 </p>
+[![CodeQL](https://github.com/dsgnr/portchecker.io/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dsgnr/portchecker.io/actions/workflows/codeql-analysis.yml)
 
 This project aims to be a simple, go-to place for querying the port status for a provided hostname or IP address.
 The system is API-based and making a `POST` request to the API will trigger an AWS Lambda function.

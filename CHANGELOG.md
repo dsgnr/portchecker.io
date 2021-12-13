@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.10] - 2021-12-13
+
+- Add GitHub action to build images when new releases are tagged
+- Add GitHub action to perform CodeQL Analysis and add badge to README
+- Bump @emotion/babel-plugin from 11.3.0 to 11.7.1
+- Bump @svgr/webpack from 6.1.1 to 6.1.2
+- Bump postcss from 8.4.4 to 8.4.5
+- Bump @emotion/react from 11.7.0 to 11.7.1
+- Bump react-router-dom from 6.0.2 to 6.1.1
+
 ## [1.0.9] - 2021-12-10
 
 - Resolve console warning about undefined DEFAULT_PORT var in production
