@@ -6,7 +6,9 @@ const Footer = () => {
   return (
     <footer id="footer">
       <nav>
-        <div>{new Date().getFullYear()} &copy; Dan Hand (@dsgnr)</div>
+        <div>
+            {new Date().getFullYear()} &copy; <a href="https://danielhand.io" target="_blank">Dan Hand (@dsgnr)</a>
+        </div>
         <div>
           <a
             href="https://github.com/dsgnr/portchecker.io"
