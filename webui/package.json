@@ -1,6 +1,6 @@
 {
   "name": "portchecker.io",
-  "version": "0.1.0",
+  "version": "1.0.11",
   "description": "React Single Page App template without CRA",
   "main": "src/index.js",
   "homepage": "https://github.com/dsgnr/portchecker.io#readme",
