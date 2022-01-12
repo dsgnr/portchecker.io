@@ -54,7 +54,7 @@
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.5",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.1",
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.5",
     "postcss-flexbugs-fixes": "^5.0.2",
