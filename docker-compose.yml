@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   portchecker:
-    image: dsgnr/portcheckerio-ui:latest
+    image: ghcr.io/dsgnr/portcheckerio:latest
     pull_policy: always
     container_name: portcheckerio
     environment:

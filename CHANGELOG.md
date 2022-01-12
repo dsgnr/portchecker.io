@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.11] - 2021-12-27
+
+- Improve various UI elements for better experience
+- Update production docker-compose file to use GitHub container registry instead of Docker Hub
+
 ## [1.0.10] - 2021-12-13
 
 - Add GitHub action to build images when new releases are tagged
