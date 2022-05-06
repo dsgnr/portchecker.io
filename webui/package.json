@@ -58,7 +58,7 @@
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.8",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-import": "^14.0.2",
+    "postcss-import": "^14.1.0",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.5.0",
     "prettier": "^2.5.1",
