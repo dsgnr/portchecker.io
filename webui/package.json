@@ -61,7 +61,7 @@
     "postcss-import": "^14.1.0",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.5.0",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.2",
     "reset-css": "^5.0.1",
     "sass-loader": "^13.0.0",
     "style-loader": "^3.3.1",
