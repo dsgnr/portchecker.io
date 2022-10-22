@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: portcheckerio-dev
     environment:
+      - API_URL=https://faas-lon1-917a94a7.doserverless.co/api/v1/web/fn-07505aaf-dee8-4565-82be-4b636e4483a5/default/portcheckerio
       - DEFAULT_PORT=
     volumes:
       - ./webui:/app

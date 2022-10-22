@@ -6,6 +6,7 @@ services:
     pull_policy: always
     container_name: portcheckerio
     environment:
+      - API_URL=
       - DEFAULT_PORT=
     ports:
       - 80:80

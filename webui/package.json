@@ -20,13 +20,12 @@
     "email": "email@danielhand.io"
   },
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --history-api-fallback",
-    "build": "NODE_ENV=production webpack build",
-    "deploy": "gh-pages -d dist"
+    "start": "API_URL=env.API_URL NODE_ENV=development webpack serve --history-api-fallback",
+    "build": "API_URL=${API_URL} NODE_ENV=production webpack build"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
-    "axios": "^0.27.2",
+    "axios": "^1.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0"
@@ -50,15 +49,14 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.0",
     "file-loader": "^6.2.0",
-    "gh-pages": "^4.0.0",
-    "html-loader": "^3.1.0",
+    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "node-sass": "^7.0.1",
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.14",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-import": "^14.1.0",
+    "postcss-import": "^15.0.0",
     "postcss-loader": "^7.0.1",
     "postcss-preset-env": "^7.7.2",
     "prettier": "^2.6.2",

@@ -1,5 +1,8 @@
 FROM node:18.6.0 AS builder
 
+ARG API_URL 
+ENV API_URL=$API_URL
+
 # ALlows the user to define a default port to populate the UI.
 # Pass a desired value in your docker run/compose environment
 ARG DEFAULT_PORT

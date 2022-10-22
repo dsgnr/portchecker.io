@@ -1,7 +1,6 @@
 import React, { useState,useEffect,Component } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
-const api_url = "https://api.portchecker.io/v1";
 const hosterr_msg = "Host cannot be empty";
 const porterr_msg = "Port cannot be empty";
 const apierr_msg = "Something bad happened and we couldn't process the request.";
@@ -9,6 +8,7 @@ const apierr_msg = "Something bad happened and we couldn't process the request."
 export class HomePage extends Component {
     constructor(props) {
         super(props);
+        this.api_url = process.env.API_URL || "";
         this.state = {
             pending: false,
             error: false,
@@ -99,9 +99,8 @@ export class HomePage extends Component {
             }
         );
         axios.post(
-            api_url,
-            {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))},
-            {headers: {'content-type': 'application/json'}}
+            this.api_url,
+            {"host": this.state.host, ports: Array.of(parseInt(this.state.ports))}
         )
         .then((res) => {
             this.setState(
