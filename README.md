@@ -3,7 +3,6 @@
 [![CodeQL](https://github.com/dsgnr/portchecker.io/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dsgnr/portchecker.io/actions/workflows/codeql-analysis.yml)
 
 This project aims to be a simple, go-to place for querying the port status for a provided hostname or IP address.
-The system is API-based and making a `POST` request to the API will trigger an AWS Lambda function.
 
 The front-end is built using React, and is forked from [ofnullable/react-spa-template](https://github.com/ofnullable/react-spa-template).
 
@@ -39,11 +38,7 @@ Give a ⭐️ if this project helped you!
 
 Running websites such as this comes with associated costs. Any donations to help the running of the site is hugely appreciated!
 
-<a href="https://www.patreon.com/dsgnr_">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="100">
-</a>
-<a href="https://www.paypal.com/donate?business=RNT9HTKVJ2DDJ&no_recurring=0&item_name=portchecker.io+donation&currency_code=GBP" target="_blank"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif"></a>
-
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U3FUX17)
 
 ## 📝 License
 
