@@ -9,7 +9,7 @@ const Footer = () => {
         <div>
             {new Date().getFullYear()} &copy; <a href="https://danielhand.io" target="_blank">Dan Hand (@dsgnr)</a>
         </div>
-        <div>
+        <div class="links">
           <a
             href="https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
           >
