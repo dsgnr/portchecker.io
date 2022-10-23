@@ -40,6 +40,10 @@ Running websites such as this comes with associated costs. Any donations to help
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U3FUX17)
 
+The site is located on Digital Ocean. You can use the following referral link to get some credit when joining:
+
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 ## 📝 License
 
 Copyright © 2019 [Dan Hand](https://github.com/dsgnr).<br />
