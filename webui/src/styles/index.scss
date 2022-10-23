@@ -198,7 +198,7 @@ header {
 
 @media only screen and (max-width: 768px) {
   .container {
-    margin: 150px 5% !important;
+    margin: 150px 5% 50px 5% !important;
   }
 
   .host-group,
@@ -206,5 +206,20 @@ header {
   .button {
     margin-bottom: 30px;
     width: 100% !important;
+  }
+  .box {
+      margin-top:20px;
+  }
+  #footer > nav {
+    display: table;
+    text-align: center;
+    .links a {
+      display: table;
+      width: 100%;
+      margin-top: 20px;
+        img {
+          padding: 0;
+        }
+      }
   }
 }
