@@ -11,6 +11,25 @@ const Footer = () => {
         </div>
         <div>
           <a
+            href="https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
+          >
+            <img
+                height="36"
+                src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg"
+                alt="DigitalOcean Referral Badge"
+            />
+          </a>
+          <a
+            href='https://ko-fi.com/U7U3FUX17'
+            target='_blank'
+        >
+            <img
+                height='36'
+                src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3'
+                border='0'
+                alt='Buy Me a Coffee at ko-fi.com' />
+          </a>
+          <a
             href="https://github.com/dsgnr/portchecker.io"
             rel="noopener noreferrer"
             target="_blank"
