@@ -1,15 +1,21 @@
 ---
 version: "3.8"
 services:
-  portchecker-dev:
+  web:
     build:
-      context: .
+      context: frontend
       dockerfile: Dockerfile.dev
-    container_name: portcheckerio-dev
+    container_name: web
     environment:
-      - API_URL=https://faas-lon1-917a94a7.doserverless.co/api/v1/web/fn-07505aaf-dee8-4565-82be-4b636e4483a5/default/portcheckerio
-      - DEFAULT_PORT=
-    volumes:
-      - ./webui:/app
+      - DEFAULT_PORT=443
     ports:
       - 8080:8080
+  api:
+    build:
+      context: backend
+      dockerfile: Dockerfile.dev
+    container_name: api
+    environment:
+      - ALLOW_PRIVATE=false
+    ports:
+      - 8000:8000

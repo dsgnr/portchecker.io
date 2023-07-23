@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0b] - 2023-07-23
+
+Rewrites the front-end to a single page HTML instead of React.
+This is an incredibly small and simple application, so maintaining
+the various dependencies that come with a React site is a bit overkill.
+
+The backend API is also refactored to move away from using AWS Lambda functions.
+The usage and popularity of this site is absolutely fantastic, but also quite unexpected.
+There have been numerous overage fees within the AWS free-tier limits,
+which is not sustainable without donations from users.
+
+I see discussions related to portchecker.io, and some users have asked about self hosting.
+The changes made here also means that this project is more portable/not vendor locked
+in and only requires Docker to run.
+
+As always, feedback and recommendations are more than welcomed!
+
+Please consider the rewritten front-end and API as a beta release.
+
 ## [1.0.11] - 2021-12-27
 
 - Improve various UI elements for better experience

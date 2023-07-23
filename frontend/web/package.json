@@ -1,0 +1,34 @@
+{
+  "name": "portchecker.io",
+  "version": "2.0.0b",
+  "description": "Single page site for portchecker.io",
+  "homepage": "https://github.com/dsgnr/portchecker.io#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsgnr/portchecker.io.git"
+  },
+  "author": "dsgnr <email@danielhand.io>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10",
+    "npm": ">=6"
+  },
+  "bugs": {
+    "url": "http://github.com/dsgnr/portchecker.io/issues",
+    "email": "email@danielhand.io"
+  },
+  "scripts": {
+    "dev": "DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
+    "build": "DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build"
+  },
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

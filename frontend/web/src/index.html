@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>portchecker.io</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <link href="css/index.min.css" rel="stylesheet" />
+        <script src="js/index.min.js"></script>
+    </head>
+
+    <body>
+        <div class="col-lg-10 mx-auto p-3 py-md-5">
+            <header class="d-flex pb-3 mb-5 col-lg-10 mx-auto">
+                <div class="me-auto p-2">
+                    <a href="/" class="text-light">
+                        <span class="fs-4 fw-bold">portchecker.io</span>
+                    </a>
+                </div>
+                <div class="p-2">
+                    <a href="/api/v1/docs" class="text-light lh-lg">
+                        <span>API Docs</span>
+                    </a>
+                </div>
+            </header>
+            <main>
+                <div class="container">
+                    <p class="fs-10 pt-5 fw-bold text-center">portchecker.io is a free utility to check the port status of a given hostname or IP address.</p>
+
+                    <form id="form" class="g-3 mt-5 justify-content-md-center needs-validation" novalidate>
+                        <div class="col-sm-10 mx-auto">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-6 mb-4">
+                                    <input type="text" class="form-control py-2" id="host" placeholder="Host" pattern="^([a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+.*)$" required />
+                                    <div class="invalid-feedback">
+                                        A valid hostname (without a scheme) or IP must be provided
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 mb-4">
+                                    <input type="text" class="form-control py-2" id="port" placeholder="Port" pattern="(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[0-9](\d){0,3})(:(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[0-9](\d){0,3}))?(,(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[0-9](\d){0,3}){1}(:(6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9][0-9]|[1-5](\d){4}|[0-9](\d){0,3}))?)*" value="<%= htmlWebpackPlugin.options.DEFAULT_PORT %>" required />
+                                    <div class="invalid-feedback">
+                                        Provide a port between 1 and 65535
+                                    </div>
+                                </div>
+                                <div class="col-sm-auto mb-4">
+                                    <button id="submit" type="submit" class="w-100 btn btn-success border-0 mb-3 py-2">Check</button>
+                                </div>
+                            </div>
+                            <div id="results" class="col-sm-8 mx-auto alert alert-info d-none bg-transparent text-light" role="alert"></div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <footer id="footer" class="col-lg-10">
+                <div class="container">
+                    <div class="row g-3 mt-5 justify-content-sm-between justify-content-center">
+                        <div class="col-auto">
+                            <script type="text/javascript">
+                                document.write(new Date().getFullYear());
+                            </script>
+                           &nbsp;&copy; <a href="https://danielhand.io" target="_blank" class="text-light">Dan Hand (@dsgnr)</a>
+                        </div>
+
+                        <div class="col-auto">
+                            </script>
+                            <a href="https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">
+                                <img height="36" src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg" alt="DigitalOcean Referral Badge" />
+                            </a>
+                            <a href="https://ko-fi.com/U7U3FUX17" target="_blank">
+                                <img height="36" src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" alt="Buy Me a Coffee at ko-fi.com" />
+                            </a>
+                            <a href="https://github.com/dsgnr/portchecker.io" rel="noopener noreferrer" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                                    ></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
