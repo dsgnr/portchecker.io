@@ -1,0 +1,49 @@
+:root {
+    --text-color: #f8f8f8;
+    --success-color: #48c78e;
+    --failure-color: #dc3545;
+    --bg-color: #212121;
+    --bs-alert-border-color: var(--success-color);
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: Roboto Mono, monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+}
+
+.alert-danger {
+    --bs-alert-border-color: var(--failure-color);
+}
+
+.alert-success {
+    --bs-alert-border-color: var(--success-color);
+}
+
+form {
+    min-height: 450px;
+}
+
+footer {
+    position: absolute;
+    bottom: 5%;
+}
+
+footer svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--text-color);
+}

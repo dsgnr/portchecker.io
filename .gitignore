@@ -139,7 +139,7 @@ cython_debug/
 
 # Project
 .DS_Store
-webui/node_modules
+node_modules
 k8s.yml
 
 # Elastic Beanstalk Files
