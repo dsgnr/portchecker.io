@@ -24,7 +24,7 @@
   "devDependencies": {
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.5.4",
     "mini-css-extract-plugin": "^2.7.6",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.89.0",
