@@ -22,7 +22,7 @@
     "build": "DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build"
   },
   "devDependencies": {
-    "css-loader": "^6.8.1",
+    "css-loader": "^6.9.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.6",
