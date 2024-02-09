@@ -18,8 +18,8 @@
     "email": "email@danielhand.io"
   },
   "scripts": {
-    "dev": "DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
-    "build": "DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build"
+    "dev": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} ADSENSE_VERIFICATION=${ADSENSE_VERIFICATION} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
+    "build": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} ADSENSE_VERIFICATION=${ADSENSE_VERIFICATION} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build"
   },
   "devDependencies": {
     "css-loader": "^6.10.0",
