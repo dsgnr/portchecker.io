@@ -94,5 +94,10 @@
                 gtag('config', '<%= htmlWebpackPlugin.options.GOOGLE_ANALYTICS %>');
             </script>
 	 <% } %>
+	<% if (htmlWebpackPlugin.options.ADSENSE_VERIFICATION){ %>
+            <meta name="google-adsense-account" content="<%= htmlWebpackPlugin.options.ADSENSE_VERIFICATION%>">
+	 <% } %>
+    </body>
+</html>
     </body>
 </html>
