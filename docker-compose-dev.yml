@@ -9,6 +9,7 @@ services:
     environment:
       - DEFAULT_PORT=443
       - GOOGLE_ANALYTICS=  # optional
+      - ADSENSE_VERIFICATION=  # optional
     ports:
       - 8080:8080
   api:
