@@ -24,6 +24,7 @@ module.exports = {
             },
             DEFAULT_PORT: process.env.DEFAULT_PORT,
             GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
+            ADSENSE_VERIFICATION: process.env.ADSENSE_VERIFICATION,
         }),
 
         new MiniCssExtractPlugin({
