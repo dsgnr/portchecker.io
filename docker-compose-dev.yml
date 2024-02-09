@@ -8,6 +8,7 @@ services:
     container_name: web
     environment:
       - DEFAULT_PORT=443
+      - GOOGLE_ANALYTICS=  # optional
     ports:
       - 8080:8080
   api:

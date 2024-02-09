@@ -23,6 +23,7 @@ module.exports = {
                 collapseWhitespace: true,
             },
             DEFAULT_PORT: process.env.DEFAULT_PORT,
+            GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
         }),
 
         new MiniCssExtractPlugin({
