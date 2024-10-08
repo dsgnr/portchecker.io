@@ -3,7 +3,7 @@
 /* global axios */
 "use strict";
 
-window.addEventListener("load", () => {
+window.onload = () => {
     load_user_ip();
     const form = document.getElementById("form");
     form.addEventListener("submit", (event) => {
@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
         reset_pending_alert();
         query_host();
     });
-});
+};
 
 function pending_results(host) {
     const alert_div = document.getElementById("results");
