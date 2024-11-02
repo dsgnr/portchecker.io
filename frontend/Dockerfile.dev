@@ -1,4 +1,4 @@
-FROM node:20.5.0
+FROM node:23-alpine3.19 as builder
 
 # ALlows the user to define a default port to populate the UI.
 # Pass a desired value in your docker run/compose environment
