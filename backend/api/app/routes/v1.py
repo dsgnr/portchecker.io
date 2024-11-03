@@ -1,6 +1,7 @@
 """
 The API routes for V1
 """
+
 # Third Party
 from app.helpers.query import (
     is_address_valid,
@@ -10,11 +11,24 @@ from app.helpers.query import (
     validate_port,
 )
 from app.schemas.api import APIResponseSchema, APISchema
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.routing import APIRouter
 from fastapi_versioning import version
 
 router = APIRouter()
+
+
+@router.get("/foo")
+@version(1)
+def foo(request: Request):
+    ret = {
+        "error": False,
+        "host": request.headers.get("do-connecting-ip"),
+        "check": [],
+        "msg": None,
+    }
+    return JSONResponse(status_code=200, content=ret)
 
 
 @router.post("/query", response_model=APIResponseSchema)
