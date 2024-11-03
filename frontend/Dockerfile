@@ -1,13 +1,11 @@
-FROM node:20.5.0 as builder
+FROM node:23-alpine3.19 as builder
 ARG GOOGLE_ANALYTICS ADSENSE_VERIFICATION
 ENV GOOGLE_ANALYTICS=$GOOGLE_ANALYTICS
 ENV ADSENSE_VERIFICATION=$ADSENSE_VERIFICATION
 
-COPY web/package.json ./
-RUN yarn install && yarn global add webpack
-COPY ./web ./app
+COPY web /app
 WORKDIR /app
-RUN yarn build
+RUN yarn install && yarn build
 
 # production environment
 FROM nginx:stable-alpine-slim

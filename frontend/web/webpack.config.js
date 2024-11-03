@@ -33,11 +33,12 @@ module.exports = {
     ],
     devServer: {
         port: 8080,
-        proxy: {
-            "/api/": {
-                target: "http://api:8000",
+        proxy: [
+            {
+                context: ['/api'],
+                target: 'http://api:8000',
             },
-        },
+        ]
     },
     optimization: {
         minimize: true,
