@@ -13,10 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        - image: ${{ env.IMAGE_NAME }}-ui
-          context: frontend
-        - image: ${{ env.IMAGE_NAME }}-api
-          context: backend
+        image:
+          - tag: web
+            context: frontend
+          - tag: api
+            context: backend
 
     steps:
       - name: Checkout repository
@@ -41,7 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ matrix.image }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.image.tag }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -52,13 +53,15 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ${{ matrix.context }}
-          push: ${{ github.event_name != 'pull_request' }}
+          context: ${{ matrix.image.context }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64/v8
+          target: ${{ matrix.image.tag }}
 
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' && !github.event.repository.private }}
         env:
           COSIGN_EXPERIMENTAL: "true"
-        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-and-push.outputs.digest }}
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.image.tag }}@${{ steps.build-and-push.outputs.digest }}
