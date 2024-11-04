@@ -5,18 +5,20 @@ The API routes for V1
 # Standard Library
 from typing import Annotated
 
-# Third Party
-from app.helpers.query import query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema
 from litestar import post
 from litestar.params import Body
 from litestar.status_codes import HTTP_200_OK
+
+# Third Party
+from app.helpers.query import query_ipv4
+from app.schemas.api import APIResponseSchema, APISchema
 
 
 @post("/api/v1/query", status_code=HTTP_200_OK, sync_to_thread=False, deprecated=True)
 def v1_query_post(
     data: Annotated[
-        APISchema, Body(title="Query a hostname or IP", description="Query a hostname or IP")
+        APISchema,
+        Body(title="Query a hostname or IP", description="Query a hostname or IP"),
     ],
 ) -> APIResponseSchema:
     """

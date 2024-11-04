@@ -1,4 +1,0 @@
-litestar==2.12.1
-gunicorn==22.0.0
-pydantic==2.9.2
-uvicorn[standard]==0.32.0

@@ -1,11 +1,12 @@
 # Third Party
+from litestar import Litestar
+from litestar.openapi.config import OpenAPIConfig
+from litestar.openapi.plugins import ScalarRenderPlugin
+
 from app.helpers.handlers import value_error_handler
 from app.routes.admin import health
 from app.routes.v1 import v1_query_post
 from app.routes.v2 import get_port_check, my_ip, query_post
-from litestar import Litestar
-from litestar.openapi.config import OpenAPIConfig
-from litestar.openapi.plugins import ScalarRenderPlugin
 
 app = Litestar(
     route_handlers=[my_ip, query_post, get_port_check, v1_query_post, health],

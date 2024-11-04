@@ -8,7 +8,7 @@ WORKDIR /app
 RUN yarn install && yarn build
 
 # production environment
-FROM nginx:stable-alpine-slim
+FROM nginx:stable-alpine-slim as web
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

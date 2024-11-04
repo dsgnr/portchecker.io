@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   web:
-    image: ghcr.io/dsgnr/portcheckerio:latest
+    image: ghcr.io/dsgnr/portcheckerio-web:latest
     container_name: web
     environment:
       - DEFAULT_PORT=443
@@ -11,9 +11,7 @@ services:
     ports:
       - 8080:80
   api:
-    build:
-      context: backend
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/dsgnr/portcheckerio-api:latest
     container_name: api
     environment:
       - ALLOW_PRIVATE=false

@@ -6,10 +6,16 @@ The API schemas
 from ipaddress import IPv4Address
 from typing import List, Union
 
-# Third Party
-from app.helpers.query import is_address_valid, is_ip_address, is_valid_hostname, validate_port
 from litestar.exceptions import ValidationException
 from pydantic import BaseModel, Field, field_validator
+
+# Third Party
+from app.helpers.query import (
+    is_address_valid,
+    is_ip_address,
+    is_valid_hostname,
+    validate_port,
+)
 
 
 class APISchema(BaseModel):
@@ -17,7 +23,9 @@ class APISchema(BaseModel):
         description="The IPv4 address or hostname of the host to query",
         examples=["example.com"],
     )
-    ports: List[int] = Field(description="An array of port numbers to query", examples=[[443]])
+    ports: List[int] = Field(
+        description="An array of port numbers to query", examples=[[443]]
+    )
 
     @field_validator("ports")
     @classmethod

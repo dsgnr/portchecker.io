@@ -5,13 +5,14 @@ The API routes for v2
 # Standard Library
 from typing import Annotated
 
-# Third Party
-from app.helpers.query import get_requester, query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema
 from litestar import MediaType, Request, get, post
 from litestar.openapi.spec import Example
 from litestar.params import Body, Parameter
 from litestar.status_codes import HTTP_200_OK
+
+# Third Party
+from app.helpers.query import get_requester, query_ipv4
+from app.schemas.api import APIResponseSchema, APISchema
 
 
 @get("/api/me", media_type=MediaType.TEXT, sync_to_thread=False)
@@ -20,8 +21,8 @@ def my_ip(request: Request) -> str:
     Returns the requester IP back to the user via the following request headers;
     `cf-connecting-ip`, `do-connecting-ip`, `x-real-ip`.
 
-    The live production environment version of this app lives on DigitalOceans App Platform,
-    and so the `do-connecting-ip` will be leveraged.
+    The live production environment version of this app lives on
+    DigitalOceans App Platform, and so the `do-connecting-ip` will be leveraged.
 
     *Note:* The responses from this endpoint are *not* logged in production.
     """
@@ -38,8 +39,8 @@ def get_port_check(
     A `GET` endpoint to query a port for a hostname or IP address.
 
     Autodetection of the requesters address is available by providing the host as `me`.
-    If `me` is provided as the host, we will check the request headers for the following parameters;
-    `cf-connecting-ip`, `do-connecting-ip`, `x-real-ip`.
+    If `me` is provided as the host, we will check the request headers for the following
+    parameters; `cf-connecting-ip`, `do-connecting-ip`, `x-real-ip`.
     These headers would be automatically passed to the API via its ingress.
 
     **Note:** Whilst the results of this endpoints port check are not logged,
@@ -49,8 +50,8 @@ def get_port_check(
     "GET /foo.com/443 HTTP/1.1" 200 OK
     ~~~
 
-    If `me` is provided as the host, requester autodetection will be used via the above headers.
-    However, the requester will not be logged. For example;
+    If `me` is provided as the host, requester autodetection will be used via
+    the above headers. However, the requester will not be logged. For example;
     ~~~
     "GET /me/443 HTTP/1.1" 200 OK
     ~~~
@@ -63,10 +64,16 @@ def get_port_check(
     return str(query_ipv4(host, [port])[0].get("status"))
 
 
-@post("/api/query", media_type=MediaType.JSON, status_code=HTTP_200_OK, sync_to_thread=False)
+@post(
+    "/api/query",
+    media_type=MediaType.JSON,
+    status_code=HTTP_200_OK,
+    sync_to_thread=False,
+)
 def query_post(
     data: Annotated[
-        APISchema, Body(title="Query a hostname or IP", description="Query a hostname or IP")
+        APISchema,
+        Body(title="Query a hostname or IP", description="Query a hostname or IP"),
     ],
 ) -> APIResponseSchema:
     """
