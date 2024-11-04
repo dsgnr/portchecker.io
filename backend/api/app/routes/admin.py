@@ -1,13 +1,12 @@
 """
 The API routes for admin
 """
+
 # Third Party
-from fastapi.routing import APIRouter
-
-router = APIRouter()
+from litestar import get
 
 
-@router.get("/healthz")
+@get("/healthz", sync_to_thread=False)
 def health() -> bool:
     """
     Basic health check to ensure API is responding. Returns `True`.

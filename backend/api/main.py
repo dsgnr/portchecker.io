@@ -1,29 +1,29 @@
-# Standard Library
-import logging
-
 # Third Party
-from fastapi import FastAPI
-from fastapi.logger import logger as fastapi_logger
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi_versioning import VersionedFastAPI
+from app.helpers.handlers import value_error_handler
+from app.routes.admin import health
+from app.routes.v1 import v1_query_post
+from app.routes.v2 import get_port_check, my_ip, query_post
+from litestar import Litestar
+from litestar.openapi.config import OpenAPIConfig
+from litestar.openapi.plugins import ScalarRenderPlugin
 
-# First Party
-from app.routes import admin, v1
+app = Litestar(
+    route_handlers=[my_ip, query_post, get_port_check, v1_query_post, health],
+    openapi_config=OpenAPIConfig(
+        title="portchecker.io",
+        description="Documentation for portchecker.io",
+        version="2.0.0",
+        render_plugins=[ScalarRenderPlugin()],
+        path="/docs",
+        use_handler_docstrings=True,
+    ),
+    exception_handlers={
+        ValueError: value_error_handler,
+    },
+)
 
-# Init the app
-app = FastAPI(title="portchecker.io", version="1.0.0")
+if __name__ == "__main__":
+    # Third Party
+    import uvicorn
 
-# Logging
-gunicorn_error_logger = logging.getLogger("gunicorn.error")
-gunicorn_logger = logging.getLogger("gunicorn")
-uvicorn_access_logger = logging.getLogger("uvicorn.access")
-uvicorn_access_logger.handlers = gunicorn_error_logger.handlers
-fastapi_logger.handlers = gunicorn_error_logger.handlers
-fastapi_logger.setLevel(gunicorn_logger.level)
-
-# Routes
-app.include_router(v1.router, tags=["Routes"])
-app = VersionedFastAPI(app, version_format="{major}", prefix_format="/api/v{major}")
-app.include_router(admin.router, tags=["Admin"])
-
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+    uvicorn.run(app)

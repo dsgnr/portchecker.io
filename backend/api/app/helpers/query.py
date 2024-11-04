@@ -4,6 +4,9 @@ import socket
 from ipaddress import ip_address
 from urllib.parse import urlparse
 
+# Third Party
+from litestar import Request
+
 
 def validate_port(port: int) -> bool:
     return port in range(1, 65535 + 1)
@@ -52,3 +55,12 @@ def query_ipv4(address, ports):
         sock.close()
         results.append(result)
     return results
+
+
+def get_requester(request: Request) -> str:
+    known_headers = ["cf-connecting-ip", "do-connecting-ip", "x-real-ip"]
+    headers = {**{k.lower(): v for k, v in request.headers.items()}}
+    requester = next((headers[key] for key in known_headers if key in headers), None)
+    if requester is None:
+        raise ValueError("The requester IP was not detected")
+    return requester

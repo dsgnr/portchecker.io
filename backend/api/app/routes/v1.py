@@ -2,82 +2,39 @@
 The API routes for V1
 """
 
+# Standard Library
+from typing import Annotated
+
 # Third Party
-from app.helpers.query import (
-    is_address_valid,
-    is_ip_address,
-    is_valid_hostname,
-    query_ipv4,
-    validate_port,
-)
+from app.helpers.query import query_ipv4
 from app.schemas.api import APIResponseSchema, APISchema
-from fastapi import Request
-from fastapi.responses import JSONResponse
-from fastapi.routing import APIRouter
-from fastapi_versioning import version
-
-router = APIRouter()
+from litestar import post
+from litestar.params import Body
+from litestar.status_codes import HTTP_200_OK
 
 
-@router.get("/foo")
-@version(1)
-def foo(request: Request):
-    ret = {
-        "error": False,
-        "host": request.headers.get("do-connecting-ip"),
-        "check": [],
-        "msg": None,
-    }
-    return JSONResponse(status_code=200, content=ret)
+@post("/api/v1/query", status_code=HTTP_200_OK, sync_to_thread=False, deprecated=True)
+def v1_query_post(
+    data: Annotated[
+        APISchema, Body(title="Query a hostname or IP", description="Query a hostname or IP")
+    ],
+) -> APIResponseSchema:
+    """
+    A `POST` endpoint to query a range of ports for a hostname or IP address.
 
+    This endpoint will accept an IPv4 IP address or resolveable hostname,
+    and iterate an array of port numbers provided.
 
-@router.post("/query", response_model=APIResponseSchema)
-@version(1)
-def query_host(body: APISchema) -> APIResponseSchema:
-    ret = {"error": False, "host": None, "check": [], "msg": None}
+    The port check will timeout after 1 second.
 
-    try:
-        ret["host"] = body.host
-    except Exception:
-        ret["error"] = True
-        ret["msg"] = "A host must be defined"
-        return JSONResponse(status_code=400, content=ret)
-
-    try:
-        ports = body.ports
-    except Exception:
-        ret["error"] = True
-        ret["msg"] = "A list of ports must be defined"
-        return JSONResponse(status_code=400, content=ret)
-
-    try:
-        for port in ports:
-            if not validate_port(port):
-                raise ValueError(
-                    "Only a valid port number between 1 and 65535 can be queried. "
-                    f"Port {port} is not valid"
-                )
-    except Exception as ex:
-        ret["error"] = True
-        ret["msg"] = str(ex)
-        return JSONResponse(status_code=400, content=ret)
-
-    is_ip = is_ip_address(ret["host"])
-    ip_version = 4
-    try:
-        if is_ip:
-            ip_version = is_address_valid(ret["host"])
-        else:
-            is_valid_hostname(ret["host"])
-    except Exception as ex:
-        ret["error"] = True
-        ret["msg"] = str(ex)
-        return JSONResponse(status_code=400, content=ret)
-
-    if ip_version == 6:
-        ret["error"] = True
-        ret["msg"] = "IPv6 is not currently supported"
-        return JSONResponse(status_code=400, content=ret)
-
-    ret["check"] = query_ipv4(ret["host"], ports)
-    return JSONResponse(status_code=200, content=ret)
+    **NOTE:** The request body for this endpoint is not logged.
+    ~~~
+    "POST / HTTP/1.1" 200 OK
+    ~~~
+    """
+    return APIResponseSchema(
+        msg=None,
+        error=False,
+        host=data.host,
+        check=query_ipv4(data.host, data.ports),
+    )
