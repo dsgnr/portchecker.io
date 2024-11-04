@@ -12,6 +12,8 @@ services:
       - ADSENSE_VERIFICATION=  # optional
     ports:
       - 8080:8080
+    volumes:
+      - ./frontend/web:/web
   api:
     build:
       context: backend
@@ -21,3 +23,6 @@ services:
       - ALLOW_PRIVATE=false
     ports:
       - 8000:8000
+    volumes:
+      - ./backend/api:/src
+
