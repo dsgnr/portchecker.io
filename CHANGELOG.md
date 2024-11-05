@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2024-11-05
+- Rewrites the API to migrate from FastAPI to [Litestar](https://litestar.dev/).
+- This also migrates the documentation from Swagger to [Scalar](https://github.com/scalar/scalar).
+- A new `GET` endpoint `/<me:host>/<port>` which returns a boolean value of whether the port is open.
+- A new `GET` endpoint `/<me` which returns the requester address.
+- Optimises Dockerfiles to make them smaller.
+- Improves development experience with docker-compose.
+- General improvement to API documentation. Also includes some finer details about logging in regards to user privacy.
+- Changes to the GitHub workflows to include image builds for both web and api images which `docker-compose.yml` now uses.
+
 ## [2.0.1] - 2024-11-03
 - Bumps node from version 20 to version 23.
 - Bumps npm from version 6 to version 10.
