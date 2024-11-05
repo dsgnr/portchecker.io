@@ -12,7 +12,12 @@ app = Litestar(
     route_handlers=[my_ip, query_post, get_port_check, v1_query_post, health],
     openapi_config=OpenAPIConfig(
         title="portchecker.io",
-        description="Documentation for portchecker.io",
+        description=(
+            "portchecker.io is an open-source API for checking port \
+            availability on specified hostnames or IP addresses. \
+            Ideal for developers and network admins, it helps troubleshoot network \
+            setups, validate firewall rules, and assess potential access points."
+        ),
         version="3.0.0",
         render_plugins=[ScalarRenderPlugin()],
         path="/docs",

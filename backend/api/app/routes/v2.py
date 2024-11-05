@@ -5,21 +5,27 @@ The API routes for v2
 # Standard Library
 from typing import Annotated
 
+# Third Party
+from app.helpers.query import get_requester, query_ipv4
+from app.schemas.api import APIResponseSchema, APISchema
 from litestar import MediaType, Request, get, post
 from litestar.openapi.spec import Example
 from litestar.params import Body, Parameter
 from litestar.status_codes import HTTP_200_OK
 
-# Third Party
-from app.helpers.query import get_requester, query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema
-
 
 @get("/api/me", media_type=MediaType.TEXT, sync_to_thread=False)
 def my_ip(request: Request) -> str:
     """
-    Returns the requester IP back to the user via the following request headers;
-    `cf-connecting-ip`, `do-connecting-ip`, `x-real-ip`.
+    Returns the requester IP.
+
+    Auto-detects the requester IP address using the following headers:
+       - `cf-connecting-ip`
+       - `do-connecting-ip`
+       - `x-real-ip`
+
+    These headers are typically added by the application ingress router (ie, Nginx)
+    and so does not need to be explicitly provided.
 
     The live production environment version of this app lives on
     DigitalOceans App Platform, and so the `do-connecting-ip` will be leveraged.
@@ -36,28 +42,32 @@ def get_port_check(
     port: int = Parameter(examples=[Example(value=443)]),
 ) -> str:
     """
-    A `GET` endpoint to query a port for a hostname or IP address.
+    A `GET` endpoint to check the status of a specific port on a given
+    resolvable hostname or IPv4 address.
 
-    Autodetection of the requesters address is available by providing the host as `me`.
-    If `me` is provided as the host, we will check the request headers for the following
-    parameters; `cf-connecting-ip`, `do-connecting-ip`, `x-real-ip`.
-    These headers would be automatically passed to the API via its ingress.
+    Use `me` as the host to auto-detect the requester IP address based
+    on the following headers:
+       - `cf-connecting-ip`
+       - `do-connecting-ip`
+       - `x-real-ip`
+
+    These headers are typically added by the application ingress router (ie, Nginx)
+    and so does not need to be explicitly provided.
 
     **Note:** Whilst the results of this endpoints port check are not logged,
-    if a host is explicitly passed, the URL will be logged to STDOUT.
+    if a host is explicitly passed, the URL will be logged to `STDOUT`.
     For example;
     ~~~
     "GET /foo.com/443 HTTP/1.1" 200 OK
     ~~~
 
-    If `me` is provided as the host, requester autodetection will be used via
+    If `me` is provided as the host, requester auto-detection will be used using
     the above headers. However, the requester will not be logged. For example;
     ~~~
     "GET /me/443 HTTP/1.1" 200 OK
     ~~~
 
-    Application logs are not collected, forwarded or permanently stored.
-
+    Application logs are not forwarded or permanently stored.
     """
     host = get_requester(request) if host == "me" else host
     APISchema(host=host, ports=[port])
@@ -73,20 +83,24 @@ def get_port_check(
 def query_post(
     data: Annotated[
         APISchema,
-        Body(title="Query a hostname or IP", description="Query a hostname or IP"),
+        Body(
+            title="Query a resolvable hostname or IPv4 address",
+            description="Query a resolvable hostname or IPv4 address",
+        ),
     ],
 ) -> APIResponseSchema:
     """
-    A `POST` endpoint to query a range of ports for a hostname or IP address.
+    A `POST` endpoint to query the status of multiple ports on a given hostname
+    or IP address.
 
-    This endpoint will accept an IPv4 IP address or resolveable hostname,
-    and iterate an array of port numbers provided.
-
-    The port check will timeout after 1 second.
+    This endpoint accepts a JSON payload containing either an IPv4 address
+    or a resolvable hostname, along with an array of port numbers to be checked.
+    For each port in the array, the endpoint performs a connectivity check with a
+    timeout of 1 second per port.
 
     **NOTE:** The request body for this endpoint is not logged.
     ~~~
-    "POST / HTTP/1.1" 200 OK
+    "POST /api/query HTTP/1.1" 200 OK
     ~~~
     """
     return APIResponseSchema(
