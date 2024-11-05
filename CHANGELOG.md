@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2024-11-03
+- Bumps node from version 20 to version 23.
+- Bumps npm from version 6 to version 10.
+- Bumps devDependencies to current latest.
+
 ## [2.0.0b] - 2023-07-23
 
 Rewrites the front-end to a single page HTML instead of React.
