@@ -1,10 +1,20 @@
-FROM python:3.11-slim
+FROM python:3.12.7-alpine3.20 AS base
+ENV POETRY_EXPORT_VERSION=1.8.0 \
+  PYTHONUNBUFFERED=1 \
+  PYTHONDONTWRITEBYTECODE=1 \
+  REQ_FILE=/tmp/requirements.txt
+RUN pip --disable-pip-version-check --no-cache-dir install poetry-plugin-export==$POETRY_EXPORT_VERSION
+COPY ./poetry.lock ./pyproject.toml ./
+RUN poetry export --only main -o $REQ_FILE --without-hashes
 
-COPY requirements.txt entrypoint.sh /
+FROM python:3.12.7-alpine3.20 AS api
+ENV PYTHONUNBUFFERED=1 \
+  PYTHONDONTWRITEBYTECODE=1 \
+  REQ_FILE=/tmp/requirements.txt
+COPY --from=base $REQ_FILE $REQ_FILE
+RUN pip --disable-pip-version-check --no-cache-dir install -r $REQ_FILE
+COPY entrypoint.sh /entrypoint.sh
 COPY api /src
-RUN chmod +x /entrypoint.sh
-RUN pip3 install --no-cache-dir --upgrade -r /requirements.txt
 WORKDIR /src
 EXPOSE 8000
-CMD ["/entrypoint.sh"]
-
+CMD ["sh", "/entrypoint.sh"]

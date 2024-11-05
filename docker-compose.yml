@@ -2,27 +2,18 @@
 version: "3.8"
 services:
   web:
-    build:
-      context: frontend
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/dsgnr/portcheckerio-web:latest
     container_name: web
     environment:
       - DEFAULT_PORT=443
       - GOOGLE_ANALYTICS=  # optional
       - ADSENSE_VERIFICATION=  # optional
     ports:
-      - 8080:8080
-    volumes:
-      - ./frontend/web:/web
+      - 8080:80
   api:
-    build:
-      context: backend
-      dockerfile: Dockerfile.dev
+    image: ghcr.io/dsgnr/portcheckerio-api:latest
     container_name: api
     environment:
       - ALLOW_PRIVATE=false
     ports:
       - 8000:8000
-    volumes:
-      - ./backend/api:/src
-
