@@ -73,8 +73,8 @@ The site is located on Digital Ocean. You can use the following referral link to
 
 ## 📝 License
 
-Copyright © 2019 [Dan Hand](https://github.com/dsgnr).<br />
-This project is [MIT](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE) licensed.
+Copyright [Dan Hand](https://github.com/dsgnr).<br />
+This project is [GNU General Public License v3.0](https://github.com/dsgnr/portchecker.io/blob/devel/LICENSE) licensed.
 
 ---
 ***
