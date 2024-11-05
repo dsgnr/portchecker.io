@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Improves development experience with docker-compose.
 - General improvement to API documentation. Also includes some finer details about logging in regards to user privacy.
 - Changes to the GitHub workflows to include image builds for both web and api images which `docker-compose.yml` now uses.
+- Removes broken cosigner from GitHub workflow image building.
 
 ## [2.0.1] - 2024-11-03
 - Bumps node from version 20 to version 23.
