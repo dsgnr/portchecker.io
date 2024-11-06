@@ -1,4 +1,4 @@
-FROM python:3.12.7-alpine3.20 AS base
+FROM python:3.13.0-alpine3.20 AS base
 ENV POETRY_EXPORT_VERSION=1.8.0 \
   PYTHONUNBUFFERED=1 \
   PYTHONDONTWRITEBYTECODE=1 \
@@ -7,7 +7,7 @@ RUN pip --disable-pip-version-check --no-cache-dir install poetry-plugin-export=
 COPY ./poetry.lock ./pyproject.toml ./
 RUN poetry export --only main -o $REQ_FILE --without-hashes
 
-FROM python:3.12.7-alpine3.20 AS api
+FROM python:3.13.0-alpine3.20 AS api
 ENV PYTHONUNBUFFERED=1 \
   PYTHONDONTWRITEBYTECODE=1 \
   REQ_FILE=/tmp/requirements.txt 
