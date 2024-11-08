@@ -53,7 +53,7 @@ function query_results(data) {
         });
         msg.append(results);
     } else {
-        msg.append(`ERROR: ${data.msg}`);
+        msg.append(data.extra.map(item => `ERROR: ${item.message}`).join(", "));
     }
     alert_div.innerHTML = msg.outerHTML;
 }
