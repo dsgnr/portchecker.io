@@ -1,6 +1,10 @@
 """
 The portchecker.io App
 """
+
+import pathlib
+
+import tomli
 from litestar import Litestar
 from litestar.exceptions import ValidationException
 from litestar.openapi.config import OpenAPIConfig
@@ -16,17 +20,22 @@ from app.routes.admin import health
 from app.routes.v1 import v1_query_post
 from app.routes.v2 import get_port_check, my_ip, query_post
 
+
+def _get_project_meta():
+    """Parse the pyproject.toml file to retrieve project information"""
+    with open(
+        f"{pathlib.Path(__file__).parent.resolve().parent}/pyproject.toml", mode="rb"
+    ) as pyproject:
+        return tomli.load(pyproject)["tool"]["poetry"]
+
+
+project_meta = _get_project_meta()
 app = Litestar(
     route_handlers=[my_ip, query_post, get_port_check, v1_query_post, health],
     openapi_config=OpenAPIConfig(
-        title="portchecker.io",
-        description=(
-            "portchecker.io is an open-source API for checking port \
-            availability on specified hostnames or IP addresses. \
-            Ideal for developers and network admins, it helps troubleshoot network \
-            setups, validate firewall rules, and assess potential access points."
-        ),
-        version="3.0.0",
+        title=project_meta["name"],
+        description=project_meta["description"],
+        version=project_meta["version"],
         render_plugins=[ScalarRenderPlugin()],
         path="/docs",
         use_handler_docstrings=True,
