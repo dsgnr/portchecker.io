@@ -61,7 +61,7 @@ jobs:
         run: poetry install --no-interaction
 
       - name: Test
-        run: pylint api
+        run: pylint api tests
   isort:
     runs-on: ubuntu-latest
     steps:
