@@ -16,6 +16,7 @@ uvicorn = {extras = ["standard"], version = "0.32.0"}
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.1"
 isort = "^5.13.2"
+pytest = "^8.3.3"
 
 [build-system]
 requires = ["poetry-core"]
@@ -29,3 +30,8 @@ known_first_party = ["app"]
 
 [tool.pylint]
 init-hook='import sys; sys.path.append("api")'
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "api"
+]
