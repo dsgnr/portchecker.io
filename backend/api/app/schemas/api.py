@@ -6,16 +6,10 @@ The API schemas
 from ipaddress import IPv4Address
 from typing import List, Union
 
+# Third Party
+from app.helpers.query import validate_port
 from litestar.exceptions import ValidationException
 from pydantic import BaseModel, Field, field_validator
-
-# Third Party
-from app.helpers.query import (
-    is_address_valid,
-    is_ip_address,
-    is_valid_hostname,
-    validate_port,
-)
 
 
 class APISchema(BaseModel):
@@ -37,23 +31,6 @@ class APISchema(BaseModel):
                     f"Port {port} is not valid"
                 )
         return ports
-
-    @field_validator("host")
-    @classmethod
-    def validate_host(cls, host: str) -> str:
-        is_ip = is_ip_address(host)
-        ip_version = 4
-        try:
-            if is_ip:
-                ip_version = is_address_valid(host)
-            else:
-                is_valid_hostname(host)
-        except Exception as ex:
-            raise ValueError(ex)
-
-        if ip_version == 6:
-            raise ValueError("IPv6 is not currently supported")
-        return host
 
 
 class APICheckSchema(BaseModel):
