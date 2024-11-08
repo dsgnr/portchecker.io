@@ -41,6 +41,14 @@ PortCheckAnnotation = Annotated[
     ),
 ]
 
+RequesterAnnotation = Annotated[
+    str,
+    Parameter(
+        description="The IP address of the requester",
+        examples=[Example(value="1.1.1.1")],
+    ),
+]
+
 
 class APISchema(BaseModel):
     host: HostAnnotation
