@@ -2,7 +2,6 @@
 The API routes for admin
 """
 
-# Third Party
 from litestar import get
 
 

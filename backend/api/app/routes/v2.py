@@ -2,18 +2,21 @@
 The API routes for v2
 """
 
-# Standard Library
 from typing import Annotated
 
-# Third Party
-from app.helpers.query import get_requester, query_ipv4
-from app.schemas.api import (APIResponseSchema, APISchema, HostAnnotation,
-                             PortAnnotation, PortCheckAnnotation,
-                             RequesterAnnotation)
 from litestar import MediaType, Request, get, post
-from litestar.openapi.spec import Example
-from litestar.params import Body, Parameter
+from litestar.params import Body
 from litestar.status_codes import HTTP_200_OK
+
+from app.helpers.query import get_requester, query_ipv4
+from app.schemas.api import (
+    APIResponseSchema,
+    APISchema,
+    HostAnnotation,
+    PortAnnotation,
+    PortCheckAnnotation,
+    RequesterAnnotation,
+)
 
 
 @get("/api/me", media_type=MediaType.TEXT, sync_to_thread=False)
@@ -102,9 +105,14 @@ def query_post(
     "POST /api/query HTTP/1.1" 200 OK
     ~~~
     """
+    return post_helper(data.host, data.ports)
+
+
+def post_helper(host: str, ports: list[int]) -> APIResponseSchema:
+    """A helper method for returning the `APIResponse`. Also used by the deprecated v1 API"""
     return APIResponseSchema(
         msg=None,
         error=False,
-        host=data.host,
-        check=query_ipv4(data.host, data.ports),
+        host=host,
+        check=query_ipv4(host, ports),
     )
