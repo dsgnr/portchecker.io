@@ -30,7 +30,7 @@ def is_address_valid(address: str) -> bool:
     return address_obj.version
 
 
-def is_valid_hostname(hostname):
+def is_valid_hostname(hostname: str) -> bool:
     if not hostname:
         raise ValueError("A hostname must be provided")
     try:
