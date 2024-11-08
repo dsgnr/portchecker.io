@@ -34,17 +34,15 @@ def is_valid_hostname(hostname: str) -> bool:
     if not hostname:
         raise ValueError("A hostname must be provided")
     try:
-        parsed = urlparse(hostname)
-        if parsed.scheme:
+        if urlparse(hostname).scheme:
             raise ValueError("The hostname must not have a scheme")
     except Exception as ex:
-        raise Exception(str(ex))
+        raise ValueError(str(ex))
 
     try:
-        socket.gethostbyname(hostname)
-        return True
+        return bool(socket.gethostbyname(hostname))
     except socket.gaierror:
-        raise Exception("Hostname does not appear to resolve")
+        raise ValueError("Hostname does not appear to resolve")
 
 
 def query_ipv4(address, ports):
