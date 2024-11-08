@@ -1,4 +1,6 @@
-# Third Party
+"""
+The portchecker.io App
+"""
 from litestar import Litestar
 from litestar.exceptions import ValidationException
 from litestar.openapi.config import OpenAPIConfig

@@ -2,15 +2,13 @@
 The API routes for V1
 """
 
-# Standard Library
 from typing import Annotated
 
 from litestar import MediaType, post
 from litestar.params import Body
 from litestar.status_codes import HTTP_200_OK
 
-# Third Party
-from app.helpers.query import query_ipv4
+from app.routes.v2 import post_helper
 from app.schemas.api import APIResponseSchema, APISchema
 
 
@@ -44,9 +42,4 @@ def v1_query_post(
     "POST /api/query HTTP/1.1" 200 OK
     ~~~
     """
-    return APIResponseSchema(
-        msg=None,
-        error=False,
-        host=data.host,
-        check=query_ipv4(data.host, data.ports),
-    )
+    return post_helper(data.host, data.ports)

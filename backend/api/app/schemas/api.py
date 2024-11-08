@@ -2,7 +2,7 @@
 The API schemas
 """
 
-from typing import Annotated, Union
+from typing import Annotated
 
 from annotated_types import Ge, Le, MaxLen, MinLen
 from litestar.openapi.spec import Example
@@ -51,25 +51,33 @@ RequesterAnnotation = Annotated[
 
 
 class APISchema(BaseModel):
+    """Schema for the `query_post` endpoint"""
+
     host: HostAnnotation
     ports: list[PortAnnotation]
 
 
 class APICheckSchema(BaseModel):
+    """Schema for the individual results of a check"""
+
     port: PortAnnotation
     status: PortCheckAnnotation
 
 
 class APIResponseSchema(BaseModel):
+    """The schema used for the API response"""
+
     error: bool = Field(
         description="Whether an error occurred during the check", examples=[False]
     )
-    msg: Union[str, None]
+    msg: str | None
     check: list[APICheckSchema]
     host: HostAnnotation
 
 
 class APIErrorResponseSchema(BaseModel):
+    """The error schema used for the API error response"""
+
     error: bool = Field(description="Whether an error occurred", examples=[True])
     detail: str = Field(description="The error message")
     extra: list[dict] = Field(

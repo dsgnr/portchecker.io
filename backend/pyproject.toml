@@ -13,16 +13,19 @@ gunicorn = "23.0.0"
 pydantic = "2.9.2"
 uvicorn = {extras = ["standard"], version = "0.32.0"}
 
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.3.1"
+isort = "^5.13.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.ruff.lint]
-select = ["I001", "E", "F"]
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 88
+known_first_party = ["app"]
 
-[tool.ruff.lint.isort]
-known-first-party = ["app"]
-
-[tool.ruff.format]
-docstring-code-format = true
-docstring-code-line-length = 88
+[tool.pylint]
+init-hook='import sys; sys.path.append("api")'
