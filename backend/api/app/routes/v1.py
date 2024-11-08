@@ -5,12 +5,13 @@ The API routes for V1
 # Standard Library
 from typing import Annotated
 
-# Third Party
-from app.helpers.query import query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema
 from litestar import MediaType, post
 from litestar.params import Body
 from litestar.status_codes import HTTP_200_OK
+
+# Third Party
+from app.helpers.query import query_ipv4
+from app.schemas.api import APIResponseSchema, APISchema
 
 
 @post(

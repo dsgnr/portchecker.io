@@ -2,80 +2,76 @@
 The API schemas
 """
 
-# Standard Library
-from ipaddress import IPv4Address
-from typing import List, Union
+from typing import Annotated, Union
 
-from litestar.exceptions import ValidationException
-from pydantic import BaseModel, Field, field_validator
+from annotated_types import Ge, Le, MaxLen, MinLen
+from litestar.openapi.spec import Example
+from litestar.params import Parameter
+from pydantic import BaseModel, Field
 
-# Third Party
-from app.helpers.query import (
-    is_address_valid,
-    is_ip_address,
-    is_valid_hostname,
-    validate_port,
-)
+HostAnnotation = Annotated[
+    str,
+    Parameter(
+        description="The IPv4 address or hostname of the host to query",
+        examples=[Example(value="example.com"), Example(value="1.1.1.1")],
+        min_length=1,
+        max_length=253,
+    ),
+    MinLen(1),
+    MaxLen(253),
+]
+
+PortAnnotation = Annotated[
+    int,
+    Parameter(
+        description="The port number to query",
+        examples=[Example(value=443)],
+        ge=1,
+        le=65535,
+    ),
+    Ge(1),
+    Le(65535),
+]
+
+PortCheckAnnotation = Annotated[
+    bool,
+    Parameter(
+        description="Whether the port was connectable",
+        examples=[Example(value=True)],
+    ),
+]
+
+RequesterAnnotation = Annotated[
+    str,
+    Parameter(
+        description="The IP address of the requester",
+        examples=[Example(value="1.1.1.1")],
+    ),
+]
 
 
 class APISchema(BaseModel):
-    host: Union[IPv4Address, str] = Field(
-        description="The IPv4 address or hostname of the host to query",
-        examples=["example.com"],
-    )
-    ports: List[int] = Field(
-        description="An array of port numbers to query", examples=[[443]]
-    )
-
-    @field_validator("ports")
-    @classmethod
-    def validate_ports(cls, ports: list[int]) -> list[int]:
-        for port in ports:
-            if not validate_port(port):
-                raise ValidationException(
-                    "Only a valid port number between 1 and 65535 can be queried. "
-                    f"Port {port} is not valid"
-                )
-        return ports
-
-    @field_validator("host")
-    @classmethod
-    def validate_host(cls, host: str) -> str:
-        is_ip = is_ip_address(host)
-        ip_version = 4
-        try:
-            if is_ip:
-                ip_version = is_address_valid(host)
-            else:
-                is_valid_hostname(host)
-        except Exception as ex:
-            raise ValueError(ex)
-
-        if ip_version == 6:
-            raise ValueError("IPv6 is not currently supported")
-        return host
+    host: HostAnnotation
+    ports: list[PortAnnotation]
 
 
 class APICheckSchema(BaseModel):
-    port: int = Field(examples=[443])
-    status: bool = Field(examples=[True])
+    port: PortAnnotation
+    status: PortCheckAnnotation
 
 
 class APIResponseSchema(BaseModel):
-    error: bool = Field(examples=[False])
+    error: bool = Field(
+        description="Whether an error occurred during the check", examples=[False]
+    )
     msg: Union[str, None]
-    check: List[APICheckSchema]
-    host: str = Field(examples=["example.com"])
+    check: list[APICheckSchema]
+    host: HostAnnotation
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "error": False,
-                    "msg": None,
-                    "host": "1.1.1.1",
-                    "check": [{"status": True, "ports": 443}],
-                }
-            ]
-        }
-    }
+
+class APIErrorResponseSchema(BaseModel):
+    error: bool = Field(description="Whether an error occurred", examples=[True])
+    detail: str = Field(description="The error message")
+    extra: list[dict] = Field(
+        description="The parameter and error this exception relates to"
+    )
