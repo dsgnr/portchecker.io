@@ -1,9 +1,17 @@
+"""Tests for API routes"""
 from litestar.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from .conftest import HEADER_REAL_IP, INVALID_HOST, VALID_DOMAIN
 
 
+def test_route_health_check(client):
+    """Test health check route returns status 200 and 'true' response text."""
+    response = client.get("/healthz")
+    assert response.status_code == HTTP_200_OK
+    assert response.text == "true"
+
 def test_my_ip_endpoint(client, mocker):
+    """Test my_ip endpoint returns correct requester IP."""
     mock_get_requester = mocker.patch(
         "app.routes.v2.get_requester", return_value=HEADER_REAL_IP
     )
@@ -14,6 +22,7 @@ def test_my_ip_endpoint(client, mocker):
 
 
 def test_get_port_check_endpoint_with_hostname(client, mocker):
+    """Test port check endpoint with hostname returns expected status."""
     mock_get_requester = mocker.patch(
         "app.routes.v2.get_requester", return_value=HEADER_REAL_IP
     )
@@ -29,7 +38,7 @@ def test_get_port_check_endpoint_with_hostname(client, mocker):
 
 
 def test_get_port_check_endpoint_with_me(client, mocker):
-    # Use the correct path to mock 'get_requester' and 'query_ipv4'
+    """Test port check endpoint with 'me' parameter uses get_requester."""
     mock_get_requester = mocker.patch(
         "app.routes.v2.get_requester", return_value=HEADER_REAL_IP
     )
@@ -49,6 +58,7 @@ def test_get_port_check_endpoint_with_me(client, mocker):
 
 
 def test_query_post_endpoint_v1(client, mocker):
+    """Test v1 query endpoint with valid data returns correct status."""
     mock_query_ipv4 = mocker.patch(
         "app.routes.v2.query_ipv4",
         return_value=[{"port": 80, "status": True}, {"port": 443, "status": False}],
@@ -67,8 +77,7 @@ def test_query_post_endpoint_v1(client, mocker):
 
 
 def test_query_post_endpoint_invalid_port_v1(client):
-    # Validate behavior with invalid port,
-    # should raise a validation error from APISchema
+    """Test v1 query endpoint raises error with invalid port number."""
     request_data = {"host": VALID_DOMAIN, "ports": [80, 70000]}  # Invalid port range
 
     path = "/api/v1/query"
@@ -81,8 +90,7 @@ def test_query_post_endpoint_invalid_port_v1(client):
 
 
 def test_query_post_endpoint_invalid_hostname_v1(client):
-    # Validate behavior with invalid hostname,
-    # should raise a validation error from APISchema
+    """Test v1 query endpoint raises error with invalid hostname."""
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host
     path = "/api/v1/query"
     response = client.post(path, json=request_data)
@@ -95,6 +103,7 @@ def test_query_post_endpoint_invalid_hostname_v1(client):
 
 
 def test_query_post_endpoint_v2(client, mocker):
+    """Test v2 query endpoint with valid data returns correct status."""
     mock_query_ipv4 = mocker.patch(
         "app.routes.v2.query_ipv4",
         return_value=[{"port": 80, "status": True}, {"port": 443, "status": False}],
@@ -113,8 +122,7 @@ def test_query_post_endpoint_v2(client, mocker):
 
 
 def test_query_post_endpoint_invalid_port_v2(client):
-    # Validate behavior with invalid port,
-    # should raise a validation error from APISchema
+    """Test v2 query endpoint raises error with invalid port number."""
     request_data = {"host": VALID_DOMAIN, "ports": [80, 70000]}  # Invalid port range
 
     path = "/api/query"
@@ -127,8 +135,7 @@ def test_query_post_endpoint_invalid_port_v2(client):
 
 
 def test_query_post_endpoint_invalid_hostname_v2(client):
-    # Validate behavior with invalid hostname,
-    # should raise a validation error from APISchema
+    """Test v2 query endpoint raises error with invalid hostname."""
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host
     path = "/api/query"
     response = client.post(path, json=request_data)

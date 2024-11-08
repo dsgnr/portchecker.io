@@ -1,3 +1,4 @@
+"""Tests for exception handlers"""
 from litestar import MediaType
 from litestar.exceptions import ValidationException
 from litestar.status_codes import HTTP_400_BAD_REQUEST
@@ -10,8 +11,8 @@ from api.app.helpers.handlers import (
 )
 
 
-# Test for validation_exception_handler
 def test_validation_exception_handler(mock_request_path):
+    """Test for validation_exception_handler"""
     # Create a ValidationException with sample details
     exc = ValidationException(detail="Invalid data provided", extra={"field": "value"})
 
@@ -28,8 +29,8 @@ def test_validation_exception_handler(mock_request_path):
     }
 
 
-# Test for json_api_exception_handler
 def test_json_api_exception_handler(mock_request_path):
+    """Test for json_api_exception_handler"""
     # Create a JsonAPIException with sample details
     exc = JsonAPIException(key="username", message="This field is required")
 
@@ -49,8 +50,8 @@ def test_json_api_exception_handler(mock_request_path):
     ]
 
 
-# Test for text_value_error_exception_handler
 def test_text_value_error_exception_handler(mock_request_path):
+    """Test for text_value_error_exception_handler"""
     # Create a ValueError with a sample message
     exc = ValueError("An unexpected value error occurred")
 
