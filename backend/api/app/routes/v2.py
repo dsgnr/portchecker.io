@@ -5,13 +5,14 @@ The API routes for v2
 # Standard Library
 from typing import Annotated
 
-# Third Party
-from app.helpers.query import get_requester, query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema
 from litestar import MediaType, Request, get, post
 from litestar.openapi.spec import Example
 from litestar.params import Body, Parameter
 from litestar.status_codes import HTTP_200_OK
+
+# Third Party
+from app.helpers.query import get_requester, query_ipv4
+from app.schemas.api import APIResponseSchema, APISchema
 
 
 @get("/api/me", media_type=MediaType.TEXT, sync_to_thread=False)

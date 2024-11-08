@@ -79,3 +79,11 @@ class APIResponseSchema(BaseModel):
             ]
         }
     }
+
+
+class APIErrorResponseSchema(BaseModel):
+    error: bool = Field(description="Whether an error occurred", examples=[True])
+    detail: str = Field(description="The error message")
+    extra: list[dict] = Field(
+        description="The parameter and error this exception relates to"
+    )
