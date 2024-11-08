@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "portchecker-api"
+name = "api"
 version = "2.0.0"
 description = "A simple API to query ports for hostnames or IP addresses"
 authors = ["dsgnr <email@danielhand.io>"]
 license = "GNU General Public License v3.0"
-readme = "README.md"
+readme = "../README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -17,6 +17,7 @@ uvicorn = {extras = ["standard"], version = "0.32.0"}
 pylint = "^3.3.1"
 isort = "^5.13.2"
 pytest = "^8.3.3"
+pytest-mock = "^3.14.0"
 
 [build-system]
 requires = ["poetry-core"]
