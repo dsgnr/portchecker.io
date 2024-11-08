@@ -13,6 +13,7 @@ ENV PYTHONUNBUFFERED=1 \
   REQ_FILE=/tmp/requirements.txt
 COPY --from=base $REQ_FILE $REQ_FILE
 RUN pip --disable-pip-version-check --no-cache-dir install -r $REQ_FILE
+COPY ./pyproject.toml ./
 COPY entrypoint.sh /entrypoint.sh
 COPY api /src
 WORKDIR /src
