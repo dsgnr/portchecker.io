@@ -20,6 +20,8 @@ def is_ip_address(address: str) -> bool:
 
 
 def is_address_valid(address: str) -> bool:
+    if not address:
+        raise ValueError("An IPv4 address must be provided")
     address_obj = ip_address(address)
     if address_obj.is_private and not os.environ.get("ALLOW_PRIVATE"):
         raise ValueError(
@@ -29,6 +31,8 @@ def is_address_valid(address: str) -> bool:
 
 
 def is_valid_hostname(hostname):
+    if not hostname:
+        raise ValueError("A hostname must be provided")
     try:
         parsed = urlparse(hostname)
         if parsed.scheme:
