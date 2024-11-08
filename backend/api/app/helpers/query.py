@@ -9,10 +9,6 @@ from app.helpers.exceptions import JsonAPIException
 from litestar import Request
 
 
-def validate_port(port: int) -> bool:
-    return port in range(1, 65535 + 1)
-
-
 def is_ip_address(address: str) -> bool:
     try:
         return bool(ip_address(address))
