@@ -7,7 +7,9 @@ from typing import Annotated
 
 # Third Party
 from app.helpers.query import get_requester, query_ipv4
-from app.schemas.api import APIResponseSchema, APISchema, RequesterAnnotation
+from app.schemas.api import (APIResponseSchema, APISchema, HostAnnotation,
+                             PortAnnotation, PortCheckAnnotation,
+                             RequesterAnnotation)
 from litestar import MediaType, Request, get, post
 from litestar.openapi.spec import Example
 from litestar.params import Body, Parameter
@@ -37,10 +39,8 @@ def my_ip(request: Request) -> RequesterAnnotation:
 
 @get("/api/{host:str}/{port:int}", media_type=MediaType.TEXT, sync_to_thread=False)
 def get_port_check(
-    request: Request,
-    host: str = Parameter(examples=[Example(value="example.com")]),
-    port: int = Parameter(examples=[Example(value=443)]),
-) -> str:
+    request: Request, host: HostAnnotation, port: PortAnnotation
+) -> PortCheckAnnotation:
     """
     A `GET` endpoint to check the status of a specific port on a given
     resolvable hostname or IPv4 address.
@@ -70,7 +70,6 @@ def get_port_check(
     Application logs are not forwarded or permanently stored.
     """
     host = get_requester(request) if host == "me" else host
-    APISchema(host=host, ports=[port])
     return str(query_ipv4(host, [port])[0].get("status"))
 
 
