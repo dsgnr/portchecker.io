@@ -1,4 +1,4 @@
-name: API Pytest
+name: API
 
 on:
   push:
@@ -8,11 +8,12 @@ on:
     paths:
       - backend
 
+defaults:
+  run:
+    working-directory: backend
+
 jobs:
   pytest:
-    defaults:
-      run:
-        working-directory: backend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -38,3 +39,29 @@ jobs:
 
       - name: Test
         run: pytest tests
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: false
+          virtualenvs-in-project: false
+          installer-parallel: true
+
+      - name: Valiate poetry.lock
+        run: poetry check
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Test
+        run: pylint api
