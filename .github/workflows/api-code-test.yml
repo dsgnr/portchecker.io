@@ -3,10 +3,10 @@ name: API
 on:
   push:
     paths:
-      - backend
+      - backend/**
   pull_request:
     paths:
-      - backend
+      - backend/**
 
 defaults:
   run:
