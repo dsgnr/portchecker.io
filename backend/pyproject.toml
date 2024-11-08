@@ -24,6 +24,7 @@ pylint = "^3.3.1"
 isort = "^5.13.2"
 pytest = "^8.3.3"
 pytest-mock = "^3.14.0"
+pytest-cov = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -34,8 +34,11 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
 
-      - name: Test
-        run: pytest tests
+      - name: Test with pytest
+        run: coverage run -m pytest tests
+
+      - name: Generate Coverage Report
+        run: coverage report
   pylint:
     runs-on: ubuntu-latest
     steps:
