@@ -79,13 +79,13 @@ The following configuration options are available. These would be set within the
 ### Web
 | Name             | Required? | Default | Notes                                                      |
 |------------------|-----------|---------|------------------------------------------------------------|
-| DEFAULT_PORT     | No        |         | Allows a default port number to be prefilled in the UI     |
+| DEFAULT_PORT     | No        | 443     | Allows a default port number to be prefilled in the UI     |
 | GOOGLE_ANALYTICS | No        |         | Allows for a Google Analytics tracking code to be provided |
 
 ### API
 | Name          | Required? | Default | Notes                                                                                                                                                                              |
 |---------------|-----------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ALLOW_PRIVATE | No        | 443     | Allows private IP addresses in [ IANA IPv4 Special Registry ]( https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml ) ranges to be checked |
+| ALLOW_PRIVATE | No        | False   | Allows private IP addresses in [ IANA IPv4 Special Registry ]( https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml ) ranges to be checked |
 
 ## Contributing
 
