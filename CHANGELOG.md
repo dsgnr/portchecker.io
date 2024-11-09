@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Fixes incorrect environment variable defaults in README
+
 ## [3.1.0] - 2024-11-08
 - Bump gunicorn from 22.0.0 to 23.0.0
 - Adds more dependabot update rules
