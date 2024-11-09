@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -30,6 +31,12 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "css/[name].min.css",
         }),
+
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/assets' }
+            ]
+        })
     ],
     devServer: {
         port: 8080,
