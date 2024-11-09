@@ -4,6 +4,7 @@ Helper methods for the API
 
 import os
 import socket
+from concurrent.futures import ThreadPoolExecutor
 from ipaddress import ip_address
 from urllib.parse import urlparse
 
@@ -89,6 +90,41 @@ def is_valid_hostname(hostname: str) -> bool:
         raise ValueError("Hostname does not appear to resolve") from socket_err
 
 
+def _check_port_status(address: str, port: int) -> list[str, int]:
+    """Check if a specific port on the provided address is open.
+
+    Returns a dictionary with the port and the connection status.
+    """
+    with socket.socket() as sock:
+        sock.settimeout(1)  # Set a timeout of 1 second
+        result = sock.connect_ex((address, port))  # 0 if open, non-zero if closed
+        return {"port": port, "status": result == 0}
+
+
+def check_ports(address: str, ports: dict[int]) -> list[dict[str, int]]:
+    """Check multiple ports for the provided address with threading.
+
+    Args:
+        address (str): The IP address to check.
+        ports (list[int]): List of ports to check on the given address.
+        max_threads (int): Maximum number of threads to use. Default is 10.
+
+    Returns:
+        list[dict[str, int]]: A list of dictionaries containing port numbers and their statuses.
+    """
+    results = []
+    with ThreadPoolExecutor() as executor:
+        futures = {
+            executor.submit(_check_port_status, address, port): port for port in ports
+        }
+        for future in futures:
+            result = (
+                future.result()
+            )  # Retrieve the result of each future as it completes
+            results.append(result)
+    return results
+
+
 def query_ipv4(address: str, ports: list[int]) -> list[dict]:
     """
     Checks whether the specified ports on a given IPv4 address or hostname are connectable.
@@ -115,18 +151,7 @@ def query_ipv4(address: str, ports: list[int]) -> list[dict]:
             is_valid_hostname(address)
     except Exception as ex:
         raise JsonAPIException(key="host", message=str(ex)) from ex
-
-    results = []
-    for port in ports:
-        result = {"port": port, "status": False}
-        sock = socket.socket()
-        sock.settimeout(1)
-        port_check = sock.connect_ex((address, int(port)))
-        if port_check == 0:
-            result["status"] = True
-        sock.close()
-        results.append(result)
-    return results
+    return check_ports(address, ports)
 
 
 def get_requester(request: Request) -> str:

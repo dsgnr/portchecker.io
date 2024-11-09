@@ -1,4 +1,5 @@
 """Fixtures for testing the application routes and helper functions"""
+
 from unittest.mock import patch
 
 import pytest
@@ -14,11 +15,32 @@ VALID_PUBLIC_IPV4 = "8.8.8.8"
 VALID_DOMAIN = "example.com"
 INVALID_HOST = "foo"
 LOCALHOST_IPV4 = "127.0.0.1"
+PORTS = [80, 22, 8080, 443]
+OPEN_PORTS = [80, 443]
+CLOSED_PORTS = [22, 8080]
+SOCKET_OPEN = 0
+SOCKET_CLOSED = 1
+
 
 @pytest.fixture
 def client():
     """Fixture to provide a test client for app requests."""
     return TestClient(app)
+
+
+def mock_connect(address_port_tuple: tuple[str, int]) -> int:
+    """Simulate mixed open/closed ports based on port numbers."""
+    return SOCKET_OPEN if address_port_tuple[1] in OPEN_PORTS else SOCKET_CLOSED
+
+
+@pytest.fixture(autouse=True)
+def mock_socket():
+    """
+    Simulate the socket connection.
+    Uses the `mock_connect` method above to return the state value
+    """
+    with patch("socket.socket.connect_ex", side_effect=mock_connect):
+        yield
 
 
 @pytest.fixture
@@ -28,36 +50,13 @@ def mock_request_path():
 
 
 @pytest.fixture
-def mock_socket():
-    """Fixture to mock socket.socket calls."""
-    with patch("socket.socket") as sock:
-        yield sock
-
-
-@pytest.fixture
 def mock_request():
     """Fixture to create a mock request with customizable headers."""
-    class MockRequest: # pylint: disable=too-few-public-methods
+
+    class MockRequest:  # pylint: disable=too-few-public-methods
         """The MockRequest class"""
+
         def __init__(self, headers):
             self.headers = headers
 
     return MockRequest
-
-
-@pytest.fixture
-def mock_is_ip_address(mocker):
-    """Fixture to mock the is_ip_address helper function."""
-    return mocker.patch("app.helpers.query.is_ip_address")
-
-
-@pytest.fixture
-def mock_is_address_valid(mocker):
-    """Fixture to mock the is_address_valid helper function."""
-    return mocker.patch("app.helpers.query.is_address_valid")
-
-
-@pytest.fixture
-def mock_is_valid_hostname(mocker):
-    """Fixture to mock the is_valid_hostname helper function."""
-    return mocker.patch("app.helpers.query.is_valid_hostname")

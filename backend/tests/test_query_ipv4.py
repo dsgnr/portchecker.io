@@ -1,48 +1,43 @@
 """Tests for query_ipv4"""
-import socket
-from unittest.mock import MagicMock, patch
 
 import pytest
 
-from api.app.helpers.query import JsonAPIException, query_ipv4
+from api.app.helpers.query import (
+    JsonAPIException,
+    _check_port_status,
+    check_ports,
+    query_ipv4,
+)
 
-from .conftest import INVALID_HOST, VALID_PUBLIC_IPV4
+from .conftest import (
+    CLOSED_PORTS,
+    INVALID_HOST,
+    OPEN_PORTS,
+    PORTS,
+    SOCKET_OPEN,
+    VALID_PUBLIC_IPV4,
+    mock_connect,
+)
 
 
-def test_query_ipv4_single_open_port(mock_socket):
-    """Mock socket connection to return 0, indicating the port is open"""
-    mock_sock_instance = MagicMock()
-    mock_sock_instance.connect_ex.return_value = 0
-    mock_socket.return_value = mock_sock_instance
-
-    ports = [80]
-    assert query_ipv4(VALID_PUBLIC_IPV4, ports) == [{"port": ports[0], "status": True}]
-
-
-def test_query_ipv4_single_closed_port(mock_socket):
+def test_query_ipv4_single_closed_port():
     """Mock socket connection to return non-zero, indicating the port is closed"""
-    mock_sock_instance = MagicMock()
-    mock_sock_instance.connect_ex.return_value = 1
-    mock_socket.return_value = mock_sock_instance
-
-    ports = [81]
-    assert query_ipv4(VALID_PUBLIC_IPV4, ports) == [{"port": ports[0], "status": False}]
+    result = query_ipv4(VALID_PUBLIC_IPV4, [CLOSED_PORTS[0]])
+    assert result == [{"port": CLOSED_PORTS[0], "status": False}]
 
 
-def test_query_ipv4_multiple_ports_mixed_status(mock_socket):
-    """Simulate one open port and one closed port"""
-    mock_sock_instance = MagicMock()
-    mock_sock_instance.connect_ex.side_effect = [
-        0,
-        1,
-    ]  # Open for port 80, closed for port 443
-    mock_socket.return_value = mock_sock_instance
-
-    ports = [80, 443]
-    assert query_ipv4(VALID_PUBLIC_IPV4, ports) == [
-        {"port": ports[0], "status": True},
-        {"port": ports[1], "status": False},
+def test_query_ipv4_multiple_ports_mixed_status():
+    """Test when some ports are open and some are closed."""
+    result = query_ipv4(VALID_PUBLIC_IPV4, PORTS)
+    expected = [
+        {
+            "port": port,
+            "status": mock_connect((VALID_PUBLIC_IPV4, port)) == SOCKET_OPEN,
+        }
+        for port in PORTS
     ]
+    assert result == expected
+
 
 def test_query_ipv4_empty_ports_list():
     """Test query_ipv4 returns empty list when ports list is empty."""
@@ -52,16 +47,46 @@ def test_query_ipv4_empty_ports_list():
 
 def test_query_ipv4_invalid_address():
     """Test query_ipv4 raises JsonAPIException for an invalid hostname."""
-    with (
-        patch("socket.gethostbyname", side_effect=socket.gaierror),
-        pytest.raises(JsonAPIException, match=".*Hostname does not appear to resolve"),
-    ):
-        query_ipv4(INVALID_HOST, [443])
+    with pytest.raises(JsonAPIException, match=".*Hostname does not appear to resolve"):
+        query_ipv4(INVALID_HOST, [OPEN_PORTS[0]])
 
 
-def test_query_ipv4_valid_address(mock_socket):
-    """Test query_ipv4 returns correct status for a valid IP and port."""
-    mock_sock_instance = MagicMock()
-    mock_sock_instance.connect_ex.return_value = 0
-    mock_socket.return_value = mock_sock_instance
-    assert query_ipv4(VALID_PUBLIC_IPV4, [443]) == [{"port": 443, "status": True}]
+def test_check_ports_all_open():
+    """Test when all ports are open."""
+    result = check_ports(VALID_PUBLIC_IPV4, OPEN_PORTS)
+    expected = [{"port": port, "status": True} for port in OPEN_PORTS]
+    assert result == expected
+
+
+def test_check_ports_all_closed():
+    """Test when all ports are closed."""
+    result = check_ports(VALID_PUBLIC_IPV4, CLOSED_PORTS)
+    expected = [{"port": port, "status": False} for port in CLOSED_PORTS]
+    assert result == expected
+
+
+def test_check_ports_mixed():
+    """Test when some ports are open and some are closed."""
+    result = check_ports(VALID_PUBLIC_IPV4, PORTS)
+    expected = [
+        {
+            "port": port,
+            "status": mock_connect((VALID_PUBLIC_IPV4, port)) == SOCKET_OPEN,
+        }
+        for port in PORTS
+    ]
+    assert result == expected
+
+
+def test_check_port_status_open():
+    """Test _check_port_status with an open port."""
+    result = _check_port_status(VALID_PUBLIC_IPV4, OPEN_PORTS[0])
+    expected = {"port": OPEN_PORTS[0], "status": True}
+    assert result == expected
+
+
+def test_check_port_status_closed():
+    """Test _check_port_status with a closed port."""
+    result = _check_port_status(VALID_PUBLIC_IPV4, CLOSED_PORTS[0])
+    expected = {"port": CLOSED_PORTS[0], "status": False}
+    assert result == expected
