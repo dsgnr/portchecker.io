@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2024-11-08
+- Bump gunicorn from 22.0.0 to 23.0.0
+- Adds more dependabot update rules
+- Improve documentation
+- Various exception handling improvements
+- Add Pytests to API
+- Enforce Pylint and Isort
+- Add GitHub Actions workflow for Isort, Pylint and Pytest
+- Deduplicate of application info
+- Add favicon to web
+
 ## [3.0.0] - 2024-11-05
 - Rewrites the API to migrate from FastAPI to [Litestar](https://litestar.dev/).
 - This also migrates the documentation from Swagger to [Scalar](https://github.com/scalar/scalar).
