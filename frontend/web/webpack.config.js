@@ -41,7 +41,7 @@ module.exports = {
         port: 8080,
         proxy: [
             {
-                context: ['/api'],
+                context: ['/api', '/docs'],
                 target: 'http://api:8000',
             },
         ]
