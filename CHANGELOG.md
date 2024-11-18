@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
   the value of the UI input field in the application.
   The input field now reflects the specified default port value.
 - Updates the UI to no longer use the deprecated query endpoint.
+- Removes unused ADSENSE_VERIFICATION environment variable.
 
 ## [3.1.0] - 2024-11-08
 - Bump gunicorn from 22.0.0 to 23.0.0
