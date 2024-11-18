@@ -83,7 +83,7 @@ function query_host() {
     pending_results(host);
     axios
         .post(
-            "/api/v1/query",
+            "/api/query",
             { host: host, ports: ports }
         )
         .then((response) => {
