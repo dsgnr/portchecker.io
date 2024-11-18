@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [3.1.1] - 2024-11-18
 - Fixes incorrect environment variable defaults in README
 - Adds threading to `query_ipv4` method. Uses default worker value (CPU count).
   This will improve performance where there are more than one port that does not response,
