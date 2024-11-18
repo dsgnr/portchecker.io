@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 - Adds threading to `query_ipv4` method. Uses default worker value (CPU count).
   This will improve performance where there are more than one port that does not response,
   thus reaching the timeout limit.
+- Resolved an issue where the DEFAULT_PORT environment variable was not correctly updating
+  the value of the UI input field in the application.
+  The input field now reflects the specified default port value.
 
 ## [3.1.0] - 2024-11-08
 - Bump gunicorn from 22.0.0 to 23.0.0

@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: web
     environment:
-      - DEFAULT_PORT=443
+      - DEFAULT_PORT=443  # Populates a default port value to be populataed in the in the UI input
       - GOOGLE_ANALYTICS=  # optional
       - ADSENSE_VERIFICATION=  # optional
     ports:
