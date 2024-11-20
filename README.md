@@ -106,6 +106,15 @@ I'm thrilled that you’re interested in contributing to this project! Here’s 
    - Make your modifications and test thoroughly.
    - Open a pull request against the `devel` branch of the original repository. Include a clear description of your changes and any relevant context.
 
+## Spotlight
+
+Where this project has been mentioned.
+
+[SYNACK Time - Portchecker.io Tutorial: Open Source Scanner with API Integration & Self-Hosting](https://www.youtube.com/watch?v=1qgFQtMMT60)
+[![SYNACK Time - Portchecker.io Tutorial: Open Source Scanner with API Integration & Self-Hosting](https://img.youtube.com/vi/1qgFQtMMT60/0.jpg)](https://www.youtube.com/watch?v=1qgFQtMMT60)
+
+[selfh.st - This Week in Self-Hosted (8 November 2024)](https://selfh.st/newsletter/2024-11-08/)
+
 ## Author
 
 * Website: https://danielhand.io
