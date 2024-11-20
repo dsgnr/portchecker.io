@@ -7,21 +7,28 @@ services:
       dockerfile: Dockerfile.dev
     container_name: web
     environment:
-      - DEFAULT_PORT=443  # Populates a default port value to be populataed in the in the UI input
-      - GOOGLE_ANALYTICS=  # optional
+      - DEFAULT_PORT=443  # Optional, Populates a default port value to be populataed in the in the UI input
+      - GOOGLE_ANALYTICS=  # Optional, set for Google Analytics integration
     ports:
       - 8080:8080
     volumes:
       - ./frontend/web:/web
+    networks:
+      - portchecker
   api:
     build:
       context: backend
       dockerfile: Dockerfile.dev
     container_name: api
     environment:
-      - ALLOW_PRIVATE=false
+      - ALLOW_PRIVATE=false  # Prevent usage of private IP addresses
     ports:
       - 8000:8000
     volumes:
       - ./backend/api:/src
+    networks:
+      - portchecker
 
+networks:
+  portchecker:
+    driver: bridge
