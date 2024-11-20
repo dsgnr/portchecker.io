@@ -1,0 +1,56 @@
+name: Web
+
+on:
+  pull_request:
+    paths:
+      - frontend/**
+
+env:
+  NODE_VERSION: "23.1.0"
+  PKG_DIR: "frontend/web"
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install --frozen-lockfile --production=false
+          dir: ${{ env.PKG_DIR }}
+
+      - name: Run prettier
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: prettier
+          dir: ${{ env.PKG_DIR }}
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Run install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install --frozen-lockfile --production=false
+          dir: ${{ env.PKG_DIR }}
+
+      - name: Run ESLint
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: lint
+          dir: ${{ env.PKG_DIR }}
