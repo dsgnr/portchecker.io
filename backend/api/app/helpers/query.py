@@ -54,7 +54,10 @@ def is_address_valid(address: str) -> bool:
     address_obj = ip_address(address)
     if address_obj.version == 6:
         raise ValueError("IPv6 is not currently supported")
-    if address_obj.is_private and not os.environ.get("ALLOW_PRIVATE"):
+    if (
+        address_obj.is_private
+        and os.environ.get("ALLOW_PRIVATE", "false").lower() != "true"
+    ):
         raise ValueError(
             f"IPv{address_obj.version} address '{address}' does not appear to be public"
         )
