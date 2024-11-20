@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
   (CSS, HTML, and JS) for consistent code quality and formatting.
 - Formatted and linted the UI files (CSS, HTML, and JS) using ESLint and Prettier
   to ensure adherence to coding standards.
+- Resolved issue where the `ALLOW_PRIVATE` environment variable was not being evaluated correctly.
 
 ## [3.1.2] - 2024-11-18
 - Fixes a regression caused by [#258](https://github.com/dsgnr/portchecker.io/pull/258)
