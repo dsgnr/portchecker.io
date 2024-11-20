@@ -13,7 +13,7 @@ def test_is_address_valid_public_ipv4():
 
 def test_is_address_valid_private_ipv4_with_allow_private(monkeypatch):
     """Test is_address_valid allows private IPv4 if ALLOW_PRIVATE is set."""
-    monkeypatch.setenv("ALLOW_PRIVATE", "1")
+    monkeypatch.setenv("ALLOW_PRIVATE", "True")
     assert is_address_valid(VALID_PRIVATE_IPV4) is True
 
 
