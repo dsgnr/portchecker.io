@@ -136,6 +136,7 @@ function queryHost() {
         .value.split(",")
         .map((p) => p.trim());
 
+    state.host = host;
     state.loading = true; // Trigger "loading" state
     state.error = null;
 
