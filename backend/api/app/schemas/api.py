@@ -33,6 +33,14 @@ PortAnnotation = Annotated[
     Le(65535),
 ]
 
+PortCheckStrAnnotation = Annotated[
+    str,
+    Parameter(
+        description="Whether the port was connectable",
+        examples=[Example(value="True")],
+    ),
+]
+
 PortCheckAnnotation = Annotated[
     bool,
     Parameter(
