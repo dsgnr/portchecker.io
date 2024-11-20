@@ -26,15 +26,15 @@ def test_get_port_check_endpoint_with_hostname(client, mocker):
     mock_get_requester = mocker.patch(
         "app.routes.v2.get_requester", return_value=HEADER_REAL_IP
     )
-    mock_query_ipv4 = mocker.patch(
-        "app.routes.v2.query_ipv4", return_value=[{"port": 443, "status": True}]
+    mock_query_address = mocker.patch(
+        "app.routes.v2.query_address", return_value=[{"port": 443, "status": True}]
     )
     response = client.get(f"/api/{VALID_DOMAIN}/443")
 
     assert response.status_code == HTTP_200_OK
     assert response.text == "True"
     mock_get_requester.assert_not_called()
-    mock_query_ipv4.assert_called_once_with("example.com", [443])
+    mock_query_address.assert_called_once_with("example.com", [443])
 
 
 def test_get_port_check_endpoint_with_me(client, mocker):
@@ -42,8 +42,8 @@ def test_get_port_check_endpoint_with_me(client, mocker):
     mock_get_requester = mocker.patch(
         "app.routes.v2.get_requester", return_value=HEADER_REAL_IP
     )
-    mock_query_ipv4 = mocker.patch(
-        "app.routes.v2.query_ipv4",
+    mock_query_address = mocker.patch(
+        "app.routes.v2.query_address",
         return_value=[{"port": 443, "status": True}],
     )
 
@@ -54,13 +54,13 @@ def test_get_port_check_endpoint_with_me(client, mocker):
     assert response.status_code == HTTP_200_OK
     assert response.text == "True"
     mock_get_requester.assert_called_once()  # Confirm get_requester was called once
-    mock_query_ipv4.assert_called_once_with(HEADER_REAL_IP, [443])
+    mock_query_address.assert_called_once_with(HEADER_REAL_IP, [443])
 
 
 def test_query_post_endpoint_v1(client, mocker):
     """Test v1 query endpoint with valid data returns correct status."""
-    mock_query_ipv4 = mocker.patch(
-        "app.routes.v2.query_ipv4",
+    mock_query_address = mocker.patch(
+        "app.routes.v2.query_address",
         return_value=[{"port": 80, "status": True}, {"port": 443, "status": False}],
     )
 
@@ -73,7 +73,7 @@ def test_query_post_endpoint_v1(client, mocker):
         "host": "example.com",
         "check": [{"port": 80, "status": True}, {"port": 443, "status": False}],
     }
-    mock_query_ipv4.assert_called_once_with(VALID_DOMAIN, [80, 443])
+    mock_query_address.assert_called_once_with(VALID_DOMAIN, [80, 443])
 
 
 def test_query_post_endpoint_invalid_port_v1(client):
@@ -104,8 +104,8 @@ def test_query_post_endpoint_invalid_hostname_v1(client):
 
 def test_query_post_endpoint_v2(client, mocker):
     """Test v2 query endpoint with valid data returns correct status."""
-    mock_query_ipv4 = mocker.patch(
-        "app.routes.v2.query_ipv4",
+    mock_query_address = mocker.patch(
+        "app.routes.v2.query_address",
         return_value=[{"port": 80, "status": True}, {"port": 443, "status": False}],
     )
 
@@ -118,7 +118,7 @@ def test_query_post_endpoint_v2(client, mocker):
         "host": "example.com",
         "check": [{"port": 80, "status": True}, {"port": 443, "status": False}],
     }
-    mock_query_ipv4.assert_called_once_with(VALID_DOMAIN, [80, 443])
+    mock_query_address.assert_called_once_with(VALID_DOMAIN, [80, 443])
 
 
 def test_query_post_endpoint_invalid_port_v2(client):
