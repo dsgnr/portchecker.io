@@ -20,7 +20,7 @@ def is_ip_address(address: str) -> bool:
     Attempts to parse the provided address string as an IP address.
     Returns `True` if the address is valid, otherwise `False`.
 
-    Parameters:
+    Args:
         address (str): The string to check for IP address validity.
 
     Returns:
@@ -40,7 +40,7 @@ def is_address_valid(address: str) -> bool:
     private and the environment variable `ALLOW_PRIVATE` is not set, an error is raised.
     IPv6 addresses are not supported and will raise a `ValueError`.
 
-    Parameters:
+    Args:
         address (str): The IPv4 address string to validate.
 
     Returns:
@@ -67,7 +67,7 @@ def is_valid_hostname(hostname: str) -> bool:
 
     Validates whether the provided hostname is resolveable.
 
-    Parameters:
+    Args:
         hostname (str): The hostname to validate.
 
     Returns:
@@ -90,10 +90,15 @@ def is_valid_hostname(hostname: str) -> bool:
         raise ValueError("Hostname does not appear to resolve") from socket_err
 
 
-def _check_port_status(address: str, port: int) -> list[str, int]:
+def _check_port_status(address: str, port: int) -> dict[str, int | bool]:
     """Check if a specific port on the provided address is open.
 
-    Returns a dictionary with the port and the connection status.
+    Args:
+        address (str): The IP address to check.
+        port (int): The port to check on the given address.
+
+    Returns:
+        dict[str, int | bool]: Returns a dictionary with the port and the connection status.
     """
     with socket.socket() as sock:
         sock.settimeout(1)  # Set a timeout of 1 second
@@ -101,16 +106,16 @@ def _check_port_status(address: str, port: int) -> list[str, int]:
         return {"port": port, "status": result == 0}
 
 
-def check_ports(address: str, ports: dict[int]) -> list[dict[str, int]]:
+def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
     """Check multiple ports for the provided address with threading.
 
     Args:
-        address (str): The IP address to check.
+        address (str): The hostname or IPv4 address to query.
         ports (list[int]): List of ports to check on the given address.
-        max_threads (int): Maximum number of threads to use. Default is 10.
 
     Returns:
-        list[dict[str, int]]: A list of dictionaries containing port numbers and their statuses.
+        list[dict[str, int | bool]]:
+            A list of dictionaries containing the ports checked and their statuses.
     """
     results = []
     with ThreadPoolExecutor() as executor:
@@ -133,7 +138,7 @@ def query_address(address: str, ports: list[int]) -> list[dict]:
     a resolvable hostname. Then attempts to establish a socket connection to each port
     provided in `ports`.
 
-    Parameters:
+    Args:
         address (str): The hostname or IPv4 address to query.
         ports (list[int]): A list of port numbers to check for connectability.
 
@@ -167,7 +172,7 @@ def get_requester(request: Request) -> str:
 
     If none of these headers are found, the function raises a `ValueError`.
 
-    Parameters:
+    Args:
         request (Request): The HTTP request containing headers.
 
     Returns:

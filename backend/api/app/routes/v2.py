@@ -14,7 +14,7 @@ from app.schemas.api import (
     APISchema,
     HostAnnotation,
     PortAnnotation,
-    PortCheckAnnotation,
+    PortCheckStrAnnotation,
     RequesterAnnotation,
 )
 
@@ -43,7 +43,7 @@ def my_ip(request: Request) -> RequesterAnnotation:
 @get("/api/{host:str}/{port:int}", media_type=MediaType.TEXT, sync_to_thread=False)
 def get_port_check(
     request: Request, host: HostAnnotation, port: PortAnnotation
-) -> PortCheckAnnotation:
+) -> PortCheckStrAnnotation:
     """
     A `GET` endpoint to check the status of a specific port on a given
     resolvable hostname or IPv4 address.

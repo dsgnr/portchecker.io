@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Updates `query_ipv4` method name to `query_address` to be more representative of what it actually does.
+- Corrections to some docstrings and typehints.
 
 ## [3.1.2] - 2024-11-18
 - Fixes a regression caused by [#258](https://github.com/dsgnr/portchecker.io/pull/258)
