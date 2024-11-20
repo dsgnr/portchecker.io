@@ -5,14 +5,36 @@ services:
     image: ghcr.io/dsgnr/portcheckerio-web:latest
     container_name: web
     environment:
-      - DEFAULT_PORT=443  # Populates a default port value to be populataed in the in the UI input
-      - GOOGLE_ANALYTICS=  # optional
+      - DEFAULT_PORT=443  # Optional, Populates a default port value to be populataed in the in the UI input
+      - GOOGLE_ANALYTICS=  # Optional, set for Google Analytics integration
     ports:
       - 8080:80
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-S", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      - api  # Ensure api service is ready before web starts
+    networks:
+      - portchecker
   api:
     image: ghcr.io/dsgnr/portcheckerio-api:latest
     container_name: api
     environment:
-      - ALLOW_PRIVATE=false
+      - ALLOW_PRIVATE=false  # Prevent usage of private IP addresses
     ports:
       - 8000:8000
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-S", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    networks:
+      - portchecker
+
+networks:
+  portchecker:
+    driver: bridge
