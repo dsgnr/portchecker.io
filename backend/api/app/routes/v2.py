@@ -8,7 +8,7 @@ from litestar import MediaType, Request, get, post
 from litestar.params import Body
 from litestar.status_codes import HTTP_200_OK
 
-from app.helpers.query import get_requester, query_ipv4
+from app.helpers.query import get_requester, query_address
 from app.schemas.api import (
     APIResponseSchema,
     APISchema,
@@ -73,7 +73,7 @@ def get_port_check(
     Application logs are not forwarded or permanently stored.
     """
     host = get_requester(request) if host == "me" else host
-    return str(query_ipv4(host, [port])[0].get("status"))
+    return str(query_address(host, [port])[0].get("status"))
 
 
 @post(
@@ -114,5 +114,5 @@ def post_helper(host: str, ports: list[int]) -> APIResponseSchema:
         msg=None,
         error=False,
         host=host,
-        check=query_ipv4(host, ports),
+        check=query_address(host, ports),
     )
