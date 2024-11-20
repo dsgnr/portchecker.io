@@ -125,7 +125,7 @@ def check_ports(address: str, ports: dict[int]) -> list[dict[str, int]]:
     return results
 
 
-def query_ipv4(address: str, ports: list[int]) -> list[dict]:
+def query_address(address: str, ports: list[int]) -> list[dict]:
     """
     Checks whether the specified ports on a given IPv4 address or hostname are connectable.
 

@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+- Updates `query_ipv4` method name to `query_address` to be more representative of what it actually does.
+
 ## [3.1.2] - 2024-11-18
 - Fixes a regression caused by [#258](https://github.com/dsgnr/portchecker.io/pull/258)
   where the web container would fail to start if the index was overwritten by a custom volume mount.
