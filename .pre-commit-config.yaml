@@ -1,0 +1,49 @@
+---
+default_language_version:
+  python: python3.12
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        files: "backend/api"
+        additional_dependencies: ["types-requests"]
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.8.0
+    hooks:
+      - id: poetry-check
+        args: ["-C", "backend"]
+      - id: poetry-lock
+        args: ["-C", "backend"]
+  - repo: local
+    hooks:
+    - id: pytest
+      name: pytest
+      entry: poetry
+      args: ["-C", "backend", "run", "pytest", "backend/tests"]
+      language: python
+      types: [python]
+    - id: pylint
+      name: pylint
+      entry: poetry
+      args: ["-C", "backend", "run", "pylint", "-sn"]
+      language: python
+      types: [python]
+    - id: isort
+      name: isort
+      entry: poetry
+      args: ["-C", "backend", "run", "isort", "--check-only"]
+      language: python
+      types: [python]
