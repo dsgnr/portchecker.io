@@ -1,4 +1,4 @@
-FROM node:23-alpine3.19 as builder
+FROM node:23-alpine3.19 AS builder
 ARG DEFAULT_PORT GOOGLE_ANALYTICS
 ENV DEFAULT_PORT=$DEFAULT_PORT
 ENV GOOGLE_ANALYTICS=$GOOGLE_ANALYTICS
@@ -8,7 +8,7 @@ WORKDIR /app
 RUN yarn install && yarn build
 
 # production environment
-FROM nginx:stable-alpine-slim as web
+FROM nginx:stable-alpine-slim AS web
 ARG DEFAULT_PORT
 ENV DEFAULT_PORT=$DEFAULT_PORT
 COPY --from=builder /app/dist /usr/share/nginx/html
