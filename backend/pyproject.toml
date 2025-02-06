@@ -16,7 +16,7 @@ python = "^3.12"
 litestar = "^2.13.0"
 gunicorn = "23.0.0"
 pydantic = "^2.10.6"
-uvicorn = {extras = ["standard"], version = "^0.32.1"}
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
 tomli = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]
