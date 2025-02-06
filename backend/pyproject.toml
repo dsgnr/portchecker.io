@@ -17,7 +17,7 @@ litestar = "^2.13.0"
 gunicorn = "23.0.0"
 pydantic = "^2.10.6"
 uvicorn = {extras = ["standard"], version = "^0.34.0"}
-tomli = "^2.1.0"
+tomli = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.4"
