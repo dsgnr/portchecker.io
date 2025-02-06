@@ -1,43 +1,43 @@
 {
-  "name": "portchecker.io",
-  "version": "3.0.0",
-  "description": "Single page site for portchecker.io",
-  "homepage": "https://github.com/dsgnr/portchecker.io#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dsgnr/portchecker.io.git"
-  },
-  "author": "dsgnr <email@danielhand.io>",
-  "license": "MIT",
-  "engines": {
-    "node": ">=23",
-    "npm": ">=10"
-  },
-  "bugs": {
-    "url": "https://github.com/dsgnr/portchecker.io/issues",
-    "email": "email@danielhand.io"
-  },
-  "scripts": {
-    "dev": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
-    "build": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build",
-    "lint": "npx eslint src",
-    "lint:fix": "npm run lint -- --fix",
-    "prettier": "npx prettier src --check",
-    "prettier:fix": "npm run prettier -- --write"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.15.0",
-    "copy-webpack-plugin": "^12.0.2",
-    "css-loader": "^7.1.2",
-    "css-minimizer-webpack-plugin": "^7.0.0",
-    "eslint": "^9.19.0",
-    "globals": "^15.12.0",
-    "html-webpack-plugin": "^5.6.0",
-    "mini-css-extract-plugin": "^2.9.0",
-    "prettier": "^3.4.2",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.2.0"
-  }
+    "name": "portchecker.io",
+    "version": "3.0.0",
+    "description": "Single page site for portchecker.io",
+    "homepage": "https://github.com/dsgnr/portchecker.io#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dsgnr/portchecker.io.git"
+    },
+    "author": "dsgnr <email@danielhand.io>",
+    "license": "MIT",
+    "engines": {
+        "node": ">=23",
+        "npm": ">=10"
+    },
+    "bugs": {
+        "url": "https://github.com/dsgnr/portchecker.io/issues",
+        "email": "email@danielhand.io"
+    },
+    "scripts": {
+        "dev": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} API_URL=${API_URL:-http://api:8000} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
+        "build": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build",
+        "lint": "npx eslint src",
+        "lint:fix": "npm run lint -- --fix",
+        "prettier": "npx prettier src --check",
+        "prettier:fix": "npm run prettier -- --write"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.15.0",
+        "copy-webpack-plugin": "^12.0.2",
+        "css-loader": "^7.1.2",
+        "css-minimizer-webpack-plugin": "^7.0.0",
+        "eslint": "^9.19.0",
+        "globals": "^15.12.0",
+        "html-webpack-plugin": "^5.6.0",
+        "mini-css-extract-plugin": "^2.9.0",
+        "prettier": "^3.4.2",
+        "uglifyjs-webpack-plugin": "^2.2.0",
+        "webpack": "^5.96.1",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.2.0"
+    }
 }
