@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -32,19 +32,17 @@ module.exports = {
         }),
 
         new CopyWebpackPlugin({
-            patterns: [
-                { from: 'src/assets' }
-            ]
-        })
+            patterns: [{ from: "src/assets" }],
+        }),
     ],
     devServer: {
         port: 8080,
         proxy: [
             {
-                context: ['/api', '/docs'],
-                target: 'http://api:8000',
+                context: ["/api", "/docs"],
+                target: process.env.API_URL,
             },
-        ]
+        ],
     },
     optimization: {
         minimize: true,

@@ -30,7 +30,7 @@ API routes and specification can be found at [portchecker.io/docs](https://portc
 ### Standalone
 
 #### Web
-> [!NOTE]  
+> [!NOTE]
 > Uses [Node](https://nodejs.org/) version 23 and newer. Requires [Yarn](https://classic.yarnpkg.com/en/)
 
 Bringing up the UI outside of Docker;
@@ -43,7 +43,7 @@ $ yarn dev
 portchecker.io front-end be running at [http://0.0.0.0:8080](http://0.0.0.0:8080).
 
 #### API
-> [!NOTE]  
+> [!NOTE]
 > Uses Python 3.12. The Python environment uses [Poetry](https://pypi.org/project/poetry/) for package management. This must be installed.
 
 ~~~
@@ -64,7 +64,7 @@ portchecker.io front-end will be running at [http://0.0.0.0:8080](http://0.0.0.0
 
 ## Production
 ### Docker
-> [!NOTE]  
+> [!NOTE]
 > Uses [ghcr.io/dsgnr/portcheckerio-web:latest](https://github.com/dsgnr/portchecker.io/pkgs/container/portcheckerio-web) and [ghcr.io/dsgnr/portcheckerio-api:latest](https://github.com/dsgnr/portchecker.io/pkgs/container/portcheckerio-api).
 
 ~~~
@@ -77,10 +77,11 @@ portchecker.io front-end will be running at [http://0.0.0.0:8080](http://0.0.0.0
 The following configuration options are available. These would be set within the Docker compose files, or in your environment if you're using portchecker standalone.
 
 ### Web
-| Name             | Required? | Default | Notes                                                      |
-|------------------|-----------|---------|------------------------------------------------------------|
-| DEFAULT_PORT     | No        | 443     | Allows a default port number to be prefilled in the UI     |
-| GOOGLE_ANALYTICS | No        |         | Allows for a Google Analytics tracking code to be provided |
+| Name             | Required? | Default         | Notes                                                                                    |
+|------------------|-----------|-----------------|------------------------------------------------------------------------------------------|
+| DEFAULT_PORT     | No        | http://api:8000 | The URL of the API service if changed from the default. The scheme and port is required. |
+| DEFAULT_PORT     | No        | 443             | Allows a default port number to be prefilled in the UI                                   |
+| GOOGLE_ANALYTICS | No        |                 | Allows for a Google Analytics tracking code to be provided                               |
 
 ### API
 | Name          | Required? | Default | Notes                                                                                                                                                                              |
@@ -139,6 +140,3 @@ The site is located on Digital Ocean. You can use the following referral link to
 ## License
 
 See the [LICENSE](LICENSE) file for more details on terms and conditions.
-
-
-

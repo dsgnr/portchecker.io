@@ -3,7 +3,8 @@ ENV PATH=$PATH:$PWD/node_modules/.bin
 
 # ALlows the user to define a default port to populate the UI.
 # Pass a desired value in your docker run/compose environment
-ARG DEFAULT_PORT
+ARG API_URL DEFAULT_PORT
+ENV API_URL=$API_URL
 ENV DEFAULT_PORT=$DEFAULT_PORT
 
 COPY web/package.json web/yarn.lock ./
