@@ -121,6 +121,14 @@ I'm thrilled that you’re interested in contributing to this project! Here’s 
 
 Where this project has been mentioned.
 
+[JC Laforge Tech - Check Open Ports with PortChecker.io](https://www.youtube.com/watch?v=jAfo36A-rfA)
+
+[![JC Laforge Tech - Check Open Ports with PortChecker.io](https://img.youtube.com/vi/jAfo36A-rfA/0.jpg)](https://www.youtube.com/watch?v=jAfo36A-rfA)
+
+[My Server Cloud - Installation of PortChecker on docker | Check for Open Ports EASILY](https://www.youtube.com/watch?v=HTy5_-YiaHg)
+
+[![My Server Cloud - Installation of PortChecker on docker | Check for Open Ports EASILY](https://img.youtube.com/vi/HTy5_-YiaHg/0.jpg)](https://www.youtube.com/watch?v=HTy5_-YiaHg)
+
 [DB Tech - PortChecker - Check for Open Ports EASILY (Docker Tutorial)](https://www.youtube.com/watch?v=0EgbXY0ZaeU)
 
 [![DB Tech - PortChecker - Check for Open Ports EASILY (Docker Tutorial)](https://img.youtube.com/vi/0EgbXY0ZaeU/0.jpg)](https://www.youtube.com/watch?v=0EgbXY0ZaeU)
