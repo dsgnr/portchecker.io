@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.2.1] - 2025-02-12
+
+- Update image path for Ko-Fi
+- Allow API service hostname to be defined
+- Correct documentation for API_URL environment variable
+- Updates API packages.
+- Updates web packages.
+
 ## [3.2.0] - 2024-11-22
+
 - Updates `query_ipv4` method name to `query_address` to be more representative of what it actually does.
 - Corrections to some docstrings and typehints.
 - Refactored the UI to leverage JavaScript Proxy for more efficient state management,
@@ -18,10 +27,12 @@ All notable changes to this project will be documented in this file.
 - Various other fixes and improvements.
 
 ## [3.1.2] - 2024-11-18
+
 - Fixes a regression caused by [#258](https://github.com/dsgnr/portchecker.io/pull/258)
   where the web container would fail to start if the index was overwritten by a custom volume mount.
 
 ## [3.1.1] - 2024-11-18
+
 - Fixes incorrect environment variable defaults in README
 - Adds threading to `query_ipv4` method. Uses default worker value (CPU count).
   This will improve performance where there are more than one port that does not response,
@@ -33,6 +44,7 @@ All notable changes to this project will be documented in this file.
 - Removes unused ADSENSE_VERIFICATION environment variable.
 
 ## [3.1.0] - 2024-11-08
+
 - Bump gunicorn from 22.0.0 to 23.0.0
 - Adds more dependabot update rules
 - Improve documentation
@@ -44,6 +56,7 @@ All notable changes to this project will be documented in this file.
 - Add favicon to web
 
 ## [3.0.0] - 2024-11-05
+
 - Rewrites the API to migrate from FastAPI to [Litestar](https://litestar.dev/).
 - This also migrates the documentation from Swagger to [Scalar](https://github.com/scalar/scalar).
 - A new `GET` endpoint `/<me:host>/<port>` which returns a boolean value of whether the port is open.
@@ -55,6 +68,7 @@ All notable changes to this project will be documented in this file.
 - Removes broken cosigner from GitHub workflow image building.
 
 ## [2.0.1] - 2024-11-03
+
 - Bumps node from version 20 to version 23.
 - Bumps npm from version 6 to version 10.
 - Bumps devDependencies to current latest.
