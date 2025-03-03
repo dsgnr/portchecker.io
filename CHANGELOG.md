@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Allows hyphenated subdomains in the UI.
+- Add some more YouTube mentions in the README.
+
 ## [3.2.1] - 2025-02-12
 
 - Update image path for Ko-Fi
