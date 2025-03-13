@@ -9,6 +9,7 @@ from litestar import Litestar
 from litestar.exceptions import ValidationException
 from litestar.openapi.config import OpenAPIConfig
 from litestar.openapi.plugins import ScalarRenderPlugin
+from litestar.plugins.prometheus import PrometheusConfig, PrometheusController
 
 from app.helpers.exceptions import JsonAPIException
 from app.helpers.handlers import (
@@ -30,8 +31,28 @@ def _get_project_meta():
 
 
 project_meta = _get_project_meta()
+
+
+prometheus_config = PrometheusConfig(
+    app_name="api",
+    prefix=project_meta["name"].split(".")[0],
+    group_path=True,
+    labels={
+        "version": project_meta["version"],
+    },
+    buckets=[0.1, 0.2, 0.3, 0.4, 0.5],
+)
+
 app = Litestar(
-    route_handlers=[my_ip, query_post, get_port_check, v1_query_post, health],
+    route_handlers=[
+        PrometheusController,
+        my_ip,
+        query_post,
+        get_port_check,
+        v1_query_post,
+        health,
+    ],
+    middleware=[prometheus_config.middleware],
     openapi_config=OpenAPIConfig(
         title=project_meta["name"],
         description=project_meta["description"],
