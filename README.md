@@ -96,6 +96,21 @@ The following configuration options are available. These would be set within the
 | ------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ALLOW_PRIVATE | No        | False   | Allows private IP addresses in [ IANA IPv4 Special Registry ](https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml) ranges to be checked |
 
+
+## Monitoring
+
+A Prometheus `/metrics` endpoint is available for capturing metrics about the API endpoints, their response times and status codes. Since some endpoints have a hostname and variables provided via the path, these are grouped to anonymise them.
+
+An example Grafana dashboard can be seen at [grafana/README.md](grafana/README.md).
+
+Add your instance to your Prometheus config using the following config (be sure to update the scrape target to suit your needs):
+~~~ yaml
+- job_name: 'portchecker'
+  static_configs:
+  - targets:
+    - 'https://portchecker.io'
+~~~
+
 ## Contributing
 
 I'm thrilled that you’re interested in contributing to this project! Here’s how you can get involved:
