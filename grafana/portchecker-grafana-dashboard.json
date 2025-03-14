@@ -91,7 +91,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -126,34 +127,21 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "rate(portchecker_requests_total[$__rate_interval])",
+          "expr": "sum(rate(portchecker_requests_total[$__rate_interval]))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "interval": "",
           "legendFormat": "",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Average Requests/Second",
-      "transformations": [
-        {
-          "id": "seriesToRows",
-          "options": {}
-        },
-        {
-          "id": "sortBy",
-          "options": {
-            "fields": {},
-            "sort": [
-              {
-                "field": "Time"
-              }
-            ]
-          }
-        }
-      ],
       "type": "stat"
     },
     {
@@ -166,6 +154,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -182,7 +171,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 5,
+        "w": 6,
         "x": 4,
         "y": 0
       },
@@ -214,18 +203,18 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "exemplar": true,
-          "expr": "sum by(status_code) (portchecker_requests_total)",
+          "exemplar": false,
+          "expr": "sum by(path) (increase(portchecker_requests_total{path!~\"/metrics|/docs/openapi.json\"}[$__interval]))",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "interval": "",
-          "legendFormat": "HTTP Status: {{status_code}}",
+          "legendFormat": "{{path}}",
           "range": true,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "Requests Per Status Code",
+      "title": "Requests Per Endpoint",
       "type": "stat"
     },
     {
@@ -254,8 +243,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 15,
-        "x": 9,
+        "w": 14,
+        "x": 10,
         "y": 0
       },
       "id": 23,
@@ -291,16 +280,16 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "disableTextWrap": false,
-          "editorMode": "code",
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "portchecker_request_duration_seconds_sum{status_code=\"200\"}/portchecker_request_duration_seconds_count{status_code=\"200\"}\n",
+          "expr": "portchecker_request_duration_seconds_sum{status_code!=\"500\", path!~\"/docs/openapi.json\"} / portchecker_request_duration_seconds_count{status_code!=\"500\", path!~\"/docs/openapi.json\"}",
           "format": "time_series",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
           "instant": false,
           "interval": "0",
-          "legendFormat": "{{path}}",
+          "legendFormat": "{{method}} {{path}} ({{status_code}})",
           "range": true,
           "refId": "B",
           "useBackend": false
@@ -721,9 +710,9 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "rate(portchecker_request_duration_seconds_count{}[1m])",
+          "expr": "rate(portchecker_request_duration_seconds_count{}[$__rate_interval])",
           "interval": "",
-          "legendFormat": "{{method}} {{path}}",
+          "legendFormat": "{{method}} {{path}} ({{status_code}})",
           "range": true,
           "refId": "A"
         }
@@ -827,7 +816,7 @@
           "expr": "portchecker_request_duration_seconds_sum{} / portchecker_request_duration_seconds_count{}",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{method}} {{path}}",
+          "legendFormat": "{{method}} {{path}} ({{status_code}})",
           "range": true,
           "refId": "A"
         }
@@ -840,113 +829,6 @@
         }
       ],
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "description": "Resets to 0 when app rolls out/restarts",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "noValue": "0",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 37
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [
-            "last"
-          ],
-          "displayMode": "list",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "exemplar": true,
-          "expr": "sum by(path) (portchecker_request_duration_seconds_count)",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "interval": "",
-          "legendFormat": "{{method}} {{path}}",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "Requests Count",
-      "type": "timeseries"
     }
   ],
   "refresh": "5m",
@@ -956,13 +838,13 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-12h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "portchecker.io",
   "uid": "portcheckerio-monitoring",
-  "version": 10,
+  "version": 12,
   "weekStart": ""
 }
