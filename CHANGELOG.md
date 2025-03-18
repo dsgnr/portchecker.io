@@ -2,12 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## [3.2.2] - 2025-03-18
 
 - Allows hyphenated subdomains in the UI.
 - Add some more YouTube mentions in the README.
 - Various package updates
 - Adds `/metrics` endpoint for Prometheus monitoring.
+- Adds example Grafana dashboard.
 
 ## [3.2.1] - 2025-02-12
 
