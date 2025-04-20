@@ -15,7 +15,7 @@ readme = "../README.md"
 python = "^3.12"
 litestar = {extras = ["prometheus"], version = "^2.15.1"}
 gunicorn = "23.0.0"
-pydantic = "^2.10.6"
+pydantic = "^2.11.3"
 uvicorn = {extras = ["standard"], version = "^0.34.0"}
 tomli = "^2.2.1"
 
