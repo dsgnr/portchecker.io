@@ -372,14 +372,14 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "litestar"
-version = "2.15.1"
+version = "2.15.2"
 description = "Litestar - A production-ready, highly performant, extensible ASGI API Framework"
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
 files = [
-    {file = "litestar-2.15.1-py3-none-any.whl", hash = "sha256:3791437e31691eadf8079f70180f3186c1db245e093ad3ff21f5cdbfc7e9df3e"},
-    {file = "litestar-2.15.1.tar.gz", hash = "sha256:9458ba9c3397c0bc566e649baa5c461145f0c24f4c54451a64ad8adce57cf9de"},
+    {file = "litestar-2.15.2-py3-none-any.whl", hash = "sha256:41e7670d67bac70b466008a74eeb2aa63f4f71c09ffade4f603fc00d2bbc771f"},
+    {file = "litestar-2.15.2.tar.gz", hash = "sha256:de3320e7e412bf09f420b1703cbf04295f1a5377230dad0484d7da8c7ddf5a37"},
 ]
 
 [package.dependencies]
@@ -1436,4 +1436,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "bdd56e322475e66ebfdbd58ddf464c57ea9d57c89e6d1de1389683b930a67238"
+content-hash = "5ee13d96096d3318b9cbec201604a9238dae089c797fd5ff751a3d72a5526186"
