@@ -18,8 +18,8 @@
         "email": "email@danielhand.io"
     },
     "scripts": {
-        "dev": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} API_URL=${API_URL:-http://api:8000} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
-        "build": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build",
+        "dev": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} API_URL=${API_URL:-http://api:8000} DEFAULT_HOST=${DEFAULT_HOST} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=development webpack serve --history-api-fallback",
+        "build": "GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS} DEFAULT_HOST=${DEFAULT_HOST} DEFAULT_PORT=${DEFAULT_PORT} NODE_ENV=production webpack build",
         "lint": "npx eslint src",
         "lint:fix": "npm run lint -- --fix",
         "prettier": "npx prettier src --check",

@@ -4,6 +4,7 @@ services:
     image: ghcr.io/dsgnr/portcheckerio-web:latest
     container_name: web
     environment:
+      - DEFAULT_HOST=  # Optional, Populates a default host address value to be populataed in the in the UI input. Defaults to external/WAN IP.
       - DEFAULT_PORT=443  # Optional, Populates a default port value to be populataed in the in the UI input
       - API_URL=  # Optional, the URL of the API service. The scheme and port is required. Defaults to http://api:8000 if not set.
       - GOOGLE_ANALYTICS=  # Optional, set for Google Analytics integration

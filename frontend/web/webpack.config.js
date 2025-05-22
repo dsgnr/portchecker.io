@@ -23,6 +23,7 @@ module.exports = {
             minify: {
                 collapseWhitespace: true,
             },
+            DEFAULT_HOST: process.env.DEFAULT_HOST,
             DEFAULT_PORT: process.env.DEFAULT_PORT,
             GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
         }),
