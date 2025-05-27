@@ -5,7 +5,10 @@
 
 window.onload = () => {
     initializeState();
-    loadUserIp();
+
+    if (!document.getElementById("host").value) {
+        loadUserIp();
+    }
 
     const form = document.getElementById("form");
     form.addEventListener("submit", (event) => {
