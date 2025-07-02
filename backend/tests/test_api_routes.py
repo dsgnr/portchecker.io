@@ -10,6 +10,7 @@ def test_route_health_check(client):
     assert response.status_code == HTTP_200_OK
     assert response.text == "true"
 
+
 def test_my_ip_endpoint(client, mocker):
     """Test my_ip endpoint returns correct requester IP."""
     mock_get_requester = mocker.patch(
@@ -89,8 +90,12 @@ def test_query_post_endpoint_invalid_port_v1(client):
     assert ret["extra"][0]["message"] == "Input should be less than or equal to 65535"
 
 
-def test_query_post_endpoint_invalid_hostname_v1(client):
+def test_query_post_endpoint_invalid_hostname_v1(client, mocker):
     """Test v1 query endpoint raises error with invalid hostname."""
+    mocker.patch(
+        "socket.gethostbyname",
+        side_effect=OSError("Hostname does not appear to resolve"),
+    )
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host
     path = "/api/v1/query"
     response = client.post(path, json=request_data)
@@ -134,8 +139,12 @@ def test_query_post_endpoint_invalid_port_v2(client):
     assert ret["extra"][0]["message"] == "Input should be less than or equal to 65535"
 
 
-def test_query_post_endpoint_invalid_hostname_v2(client):
+def test_query_post_endpoint_invalid_hostname_v2(client, mocker):
     """Test v2 query endpoint raises error with invalid hostname."""
+    mocker.patch(
+        "socket.gethostbyname",
+        side_effect=OSError("Hostname does not appear to resolve"),
+    )
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host
     path = "/api/query"
     response = client.post(path, json=request_data)

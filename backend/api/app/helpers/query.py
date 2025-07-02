@@ -120,6 +120,10 @@ def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
         list[dict[str, int | bool]]:
             A list of dictionaries containing the ports checked and their statuses.
     """
+    # Explicit type check for ports
+    for port in ports:
+        if not isinstance(port, int):
+            raise TypeError(f"Port '{port}' is not an integer.")
     results = []
     with ThreadPoolExecutor() as executor:
         futures = {
