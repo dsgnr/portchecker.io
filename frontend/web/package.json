@@ -34,7 +34,7 @@
         "globals": "^16.0.0",
         "html-webpack-plugin": "^5.6.0",
         "mini-css-extract-plugin": "^2.9.0",
-        "prettier": "^3.5.3",
+        "prettier": "^3.6.2",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "webpack": "^5.99.7",
         "webpack-cli": "^6.0.1",
