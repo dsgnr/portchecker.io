@@ -16,7 +16,7 @@ python = "^3.12"
 litestar = {extras = ["prometheus"], version = "^2.16.0"}
 httpcore = "^1.0.9"
 gunicorn = "23.0.0"
-pydantic = "^2.11.5"
+pydantic = "^2.11.7"
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
 tomli = "^2.2.1"
 
