@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.1] - 2025-08-03
+
+- Fix issue where localhost would resolve to ipv6 for healthcheck [#362](https://github.com/dsgnr/portchecker.io/pull/362).
+- Improve test coverage [#354](https://github.com/dsgnr/portchecker.io/pull/354).
+- Various package updates.
+
 ## [3.3.0] - 2025-05-27
 
 - Allow default host to be defined instead of using WAN address [#338](https://github.com/dsgnr/portchecker.io/pull/338).
