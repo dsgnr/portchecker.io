@@ -32,7 +32,7 @@
         "css-minimizer-webpack-plugin": "^7.0.2",
         "eslint": "^9.34.0",
         "globals": "^16.3.0",
-        "html-webpack-plugin": "^5.6.0",
+        "html-webpack-plugin": "^5.6.4",
         "mini-css-extract-plugin": "^2.9.0",
         "prettier": "^3.6.2",
         "uglifyjs-webpack-plugin": "^2.2.0",
