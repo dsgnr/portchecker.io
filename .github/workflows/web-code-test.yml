@@ -6,51 +6,57 @@ on:
       - frontend/**
 
 env:
-  NODE_VERSION: "23.1.0"
+  NODE_VERSION: "25"
   PKG_DIR: "frontend/web"
 
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.PKG_DIR }}
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: ${{ env.PKG_DIR }}/yarn.lock
 
-      - name: Run install
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install --frozen-lockfile --production=false
-          dir: ${{ env.PKG_DIR }}
+      - name: Enable Corepack
+        run: corepack enable
 
-      - name: Run prettier
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: prettier
-          dir: ${{ env.PKG_DIR }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Prettier (check only)
+        run: yarn prettier
+
   eslint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.PKG_DIR }}
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: ${{ env.PKG_DIR }}/yarn.lock
 
-      - name: Run install
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: install --frozen-lockfile --production=false
-          dir: ${{ env.PKG_DIR }}
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Run ESLint
-        uses: borales/actions-yarn@v5
-        with:
-          cmd: lint
-          dir: ${{ env.PKG_DIR }}
+        run: yarn lint --max-warnings=0
+
