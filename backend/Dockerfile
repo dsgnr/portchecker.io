@@ -1,21 +1,28 @@
-FROM python:3.12.7-alpine3.20 AS base
-ENV POETRY_EXPORT_VERSION=1.8.0 \
-  PYTHONUNBUFFERED=1 \
-  PYTHONDONTWRITEBYTECODE=1 \
-  REQ_FILE=/tmp/requirements.txt
-RUN pip --disable-pip-version-check --no-cache-dir install poetry-plugin-export==$POETRY_EXPORT_VERSION
-COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry export --only main -o $REQ_FILE --without-hashes
+FROM python:3.12.7-alpine AS builder
 
-FROM python:3.12.7-alpine3.20 AS api
 ENV PYTHONUNBUFFERED=1 \
-  PYTHONDONTWRITEBYTECODE=1 \
-  REQ_FILE=/tmp/requirements.txt
-COPY --from=base $REQ_FILE $REQ_FILE
-RUN pip --disable-pip-version-check --no-cache-dir install -r $REQ_FILE
-COPY ./pyproject.toml ./
-COPY entrypoint.sh /entrypoint.sh
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VER=2.2.1
+
+RUN pip install --no-cache-dir poetry==$POETRY_VER
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry install --only=main --no-root --no-cache
+
+FROM python:3.12.7-alpine
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PATH="/.venv/bin:$PATH"
+
+COPY --from=builder /.venv /.venv
+
+COPY pyproject.toml entrypoint.sh ./
 COPY api /src
 WORKDIR /src
+
 EXPOSE 8000
 CMD ["sh", "/entrypoint.sh"]
