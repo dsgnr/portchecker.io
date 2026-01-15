@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.0] - 2026-14-01
+- Various package updates. 
+- Upgrade Node to v25 [#401](https://github.com/dsgnr/portchecker.io/pull/401).
+- Various README improvements [#402](https://github.com/dsgnr/portchecker.io/pull/402).
+- GitHub Actions workflow fixes [#401](https://github.com/dsgnr/portchecker.io/pull/401).
+
 ## [3.3.1] - 2025-08-03
 
 - Fix issue where localhost would resolve to ipv6 for healthcheck [#362](https://github.com/dsgnr/portchecker.io/pull/362).
