@@ -12,12 +12,12 @@ license = "GNU General Public License v3.0"
 readme = "../README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.13"
 litestar = {extras = ["prometheus"], version = "^2.19.0"}
 httpcore = "^1.0.9"
 gunicorn = "23.0.0"
 pydantic = "^2.12.5"
-uvicorn = {extras = ["standard"], version = "^0.40.0"}
+uvicorn = "^0.40.0"
 tomli = "^2.3.0"
 
 [tool.poetry.group.dev.dependencies]
