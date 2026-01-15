@@ -1,7 +1,7 @@
 [tool.poetry]
 package-mode = false
 name = "portchecker.io"
-version = "3.3.1"
+version = "3.4.0"
 description = """portchecker.io is an open-source API for checking port \
     availability on specified hostnames or IP addresses. \
     Ideal for developers and network admins, it helps troubleshoot network \
