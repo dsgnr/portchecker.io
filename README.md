@@ -47,7 +47,7 @@ portchecker.io front-end be running at [http://0.0.0.0:8080](http://0.0.0.0:8080
 #### API
 
 > [!NOTE]
-> Uses Python 3.12. The Python environment uses [Poetry](https://pypi.org/project/poetry/) for package management. This must be installed.
+> Uses Python 3.13. The Python environment uses [Poetry](https://pypi.org/project/poetry/) for package management. This must be installed.
 
 ```
 $ cd backend/api
