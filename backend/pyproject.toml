@@ -18,7 +18,7 @@ httpcore = "^1.0.9"
 gunicorn = "23.0.0"
 pydantic = "^2.12.5"
 uvicorn = "^0.40.0"
-tomli = "^2.3.0"
+tomli = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^4.0.4"
