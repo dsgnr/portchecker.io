@@ -89,7 +89,6 @@ The following configuration options are available. These would be set within the
 | API_URL          | No        | http://api:8000 | The URL of the API service if changed from the default. The scheme and port is required. |
 | DEFAULT_HOST     | No        |                 | Allows a default host address value to be prefille in the in the UI. Defaults to external/WAN IP if not set                                   |
 | DEFAULT_PORT     | No        | 443             | Allows a default port number to be prefilled in the UI                                   |
-| GOOGLE_ANALYTICS | No        |                 | Allows for a Google Analytics tracking code to be provided                               |
 
 ### API
 
