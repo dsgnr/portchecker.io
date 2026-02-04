@@ -8,12 +8,9 @@
         <link rel="icon" type="image/svg+xml" href="./portcheckerio-logo.svg" />
         <link rel="shortcut icon" href="./favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="./portcheckerio-logo.png" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&amp;display=swap" rel="stylesheet" />
         <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
-            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-            crossorigin="anonymous"
         />
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <link href="css/index.min.css" rel="stylesheet" />
@@ -21,133 +18,154 @@
     </head>
 
     <body>
-        <div class="col-lg-10 mx-auto p-3 py-md-5">
-            <header class="d-flex pb-3 mb-5 col-lg-10 mx-auto">
-                <div class="me-auto p-2">
-                    <a href="/" class="text-light">
-                        <span class="fs-4 fw-bold">portchecker.io</span>
+        <div class="app-container">
+            <header class="header">
+                <a href="/" class="logo">
+                    <span class="logo-text">portchecker.io</span>
+                </a>
+                <nav class="nav">
+                    <a href="/docs" class="nav-link">API Docs</a>
+                    <a
+                        href="https://github.com/dsgnr/portchecker.io"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="nav-link github-link"
+                        aria-label="GitHub"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                            ></path>
+                        </svg>
                     </a>
-                </div>
-                <div class="p-2">
-                    <a href="/docs" class="text-light lh-lg">
-                        <span>API Docs</span>
-                    </a>
-                </div>
+                </nav>
             </header>
-            <main>
-                <div class="container">
-                    <p class="fs-10 pt-5 fw-bold text-center">
-                        portchecker.io is a free utility to check the port status of a given hostname or IP address.
-                    </p>
 
-                    <form id="form" class="g-3 mt-5 justify-content-md-center needs-validation" novalidate>
-                        <div class="col-sm-10 mx-auto">
-                            <div class="row justify-content-center">
-                                <div class="col-sm-6 mb-4">
-                                    <input
-                                        type="text"
-                                        class="form-control py-2"
-                                        id="host"
-                                        placeholder="Host"
-                                        value="<%= htmlWebpackPlugin.options.DEFAULT_HOST %>"
-                                        pattern="^([\w-]+(\.[\w-]+)+)$"
-                                        required
-                                    />
-                                    <div class="invalid-feedback">
-                                        A valid hostname (without a scheme) or IP must be provided
-                                    </div>
-                                </div>
-                                <div class="col-sm-2 mb-4">
-                                    <input
-                                        type="text"
-                                        class="form-control py-2"
-                                        id="port"
-                                        placeholder="Port"
-                                        pattern="^(?!0)\d{1,4}$|^[1-5]\d{4}$|^6[0-4]\d{3}$|^65[0-4]\d{2}$|^655[0-2]\d$|^6553[0-5]$"
-                                        value="<%= htmlWebpackPlugin.options.DEFAULT_PORT %>"
-                                        required
-                                    />
-                                    <div class="invalid-feedback">Provide a port between 1 and 65535</div>
-                                </div>
-                                <div class="col-sm-auto mb-4">
-                                    <button id="submit" type="submit" class="w-100 btn btn-success border-0 mb-3 py-2">
-                                        Check
-                                    </button>
+            <main class="main">
+                <section class="hero">
+                    <h1 class="hero-title">Check Port Status</h1>
+                    <p class="hero-subtitle">Free utility to check if ports are open on any hostname or IP address</p>
+                </section>
+
+                <section class="checker-card">
+                    <form id="form" class="checker-form" novalidate>
+                        <div class="form-group">
+                            <label for="host" class="form-label">Host</label>
+                            <input
+                                type="text"
+                                class="form-input"
+                                id="host"
+                                placeholder="example.com or IP address"
+                                value="<%= htmlWebpackPlugin.options.DEFAULT_HOST %>"
+                                autocomplete="off"
+                                required
+                            />
+                            <span class="form-hint">Enter a hostname or IPv4 address</span>
+                            <span class="form-error">Please enter a valid hostname or IP address</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ports" class="form-label">Ports</label>
+                            <div class="ports-input-wrapper">
+                                <input
+                                    type="text"
+                                    class="form-input"
+                                    id="ports"
+                                    placeholder="80, 443, 22"
+                                    value="<%= htmlWebpackPlugin.options.DEFAULT_PORT %>"
+                                    autocomplete="off"
+                                    required
+                                />
+                                <div class="quick-ports">
+                                    <button type="button" class="quick-port-btn" data-port="80">HTTP</button>
+                                    <button type="button" class="quick-port-btn" data-port="443">HTTPS</button>
+                                    <button type="button" class="quick-port-btn" data-port="22">SSH</button>
+                                    <button type="button" class="quick-port-btn" data-port="21">FTP</button>
+                                    <button type="button" class="quick-port-btn" data-port="3306">MySQL</button>
+                                    <button type="button" class="quick-port-btn" data-port="5432">PostgreSQL</button>
                                 </div>
                             </div>
-                            <div
-                                id="results"
-                                class="col-sm-8 mx-auto d-none bg-transparent text-light alert alert-info"
-                                role="alert"
-                            ></div>
-                        </div>
-                    </form>
-                </div>
-            </main>
-            <footer id="footer" class="col-lg-10">
-                <div class="container">
-                    <div class="row g-3 mt-5 justify-content-sm-between justify-content-center">
-                        <div class="col-auto">
-                            <script type="text/javascript">
-                                document.write(new Date().getFullYear());
-                            </script>
-                            &nbsp;&copy;
-                            <a href="https://danielhand.io" target="_blank" class="text-light">Dan Hand (@dsgnr)</a>
+                            <span class="form-hint">Separate multiple ports with commas (1-65535)</span>
+                            <span class="form-error">Please enter valid port numbers</span>
                         </div>
 
-                        <div class="col-auto">
-                            <a
-                                href="https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
-                            >
-                                <img
-                                    height="36"
-                                    src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg"
-                                    alt="DigitalOcean Referral Badge"
-                                />
-                            </a>
-                            <a href="https://ko-fi.com/dsgnr" target="_blank">
-                                <img
-                                    height="36"
-                                    src="https://storage.ko-fi.com/cdn/kofi3.png"
-                                    alt="Buy Me a Coffee at ko-fi.com"
-                                />
-                            </a>
-                            <a href="https://github.com/dsgnr/portchecker.io" rel="noopener noreferrer" target="_blank">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-github"
-                                >
-                                    <path
-                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-                                    ></path>
+                        <button id="submit" type="submit" class="submit-btn">
+                            <span class="submit-text">Check Ports</span>
+                            <span class="submit-loading">
+                                <svg class="spinner" viewBox="0 0 24 24">
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="3"
+                                        fill="none"
+                                        stroke-dasharray="31.4 31.4"
+                                        stroke-linecap="round"
+                                    />
                                 </svg>
-                            </a>
+                                Checking...
+                            </span>
+                        </button>
+                    </form>
+
+                    <div id="results" class="results hidden">
+                        <div class="results-header">
+                            <h3 class="results-title">Results</h3>
+                            <span id="results-host" class="results-host"></span>
                         </div>
+                        <div id="results-list" class="results-list"></div>
+                    </div>
+
+                    <div id="error" class="error-message hidden">
+                        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span id="error-text"></span>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <p class="copyright">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        © <a href="https://danielhand.io" target="_blank">Dan Hand (@dsgnr)</a>
+                    </p>
+                    <div class="footer-links">
+                        <a
+                            href="https://www.digitalocean.com/?refcode=b54817e033c8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                height="28"
+                                src="https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg"
+                                alt="DigitalOcean Referral Badge"
+                            />
+                        </a>
+                        <a href="https://ko-fi.com/dsgnr" target="_blank" rel="noopener noreferrer">
+                            <img
+                                height="28"
+                                src="https://storage.ko-fi.com/cdn/kofi3.png"
+                                alt="Buy Me a Coffee at ko-fi.com"
+                            />
+                        </a>
                     </div>
                 </div>
             </footer>
         </div>
-        <% if (htmlWebpackPlugin.options.GOOGLE_ANALYTICS){ %>
-        <!-- Google tag (gtag.js) -->
-        <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.GOOGLE_ANALYTICS %>"
-        ></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag("js", new Date());
-
-            gtag("config", "<%= htmlWebpackPlugin.options.GOOGLE_ANALYTICS %>");
-        </script>
-        <% } %>
     </body>
 </html>
