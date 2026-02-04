@@ -24,7 +24,9 @@
     --transition: 150ms ease;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -37,7 +39,13 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -167,7 +175,9 @@ a {
     font-size: 1rem;
     color: var(--text-primary);
     font-family: inherit;
-    transition: border-color var(--transition), box-shadow var(--transition);
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
 }
 
 .form-input::placeholder {
@@ -255,7 +265,9 @@ a {
     font-weight: 600;
     color: #000;
     cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
+    transition:
+        background var(--transition),
+        transform var(--transition);
     font-family: inherit;
     margin-top: 0.5rem;
 }
@@ -295,8 +307,12 @@ a {
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Results */
@@ -325,7 +341,7 @@ a {
 .results-host {
     font-size: 0.875rem;
     color: var(--text-secondary);
-    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-family: "SF Mono", "Fira Code", monospace;
 }
 
 .results-list {
@@ -346,7 +362,7 @@ a {
 
 .result-port {
     font-weight: 500;
-    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-family: "SF Mono", "Fira Code", monospace;
 }
 
 .result-status {

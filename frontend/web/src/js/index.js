@@ -105,7 +105,10 @@ function validatePortsInput() {
         return false;
     }
 
-    const ports = value.split(",").map((p) => p.trim()).filter(Boolean);
+    const ports = value
+        .split(",")
+        .map((p) => p.trim())
+        .filter(Boolean);
     const isValid = ports.every((p) => {
         const num = parseInt(p, 10);
         return !isNaN(num) && num >= 1 && num <= 65535;
@@ -177,8 +180,6 @@ function queryHost() {
 
 function updateView(prop, value) {
     const submitBtn = document.getElementById("submit");
-    const resultsDiv = document.getElementById("results");
-    const errorDiv = document.getElementById("error");
 
     switch (prop) {
         case "loading":
