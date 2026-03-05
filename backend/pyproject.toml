@@ -22,7 +22,7 @@ tomli = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^4.0.5"
-isort = "^7.0.0"
+isort = "^8.0.1"
 pytest = "^9.0.2"
 pytest-mock = "^3.15.1"
 pytest-cov = "^7.0.0"
