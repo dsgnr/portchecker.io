@@ -28,7 +28,7 @@
         "test:watch": "jest --watch"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.2",
+        "@eslint/js": "^10.0.1",
         "copy-webpack-plugin": "^13.0.1",
         "css-loader": "^7.1.2",
         "css-minimizer-webpack-plugin": "^7.0.2",
