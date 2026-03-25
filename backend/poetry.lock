@@ -613,14 +613,14 @@ files = [
 
 [[package]]
 name = "multipart"
-version = "1.2.1"
+version = "1.2.2"
 description = "Parser for multipart/form-data"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "multipart-1.2.1-py3-none-any.whl", hash = "sha256:c03dc203bc2e67f6b46a599467ae0d87cf71d7530504b2c1ff4a9ea21d8b8c8c"},
-    {file = "multipart-1.2.1.tar.gz", hash = "sha256:829b909b67bc1ad1c6d4488fcdc6391c2847842b08323addf5200db88dbe9480"},
+    {file = "multipart-1.2.2-py3-none-any.whl", hash = "sha256:8379020c484e94e511b4d948432441362dbcf3d71cdb48f59856f2417a3eae09"},
+    {file = "multipart-1.2.2.tar.gz", hash = "sha256:4b5596e533f4b859c6efb208897b9a4198776a2ef6951b28cea64eca1a9345af"},
 ]
 
 [package.extras]
