@@ -347,14 +347,14 @@ colors = ["colorama"]
 
 [[package]]
 name = "litestar"
-version = "2.20.0"
+version = "2.21.1"
 description = "Litestar - A production-ready, highly performant, extensible ASGI API Framework"
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
 files = [
-    {file = "litestar-2.20.0-py3-none-any.whl", hash = "sha256:2ff3dd17e42ab1c500ede8220bf5280f57e64530a74c57d4216ca140e689e9ca"},
-    {file = "litestar-2.20.0.tar.gz", hash = "sha256:0f07f22b9a554b4b1af7bc5822e91daebfbc41ed28267a8e479d2731206d2d7f"},
+    {file = "litestar-2.21.1-py3-none-any.whl", hash = "sha256:6321340195801454aeac4a12e72c28f54714a4c3e8172c33e577c593cc5982c6"},
+    {file = "litestar-2.21.1.tar.gz", hash = "sha256:28301438de7c5e77bb68a5d8684dff415b9f252b0dd8413b356e8e6794c6863a"},
 ]
 
 [package.dependencies]
@@ -1213,4 +1213,4 @@ standard = ["colorama (>=0.4) ; sys_platform == \"win32\"", "httptools (>=0.6.3)
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "b6cccd8f7794dd0f7306d1cb481d66cf07bbad66ed6a1c0ee5aacdc7188dec78"
+content-hash = "4bc8832ddb82f5666cd6b763c75c09d1ebee1934b1536683e1f610a05d4d9c11"

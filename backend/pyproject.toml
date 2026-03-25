@@ -13,7 +13,7 @@ readme = "../README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-litestar = {extras = ["prometheus"], version = "^2.20.0"}
+litestar = {extras = ["prometheus"], version = "^2.21.1"}
 httpcore = "^1.0.9"
 gunicorn = "25.1.0"
 pydantic = "^2.12.5"
