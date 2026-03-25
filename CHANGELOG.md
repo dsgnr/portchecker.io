@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.1] - 2026-25-03
+- Refactor backend Dockerfiles to improve container size [#404](https://github.com/dsgnr/portchecker.io/pull/404)
+- Refreshed the UI and removes unused Google Analytics var [#414](https://github.com/dsgnr/portchecker.io/pull/414)
+- Add frontend Jest testing by @dsgnr [#406](https://github.com/dsgnr/portchecker.io/pull/406)
+- Various package updates
+
+
 ## [3.4.0] - 2026-14-01
 - Various package updates. 
 - Upgrade Node to v25 [#401](https://github.com/dsgnr/portchecker.io/pull/401).
