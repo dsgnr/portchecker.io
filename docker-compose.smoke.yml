@@ -6,7 +6,6 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
-      target: web
     container_name: web
     environment:
       - DEFAULT_HOST=
@@ -31,7 +30,6 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
-      target: api
     container_name: api
     environment:
       # Allow the test sidecar's private IP so the port-check path is
