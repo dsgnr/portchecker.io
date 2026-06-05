@@ -6,12 +6,22 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "[web] "
+    # Only raise version-update PRs for major and minor bumps.
+    # Security updates are unaffected by this ignore and will still be raised.
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-patch"
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
       interval: "monthly"
     commit-message:
       prefix: "[api] "
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-patch"
   - package-ecosystem: "docker"
     directories:
       - "/frontend"
@@ -20,3 +30,7 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "[docker] "
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-patch"

@@ -146,3 +146,9 @@ k8s.yml
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Playwright
+frontend/web/test-results/
+frontend/web/playwright-report/
+frontend/web/blob-report/
+frontend/web/.playwright-cache/

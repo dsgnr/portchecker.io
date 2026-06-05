@@ -1,0 +1,64 @@
+---
+# Used by scripts/smoke.sh and CI workflows. 
+services:
+  web:
+    image: portcheckerio-web:smoke
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: web
+    container_name: web
+    environment:
+      - DEFAULT_HOST=
+      - DEFAULT_PORT=443
+      - API_URL=http://api:8000
+    ports:
+      - 8080:80
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - portchecker
+
+  api:
+    image: portcheckerio-api:smoke
+    build:
+      context: backend
+      dockerfile: Dockerfile
+      target: api
+    container_name: api
+    environment:
+      # Allow the test sidecar's private IP so the port-check path is
+      # exercised without depending on egress to the public internet.
+      - ALLOW_PRIVATE=true
+    ports:
+      - 8000:8000
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1:8000/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+    networks:
+      - portchecker
+
+  # Local listener used by the smoke test to verify the port-check API
+  # against a known-open TCP port without requiring internet.
+  port-target:
+    image: alpine:3.20
+    container_name: port-target
+    command: ["sh", "-c", "nc -lk -p 9999 -e /bin/cat"]
+    networks:
+      portchecker:
+        aliases:
+          - port-target
+
+networks:
+  portchecker:
+    driver: bridge
