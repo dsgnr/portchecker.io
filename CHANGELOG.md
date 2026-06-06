@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.1.0] - 2026-06-06
+- Upgrade Node to v26 [#450](https://github.com/dsgnr/portchecker.io/pull/450)
+- Migrate from Yarn to npm [#460](https://github.com/dsgnr/portchecker.io/pull/460)
+- Replace `uglifyjs-webpack-plugin` with `terser-webpack-plugin` [#460](https://github.com/dsgnr/portchecker.io/pull/460)
+- Add Playwright browser tests [#451](https://github.com/dsgnr/portchecker.io/pull/451)
+- Add smoke testing with docker compose [#451](https://github.com/dsgnr/portchecker.io/pull/451)
+- Add dependabot auto-merge and dependency review workflows [#451](https://github.com/dsgnr/portchecker.io/pull/451)
+- Pin CI actions to commit SHAs [#451](https://github.com/dsgnr/portchecker.io/pull/451)
+- Fix smoke compose target [#459](https://github.com/dsgnr/portchecker.io/pull/459)
+- Various package updates
+
 ## [4.0.1] - 2026-25-03
 - Refactor backend Dockerfiles to improve container size [#404](https://github.com/dsgnr/portchecker.io/pull/404)
 - Refreshed the UI and removes unused Google Analytics var [#414](https://github.com/dsgnr/portchecker.io/pull/414)
