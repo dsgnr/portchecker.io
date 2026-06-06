@@ -32,14 +32,14 @@ API routes and specification can be found at [portchecker.io/docs](https://portc
 #### Web
 
 > [!NOTE]
-> Uses [Node](https://nodejs.org/) version 25 and newer. Requires [Yarn](https://classic.yarnpkg.com/en/)
+> Uses [Node](https://nodejs.org/) version 25 and newer.
 
 Bringing up the UI outside of Docker;
 
 ```
 $ cd frontend/web
-$ yarn install
-$ yarn dev
+$ npm install
+$ npm run dev
 ```
 
 portchecker.io front-end be running at [http://0.0.0.0:8080](http://0.0.0.0:8080).
@@ -98,9 +98,9 @@ To run the browser tests locally:
 ```
 $ docker compose -f docker-compose.smoke.yml up -d --build --wait
 $ cd frontend/web
-$ yarn install
-$ yarn browser-tests:setup   # first time only
-$ yarn browser-tests
+$ npm install
+$ npx playwright install --with-deps chromium   # first time only
+$ npm run browser-tests
 ```
 
 Dependabot patch, minor, and security updates auto-merge once required checks pass. Major versions are flagged for human review.

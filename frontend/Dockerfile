@@ -6,7 +6,7 @@ ENV DEFAULT_PORT=$DEFAULT_PORT
 
 COPY web /app
 WORKDIR /app
-RUN yarn install && yarn build
+RUN npm ci && npm run build
 
 # production environment
 FROM nginx:stable-alpine-slim AS web
