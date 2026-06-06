@@ -8,9 +8,9 @@ ENV API_URL=$API_URL
 ENV DEFAULT_HOST=$DEFAULT_HOST
 ENV DEFAULT_PORT=$DEFAULT_PORT
 
-COPY web/package.json web/yarn.lock ./
-RUN yarn install
+COPY web/package.json web/package-lock.json ./
+RUN npm ci
 COPY ./web ./web
 WORKDIR /web
 EXPOSE 8080
-CMD ["yarn", "dev"]
+CMD ["npm", "run", "dev"]

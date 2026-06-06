@@ -98,29 +98,26 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v6.0.0
         with:
           node-version: "25"
-          cache: yarn
-          cache-dependency-path: ${{ env.PKG_DIR }}/yarn.lock
-
-      - name: Enable Corepack
-        run: corepack enable
+          cache: npm
+          cache-dependency-path: ${{ env.PKG_DIR }}/package-lock.json
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4.2.2
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('frontend/web/yarn.lock') }}
+          key: playwright-${{ runner.os }}-${{ hashFiles('frontend/web/package-lock.json') }}
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn browser-tests:setup
+        run: npm run browser-tests:setup
 
       - name: Install Playwright system deps
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn playwright install-deps chromium
+        run: npx playwright install-deps chromium
 
       - name: Bring up smoke stack
         working-directory: .
@@ -128,7 +125,7 @@ jobs:
           docker compose -f docker-compose.smoke.yml up -d --build --wait --wait-timeout 120
 
       - name: Run browser tests
-        run: yarn browser-tests
+        run: npm run browser-tests
 
       - name: Upload Playwright report
         if: failure()

@@ -8,7 +8,7 @@ const { defineConfig, devices } = require("@playwright/test");
  *
  * For local runs:
  *   docker compose -f docker-compose.smoke.yml up -d --build
- *   yarn --cwd frontend/web browser-tests
+ *   npm run --prefix frontend/web browser-tests
  */
 module.exports = defineConfig({
     testDir: "./browser-tests",

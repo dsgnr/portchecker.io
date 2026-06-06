@@ -43,7 +43,7 @@
         "jest-environment-jsdom": "^30.4.1",
         "mini-css-extract-plugin": "^2.10.0",
         "prettier": "^3.8.1",
-        "uglifyjs-webpack-plugin": "^2.2.0",
+        "terser-webpack-plugin": "^5.3.14",
         "webpack": "^5.107.2",
         "webpack-cli": "^7.0.2",
         "webpack-dev-server": "^5.2.4"
