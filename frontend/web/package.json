@@ -10,7 +10,7 @@
     "author": "dsgnr <email@danielhand.io>",
     "license": "MIT",
     "engines": {
-        "node": ">=23",
+        "node": ">=26",
         "npm": ">=10"
     },
     "bugs": {

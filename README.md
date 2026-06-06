@@ -32,7 +32,7 @@ API routes and specification can be found at [portchecker.io/docs](https://portc
 #### Web
 
 > [!NOTE]
-> Uses [Node](https://nodejs.org/) version 25 and newer.
+> Uses [Node](https://nodejs.org/) version 26 and newer.
 
 Bringing up the UI outside of Docker;
 

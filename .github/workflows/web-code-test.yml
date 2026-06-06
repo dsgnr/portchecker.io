@@ -7,7 +7,7 @@ on:
       - .github/workflows/web-code-test.yml
 
 env:
-  NODE_VERSION: "25"
+  NODE_VERSION: "26"
   PKG_DIR: "frontend/web"
 
 permissions:
