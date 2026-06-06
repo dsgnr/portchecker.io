@@ -1,4 +1,4 @@
-FROM node:25-alpine3.22
+FROM node:26-alpine3.22
 ENV PATH=$PATH:$PWD/node_modules/.bin
 
 # ALlows the user to define a default port to populate the UI.
