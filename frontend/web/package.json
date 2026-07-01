@@ -42,7 +42,7 @@
         "jest": "^30.4.2",
         "jest-environment-jsdom": "^30.4.1",
         "mini-css-extract-plugin": "^2.10.0",
-        "prettier": "^3.8.1",
+        "prettier": "^3.9.4",
         "terser-webpack-plugin": "^5.3.14",
         "webpack": "^5.108.3",
         "webpack-cli": "^7.1.0",
