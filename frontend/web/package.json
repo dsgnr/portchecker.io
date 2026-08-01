@@ -44,7 +44,7 @@
         "mini-css-extract-plugin": "^2.10.0",
         "prettier": "^3.9.4",
         "terser-webpack-plugin": "^5.3.14",
-        "webpack": "^5.108.3",
+        "webpack": "^5.109.2",
         "webpack-cli": "^7.2.2",
         "webpack-dev-server": "^6.0.0"
     }
