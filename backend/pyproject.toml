@@ -17,7 +17,7 @@ litestar = {extras = ["prometheus"], version = "^2.21.1"}
 httpcore = "^1.0.9"
 gunicorn = "26.0.0"
 pydantic = "^2.12.5"
-uvicorn = ">=0.42,<0.50"
+uvicorn = ">=0.42,<0.53"
 tomli = "^2.4.0"
 
 [tool.poetry.group.dev.dependencies]
