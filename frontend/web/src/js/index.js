@@ -134,7 +134,7 @@ function addPort(port) {
 }
 
 function loadUserIp() {
-    axios
+    return axios
         .get("https://1.1.1.1/cdn-cgi/trace")
         .then((response) => {
             const output = response.data
@@ -164,7 +164,7 @@ function queryHost() {
     state.loading = true;
     state.error = null;
 
-    axios
+    return axios
         .post("/api/query", { host: host, ports: ports })
         .then((response) => {
             state.results = response.data;
@@ -246,4 +246,20 @@ function showError(message) {
 
 function hideError() {
     document.getElementById("error").classList.add("hidden");
+}
+
+// Expose internals for unit testing. This block is a no-op in the browser,
+// where nothing consumes the module export.
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+        state,
+        initializeState,
+        handleSubmit,
+        validateHostInput,
+        validatePortsInput,
+        addPort,
+        loadUserIp,
+        queryHost,
+        showResults,
+    };
 }

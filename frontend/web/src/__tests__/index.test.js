@@ -1,377 +1,172 @@
 /**
- * Tests for index.js functionality
+ * Tests for the real src/js/index.js module.
  * @format
  */
 
 /* global axios */
 
-// Helper to set up DOM before importing module functions
 function setupDOM() {
     document.body.innerHTML = `
         <form id="form">
-            <input id="host" type="text" value="" />
-            <input id="port" type="text" value="80" />
-            <button type="submit">Check</button>
+            <div class="form-group">
+                <input id="host" type="text" value="" />
+            </div>
+            <div class="form-group">
+                <input id="ports" type="text" value="" />
+                <button class="quick-port-btn" data-port="80"></button>
+            </div>
+            <button id="submit" type="submit"></button>
         </form>
-        <div id="results" class="d-none"></div>
+        <div id="results" class="hidden">
+            <span id="results-host"></span>
+            <div id="results-list"></div>
+        </div>
+        <div id="error" class="hidden">
+            <span id="error-text"></span>
+        </div>
     `;
 }
 
-describe("generateSuccessHtml", () => {
-    // We need to extract and test this function
-    // Since the module uses window.onload, we'll test the logic directly
+let app;
 
-    function generateSuccessHtml(data) {
-        const msg = document.createElement("p");
-        msg.append(`Results for ${data.host}:`);
+beforeEach(() => {
+    setupDOM();
+    jest.resetModules();
+    // Require a fresh copy so the module's internal state is reset per test.
+    app = require("../js/index.js");
+});
 
-        const results = document.createElement("ul");
-        data.check.forEach((check) => {
-            const res = document.createElement("li");
-            const state = document.createElement("span");
-            state.classList.add(check.status ? "text-success" : "text-danger");
-            state.textContent = check.status;
-
-            const port = document.createElement("span");
-            port.innerHTML = `${check.port} - ${state.outerHTML}`;
-
-            res.appendChild(port);
-            results.appendChild(res);
-        });
-
-        msg.append(results);
-        return msg.outerHTML;
-    }
-
-    beforeEach(() => {
-        setupDOM();
+describe("validateHostInput", () => {
+    test("accepts a hostname", () => {
+        document.getElementById("host").value = "example.com";
+        expect(app.validateHostInput()).toBe(true);
     });
 
-    test("generates correct HTML for single open port", () => {
-        const data = {
-            host: "example.com",
-            check: [{ port: 443, status: true }],
-        };
-
-        const html = generateSuccessHtml(data);
-
-        expect(html).toContain("Results for example.com:");
-        expect(html).toContain("443");
-        expect(html).toContain("text-success");
+    test("accepts an IPv4 address", () => {
+        document.getElementById("host").value = "1.1.1.1";
+        expect(app.validateHostInput()).toBe(true);
     });
 
-    test("generates correct HTML for single closed port", () => {
-        const data = {
-            host: "example.com",
-            check: [{ port: 22, status: false }],
-        };
-
-        const html = generateSuccessHtml(data);
-
-        expect(html).toContain("22");
-        expect(html).toContain("text-danger");
+    test("accepts the 'me' keyword", () => {
+        document.getElementById("host").value = "me";
+        expect(app.validateHostInput()).toBe(true);
     });
 
-    test("generates correct HTML for multiple ports", () => {
-        const data = {
-            host: "example.com",
-            check: [
-                { port: 80, status: true },
-                { port: 443, status: true },
-                { port: 22, status: false },
-            ],
-        };
-
-        const html = generateSuccessHtml(data);
-
-        expect(html).toContain("80");
-        expect(html).toContain("443");
-        expect(html).toContain("22");
-        expect(html.match(/text-success/g)).toHaveLength(2);
-        expect(html.match(/text-danger/g)).toHaveLength(1);
+    test("rejects an empty host and flags the field", () => {
+        document.getElementById("host").value = "";
+        expect(app.validateHostInput()).toBeFalsy();
+        expect(document.querySelector(".form-group").classList.contains("has-error")).toBe(true);
     });
 
-    test("handles empty check array", () => {
-        const data = {
-            host: "example.com",
-            check: [],
-        };
-
-        const html = generateSuccessHtml(data);
-
-        expect(html).toContain("Results for example.com:");
-        expect(html).toContain("<ul></ul>");
+    test("rejects a host containing a space", () => {
+        document.getElementById("host").value = "not a host";
+        expect(app.validateHostInput()).toBe(false);
     });
 });
 
-describe("resetPendingAlert", () => {
-    function resetPendingAlert() {
-        const alertDiv = document.getElementById("results");
-        const alertClass = ["alert-info", "alert-success", "alert-danger"];
-        alertDiv.classList.remove(...alertClass);
-        alertDiv.classList.add("d-none", "alert-info");
-        alertDiv.textContent = "";
-    }
-
-    beforeEach(() => {
-        setupDOM();
+describe("validatePortsInput", () => {
+    test("accepts comma separated ports in range", () => {
+        document.getElementById("ports").value = "80, 443, 8080";
+        expect(app.validatePortsInput()).toBe(true);
     });
 
-    test("removes alert classes and adds d-none", () => {
-        const alertDiv = document.getElementById("results");
-        alertDiv.classList.add("alert-success");
-        alertDiv.textContent = "Some content";
-
-        resetPendingAlert();
-
-        expect(alertDiv.classList.contains("d-none")).toBe(true);
-        expect(alertDiv.classList.contains("alert-info")).toBe(true);
-        expect(alertDiv.classList.contains("alert-success")).toBe(false);
-        expect(alertDiv.textContent).toBe("");
+    test("rejects an empty value", () => {
+        document.getElementById("ports").value = "";
+        expect(app.validatePortsInput()).toBe(false);
     });
 
-    test("removes alert-danger class", () => {
-        const alertDiv = document.getElementById("results");
-        alertDiv.classList.add("alert-danger");
+    test("rejects a port above 65535", () => {
+        document.getElementById("ports").value = "70000";
+        expect(app.validatePortsInput()).toBe(false);
+    });
 
-        resetPendingAlert();
-
-        expect(alertDiv.classList.contains("alert-danger")).toBe(false);
+    test("rejects a non-numeric port", () => {
+        document.getElementById("ports").value = "abc";
+        expect(app.validatePortsInput()).toBe(false);
     });
 });
 
-describe("Reactive State Proxy", () => {
-    test("proxy triggers updates on property set", () => {
-        const updateView = jest.fn();
-
-        const state = new Proxy(
-            { host: "", loading: false },
-            {
-                set(target, prop, value) {
-                    target[prop] = value;
-                    updateView(prop, value);
-                    return true;
-                },
-            }
-        );
-
-        state.host = "example.com";
-
-        expect(updateView).toHaveBeenCalledWith("host", "example.com");
-        expect(state.host).toBe("example.com");
+describe("addPort", () => {
+    test("appends a new port", () => {
+        app.addPort("443");
+        expect(document.getElementById("ports").value).toBe("443");
     });
 
-    test("proxy handles multiple property updates", () => {
-        const updates = [];
-
-        const state = new Proxy(
-            { host: "", loading: false, error: null },
-            {
-                set(target, prop, value) {
-                    target[prop] = value;
-                    updates.push({ prop, value });
-                    return true;
-                },
-            }
-        );
-
-        state.host = "test.com";
-        state.loading = true;
-        state.error = "Network error";
-
-        expect(updates).toHaveLength(3);
-        expect(updates[0]).toEqual({ prop: "host", value: "test.com" });
-        expect(updates[1]).toEqual({ prop: "loading", value: true });
-        expect(updates[2]).toEqual({ prop: "error", value: "Network error" });
-    });
-});
-
-describe("updateView", () => {
-    beforeEach(() => {
-        setupDOM();
-    });
-
-    test("loading state shows info alert", () => {
-        const alertDiv = document.getElementById("results");
-        alertDiv.classList.add("d-none");
-
-        // Simulate updateView for loading state
-        const state = { host: "example.com" };
-        const isLoading = true;
-        if (isLoading) {
-            alertDiv.classList.replace("d-none", "alert-info");
-            alertDiv.textContent = `Querying ${state.host}, please wait...`;
-        }
-
-        expect(alertDiv.classList.contains("alert-info")).toBe(true);
-        expect(alertDiv.textContent).toContain("Querying example.com");
-    });
-
-    test("error state shows danger alert", () => {
-        const alertDiv = document.getElementById("results");
-        alertDiv.classList.add("alert-info");
-
-        const errorMsg = "Connection failed";
-        alertDiv.classList.replace("alert-info", "alert-danger");
-        alertDiv.textContent = `ERROR: ${errorMsg}`;
-
-        expect(alertDiv.classList.contains("alert-danger")).toBe(true);
-        expect(alertDiv.textContent).toBe("ERROR: Connection failed");
-    });
-});
-
-describe("loadUserIp", () => {
-    beforeEach(() => {
-        setupDOM();
-    });
-
-    test("parses cloudflare trace response correctly", async () => {
-        const mockResponse = {
-            data: "fl=123\nip=192.168.1.100\nts=1234567890\nvisit_scheme=https\nuag=Mozilla",
-        };
-
-        axios.get.mockResolvedValue(mockResponse);
-
-        // Parse the response like loadUserIp does
-        const output = mockResponse.data
-            .trim()
-            .split("\n")
-            .map((e) => e.split("="));
-        const jsonParsedOutput = Object.fromEntries(output);
-
-        expect(jsonParsedOutput.ip).toBe("192.168.1.100");
-    });
-
-    test("handles cloudflare trace error gracefully", async () => {
-        axios.get.mockRejectedValue(new Error("Network error"));
-
-        // The function should catch and log the error
-        const consoleSpy = jest.spyOn(console, "log").mockImplementation();
-
-        try {
-            await axios.get("https://1.1.1.1/cdn-cgi/trace");
-        } catch (e) {
-            console.log("error", e);
-        }
-
-        expect(consoleSpy).toHaveBeenCalled();
-        consoleSpy.mockRestore();
+    test("does not duplicate an existing port", () => {
+        document.getElementById("ports").value = "80";
+        app.addPort("80");
+        expect(document.getElementById("ports").value).toBe("80");
     });
 });
 
 describe("queryHost", () => {
-    beforeEach(() => {
-        setupDOM();
-    });
+    test("renders results on success", async () => {
+        document.getElementById("host").value = "example.com";
+        document.getElementById("ports").value = "80, 443";
 
-    test("sends correct payload to API", async () => {
-        const mockResponse = {
+        axios.post.mockResolvedValue({
             data: {
                 error: false,
                 host: "example.com",
-                check: [{ port: 80, status: true }],
+                check: [
+                    { port: 80, status: true },
+                    { port: 443, status: false },
+                ],
             },
-        };
-
-        axios.post.mockResolvedValue(mockResponse);
-
-        document.getElementById("host").value = "example.com";
-        document.getElementById("port").value = "80, 443";
-
-        // Simulate queryHost logic
-        const host = document.getElementById("host").value;
-        const ports = document
-            .getElementById("port")
-            .value.split(",")
-            .map((p) => p.trim());
-
-        await axios.post("/api/query", { host, ports });
-
-        expect(axios.post).toHaveBeenCalledWith("/api/query", {
-            host: "example.com",
-            ports: ["80", "443"],
         });
+
+        await app.queryHost();
+
+        expect(axios.post).toHaveBeenCalledTimes(1);
+        expect(document.getElementById("results").classList.contains("hidden")).toBe(false);
+        expect(document.getElementById("results-host").textContent).toBe("example.com");
+        expect(document.getElementById("results-list").children).toHaveLength(2);
     });
 
-    test("handles API error response", async () => {
-        const errorResponse = {
+    test("shows joined messages from the API error extra field", async () => {
+        document.getElementById("host").value = "example.com";
+        document.getElementById("ports").value = "80";
+
+        axios.post.mockRejectedValue({
             response: {
                 data: {
                     extra: [{ message: "Invalid hostname" }, { message: "Port out of range" }],
                 },
             },
-        };
+        });
 
-        axios.post.mockRejectedValue(errorResponse);
+        await app.queryHost();
 
-        let errorMessage;
-        try {
-            await axios.post("/api/query", { host: "invalid", ports: [99999] });
-        } catch (error) {
-            errorMessage =
-                error.response?.data?.extra?.map((item) => item.message).join(", ") || "An unknown error occurred.";
-        }
-
-        expect(errorMessage).toBe("Invalid hostname, Port out of range");
+        expect(document.getElementById("error").classList.contains("hidden")).toBe(false);
+        expect(document.getElementById("error-text").textContent).toBe("Invalid hostname, Port out of range");
     });
 
-    test("handles unknown error", async () => {
-        axios.post.mockRejectedValue(new Error("Network failure"));
+    test("falls back to a generic message for an unknown error", async () => {
+        document.getElementById("host").value = "example.com";
+        document.getElementById("ports").value = "80";
 
-        let errorMessage;
-        try {
-            await axios.post("/api/query", { host: "test.com", ports: [80] });
-        } catch (error) {
-            errorMessage =
-                error.response?.data?.extra?.map((item) => item.message).join(", ") || "An unknown error occurred.";
-        }
+        axios.post.mockRejectedValue(new Error("network down"));
 
-        expect(errorMessage).toBe("An unknown error occurred.");
+        await app.queryHost();
+
+        expect(document.getElementById("error").classList.contains("hidden")).toBe(false);
+        expect(document.getElementById("error-text").textContent).toBe("An unknown error occurred. Please try again.");
     });
 });
 
-describe("Form validation", () => {
-    beforeEach(() => {
-        setupDOM();
+describe("loadUserIp", () => {
+    test("parses the cloudflare trace and populates the host field", async () => {
+        axios.get.mockResolvedValue({
+            data: "fl=123\nip=203.0.113.5\nts=1234567890\nvisit_scheme=https",
+        });
+
+        await app.loadUserIp();
+
+        expect(document.getElementById("host").value).toBe("203.0.113.5");
     });
 
-    test("form has required elements", () => {
-        expect(document.getElementById("form")).not.toBeNull();
-        expect(document.getElementById("host")).not.toBeNull();
-        expect(document.getElementById("port")).not.toBeNull();
-        expect(document.getElementById("results")).not.toBeNull();
-    });
-
-    test("port parsing handles comma-separated values", () => {
-        document.getElementById("port").value = "80, 443, 8080";
-
-        const ports = document
-            .getElementById("port")
-            .value.split(",")
-            .map((p) => p.trim());
-
-        expect(ports).toEqual(["80", "443", "8080"]);
-    });
-
-    test("port parsing handles single value", () => {
-        document.getElementById("port").value = "443";
-
-        const ports = document
-            .getElementById("port")
-            .value.split(",")
-            .map((p) => p.trim());
-
-        expect(ports).toEqual(["443"]);
-    });
-
-    test("port parsing handles whitespace", () => {
-        document.getElementById("port").value = "  80  ,  443  ";
-
-        const ports = document
-            .getElementById("port")
-            .value.split(",")
-            .map((p) => p.trim());
-
-        expect(ports).toEqual(["80", "443"]);
+    test("does not throw when the trace request fails", async () => {
+        axios.get.mockRejectedValue(new Error("network down"));
+        await expect(app.loadUserIp()).resolves.toBeUndefined();
     });
 });
