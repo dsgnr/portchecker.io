@@ -129,11 +129,14 @@ def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
         futures = {
             executor.submit(_check_port_status, address, port): port for port in ports
         }
-        for future in futures:
-            result = (
-                future.result()
-            )  # Retrieve the result of each future as it completes
-            results.append(result)
+        # Iterate in submission order so results line up with the input ports.
+        for future, port in futures.items():
+            try:
+                results.append(future.result())
+            except OSError:
+                # Treat an unexpected socket error as a closed port rather than
+                # failing the entire request.
+                results.append({"port": port, "status": False})
     return results
 
 
