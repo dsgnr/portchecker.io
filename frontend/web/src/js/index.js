@@ -157,7 +157,8 @@ function queryHost() {
         .querySelector("#ports")
         .value.split(",")
         .map((p) => p.trim())
-        .filter(Boolean);
+        .filter(Boolean)
+        .map((p) => parseInt(p, 10));
 
     state.host = host;
     state.loading = true;
