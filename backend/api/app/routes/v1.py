@@ -39,7 +39,7 @@ def v1_query_post(
 
     **NOTE:** The request body for this endpoint is not logged.
     ~~~
-    "POST /api/query HTTP/1.1" 200 OK
+    "POST /api/v1/query HTTP/1.1" 200 OK
     ~~~
     """
     return post_helper(data.host, data.ports)

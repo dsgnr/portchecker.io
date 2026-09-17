@@ -6,7 +6,7 @@
 # - hits the API and the nginx proxy
 # - tears everything down unless KEEP_STACK=1
 #
-# Used by CI (.github/workflows/pr-stack.yml) and locally.
+# Used by CI (.github/workflows/smoke-test.yml) and locally.
 #
 # Usage:
 #   scripts/smoke.sh
