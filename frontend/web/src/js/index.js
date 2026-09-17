@@ -172,7 +172,7 @@ function queryHost() {
         .catch((error) => {
             state.error =
                 error.response?.data?.extra?.map((item) => item.message).join(", ") ||
-                error.response?.data?.message ||
+                error.response?.data?.detail ||
                 "An unknown error occurred. Please try again.";
             state.loading = false;
         });
