@@ -1,5 +1,6 @@
 """Fixtures for testing the application routes and helper functions"""
 
+from asyncio.selector_events import BaseSelectorEventLoop
 from unittest.mock import patch
 
 import pytest
@@ -33,14 +34,25 @@ def mock_connect(address_port_tuple: tuple[str, int]) -> int:
     return SOCKET_OPEN if address_port_tuple[1] in OPEN_PORTS else SOCKET_CLOSED
 
 
+async def mock_sock_connect(_loop, _sock, address_port_tuple: tuple[str, int]) -> None:
+    """Simulate the event loop connect, refusing ports that `mock_connect` marks closed."""
+    if mock_connect(address_port_tuple) != SOCKET_OPEN:
+        raise ConnectionRefusedError
+
+
 @pytest.fixture(autouse=True)
 def mock_socket():
     """
     Simulate the socket connection.
     Uses the `mock_connect` method above to return the state value
     """
-    with patch("socket.socket.connect_ex", side_effect=mock_connect):
+    with patch.object(BaseSelectorEventLoop, "sock_connect", mock_sock_connect):
         yield
+
+
+def mock_getaddrinfo(address: str) -> list[tuple]:
+    """Build a `socket.getaddrinfo` style result resolving to `address`."""
+    return [(2, 1, 6, "", (address, 0))]
 
 
 @pytest.fixture

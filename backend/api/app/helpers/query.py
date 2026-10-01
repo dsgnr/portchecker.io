@@ -2,15 +2,18 @@
 Helper methods for the API
 """
 
+import asyncio
 import os
 import socket
-from concurrent.futures import ThreadPoolExecutor
 from ipaddress import ip_address
 from urllib.parse import urlparse
 
 from litestar import Request
 
 from app.helpers.exceptions import JsonAPIException
+
+CONNECT_TIMEOUT = 1
+MAX_CONCURRENT_CHECKS = 32
 
 
 def is_ip_address(address: str) -> bool:
@@ -64,17 +67,18 @@ def is_address_valid(address: str) -> bool:
     return True
 
 
-def is_valid_hostname(hostname: str) -> bool:
+async def resolve_hostname(hostname: str) -> str:
     """
     Validates the provided hostname is a resolvable, scheme-free domain.
 
-    Validates whether the provided hostname is resolveable.
+    Resolves the hostname once so every port check can connect to the same
+    IPv4 address without repeating the DNS lookup.
 
     Args:
         hostname (str): The hostname to validate.
 
     Returns:
-        bool: `True` if the hostname resolves successfully, otherwise raises an error.
+        str: The IPv4 address the hostname resolves to.
 
     Raises:
         ValueError: If the hostname is empty, contains a URL scheme, or fails to resolve.
@@ -88,12 +92,17 @@ def is_valid_hostname(hostname: str) -> bool:
         raise ValueError(str(ex)) from ex
 
     try:
-        return bool(socket.gethostbyname(hostname))
+        addr_info = await asyncio.get_running_loop().getaddrinfo(
+            hostname, None, family=socket.AF_INET, type=socket.SOCK_STREAM
+        )
     except socket.gaierror as socket_err:
         raise ValueError("Hostname does not appear to resolve") from socket_err
+    if not addr_info:
+        raise ValueError("Hostname does not appear to resolve")
+    return addr_info[0][4][0]
 
 
-def _check_port_status(address: str, port: int) -> dict[str, int | bool]:
+async def _check_port_status(address: str, port: int) -> dict[str, int | bool]:
     """Check if a specific port on the provided address is open.
 
     Args:
@@ -103,17 +112,23 @@ def _check_port_status(address: str, port: int) -> dict[str, int | bool]:
     Returns:
         dict[str, int | bool]: Returns a dictionary with the port and the connection status.
     """
+    loop = asyncio.get_running_loop()
     with socket.socket() as sock:
-        sock.settimeout(1)  # Set a timeout of 1 second
-        result = sock.connect_ex((address, port))  # 0 if open, non-zero if closed
-        return {"port": port, "status": result == 0}
+        sock.setblocking(False)
+        try:
+            async with asyncio.timeout(CONNECT_TIMEOUT):
+                await loop.sock_connect(sock, (address, port))
+        except OSError:
+            # Covers refused connections, unreachable hosts and timeouts.
+            return {"port": port, "status": False}
+    return {"port": port, "status": True}
 
 
-def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
-    """Check multiple ports for the provided address with threading.
+async def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
+    """Check multiple ports for the provided address concurrently.
 
     Args:
-        address (str): The hostname or IPv4 address to query.
+        address (str): The IPv4 address to query.
         ports (list[int]): List of ports to check on the given address.
 
     Returns:
@@ -124,23 +139,17 @@ def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bool]]:
     for port in ports:
         if not isinstance(port, int):
             raise TypeError(f"Port '{port}' is not an integer.")
-    results = []
-    with ThreadPoolExecutor() as executor:
-        futures = {
-            executor.submit(_check_port_status, address, port): port for port in ports
-        }
-        # Iterate in submission order so results line up with the input ports.
-        for future, port in futures.items():
-            try:
-                results.append(future.result())
-            except OSError:
-                # Treat an unexpected socket error as a closed port rather than
-                # failing the entire request.
-                results.append({"port": port, "status": False})
-    return results
+    semaphore = asyncio.Semaphore(MAX_CONCURRENT_CHECKS)
+
+    async def _bounded_check(port: int) -> dict[str, int | bool]:
+        async with semaphore:
+            return await _check_port_status(address, port)
+
+    # gather preserves input order so results line up with the input ports.
+    return await asyncio.gather(*(_bounded_check(port) for port in ports))
 
 
-def query_address(address: str, ports: list[int]) -> list[dict]:
+async def query_address(address: str, ports: list[int]) -> list[dict]:
     """
     Checks whether the specified ports on a given IPv4 address or hostname are connectable.
 
@@ -162,11 +171,12 @@ def query_address(address: str, ports: list[int]) -> list[dict]:
     try:
         if is_ip_address(address):
             is_address_valid(address)
+            resolved = address
         else:
-            is_valid_hostname(address)
+            resolved = await resolve_hostname(address)
     except Exception as ex:
         raise JsonAPIException(key="host", message=str(ex)) from ex
-    return check_ports(address, ports)
+    return await check_ports(resolved, ports)
 
 
 def get_requester(request: Request) -> str:

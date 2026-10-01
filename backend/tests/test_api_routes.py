@@ -93,7 +93,7 @@ def test_query_post_endpoint_invalid_port_v1(client):
 def test_query_post_endpoint_invalid_hostname_v1(client, mocker):
     """Test v1 query endpoint raises error with invalid hostname."""
     mocker.patch(
-        "socket.gethostbyname",
+        "socket.getaddrinfo",
         side_effect=OSError("Hostname does not appear to resolve"),
     )
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host
@@ -142,7 +142,7 @@ def test_query_post_endpoint_invalid_port_v2(client):
 def test_query_post_endpoint_invalid_hostname_v2(client, mocker):
     """Test v2 query endpoint raises error with invalid hostname."""
     mocker.patch(
-        "socket.gethostbyname",
+        "socket.getaddrinfo",
         side_effect=OSError("Hostname does not appear to resolve"),
     )
     request_data = {"host": INVALID_HOST, "ports": [80]}  # Invalid host

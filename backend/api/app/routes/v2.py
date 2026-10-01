@@ -40,8 +40,8 @@ def my_ip(request: Request) -> RequesterAnnotation:
     return get_requester(request)
 
 
-@get("/api/{host:str}/{port:int}", media_type=MediaType.TEXT, sync_to_thread=False)
-def get_port_check(
+@get("/api/{host:str}/{port:int}", media_type=MediaType.TEXT)
+async def get_port_check(
     request: Request, host: HostAnnotation, port: PortAnnotation
 ) -> PortCheckStrAnnotation:
     """
@@ -73,16 +73,15 @@ def get_port_check(
     Application logs are not forwarded or permanently stored.
     """
     host = get_requester(request) if host == "me" else host
-    return str(query_address(host, [port])[0].get("status"))
+    return str((await query_address(host, [port]))[0].get("status"))
 
 
 @post(
     "/api/query",
     media_type=MediaType.JSON,
     status_code=HTTP_200_OK,
-    sync_to_thread=False,
 )
-def query_post(
+async def query_post(
     data: Annotated[
         APISchema,
         Body(
@@ -105,14 +104,14 @@ def query_post(
     "POST /api/query HTTP/1.1" 200 OK
     ~~~
     """
-    return post_helper(data.host, data.ports)
+    return await post_helper(data.host, data.ports)
 
 
-def post_helper(host: str, ports: list[int]) -> APIResponseSchema:
+async def post_helper(host: str, ports: list[int]) -> APIResponseSchema:
     """A helper method for returning the `APIResponse`. Also used by the deprecated v1 API"""
     return APIResponseSchema(
         msg=None,
         error=False,
         host=host,
-        check=query_address(host, ports),
+        check=await query_address(host, ports),
     )
