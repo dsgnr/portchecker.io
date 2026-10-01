@@ -18,6 +18,9 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PATH="/.venv/bin:$PATH"
 
+# uvloop resolves hostnames on libuv's thread pool, which defaults to 4 threads
+ENV UV_THREADPOOL_SIZE=64
+
 COPY --from=builder /.venv /.venv
 
 COPY pyproject.toml entrypoint_dev.sh ./

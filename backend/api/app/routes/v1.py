@@ -16,10 +16,9 @@ from app.schemas.api import APIResponseSchema, APISchema
     "/api/v1/query",
     media_type=MediaType.JSON,
     status_code=HTTP_200_OK,
-    sync_to_thread=False,
     deprecated=True,
 )
-def v1_query_post(
+async def v1_query_post(
     data: Annotated[
         APISchema,
         Body(
@@ -42,4 +41,4 @@ def v1_query_post(
     "POST /api/v1/query HTTP/1.1" 200 OK
     ~~~
     """
-    return post_helper(data.host, data.ports)
+    return await post_helper(data.host, data.ports)

@@ -1,48 +1,64 @@
-"""Tests for is_valid_hostname"""
+"""Tests for resolve_hostname"""
+import asyncio
 import socket
 from unittest.mock import patch
 
 import pytest
 
-from api.app.helpers.query import is_valid_hostname
+from api.app.helpers.query import resolve_hostname
 
-from .conftest import INVALID_HOST, LOCALHOST_IPV4, VALID_DOMAIN, VALID_PUBLIC_IPV4
-
-
-def test_is_valid_hostname_valid():
-    """Test that a valid hostname (e.g., google.com) is correctly identified as valid."""
-    with patch("socket.gethostbyname", return_value=VALID_PUBLIC_IPV4):
-        assert is_valid_hostname(VALID_DOMAIN) is True
-
-
-def test_is_valid_hostname_valid_with_ip():
-    """Test that a valid IP address is correctly identified as valid."""
-    with patch("socket.gethostbyname", return_value=VALID_PUBLIC_IPV4):
-        assert is_valid_hostname(VALID_PUBLIC_IPV4) is True
+from .conftest import (
+    INVALID_HOST,
+    LOCALHOST_IPV4,
+    VALID_DOMAIN,
+    VALID_PUBLIC_IPV4,
+    mock_getaddrinfo,
+)
 
 
-def test_is_valid_hostname_with_scheme():
+def test_resolve_hostname_valid():
+    """Test that a valid hostname resolves to its IPv4 address."""
+    with patch("socket.getaddrinfo", return_value=mock_getaddrinfo(VALID_PUBLIC_IPV4)):
+        assert asyncio.run(resolve_hostname(VALID_DOMAIN)) == VALID_PUBLIC_IPV4
+
+
+def test_resolve_hostname_valid_with_ip():
+    """Test that a valid IP address resolves to itself."""
+    with patch("socket.getaddrinfo", return_value=mock_getaddrinfo(VALID_PUBLIC_IPV4)):
+        assert asyncio.run(resolve_hostname(VALID_PUBLIC_IPV4)) == VALID_PUBLIC_IPV4
+
+
+def test_resolve_hostname_with_scheme():
     """Test that a hostname with a scheme (e.g., http://) raises a ValueError."""
     with pytest.raises(ValueError, match="The hostname must not have a scheme"):
-        is_valid_hostname(f"http://{VALID_DOMAIN}")
+        asyncio.run(resolve_hostname(f"http://{VALID_DOMAIN}"))
 
 
-def test_is_valid_hostname_invalid():
+def test_resolve_hostname_invalid():
     """Test that an invalid hostname raises a ValueError."""
     with (
-        patch("socket.gethostbyname", side_effect=socket.gaierror),
+        patch("socket.getaddrinfo", side_effect=socket.gaierror),
         pytest.raises(ValueError, match="Hostname does not appear to resolve"),
     ):
-        is_valid_hostname(INVALID_HOST)
+        asyncio.run(resolve_hostname(INVALID_HOST))
 
 
-def test_is_valid_hostname_empty():
+def test_resolve_hostname_no_results():
+    """Test that an empty resolver result raises a ValueError."""
+    with (
+        patch("socket.getaddrinfo", return_value=[]),
+        pytest.raises(ValueError, match="Hostname does not appear to resolve"),
+    ):
+        asyncio.run(resolve_hostname(INVALID_HOST))
+
+
+def test_resolve_hostname_empty():
     """Test that an empty hostname raises a ValueError."""
     with pytest.raises(ValueError, match="A hostname must be provided"):
-        is_valid_hostname("")
+        asyncio.run(resolve_hostname(""))
 
 
-def test_is_valid_hostname_localhost():
-    """Test that the `localhost` hostname is correctly identified as valid."""
-    with patch("socket.gethostbyname", return_value=LOCALHOST_IPV4):
-        assert is_valid_hostname("localhost") is True
+def test_resolve_hostname_localhost():
+    """Test that the `localhost` hostname resolves."""
+    with patch("socket.getaddrinfo", return_value=mock_getaddrinfo(LOCALHOST_IPV4)):
+        assert asyncio.run(resolve_hostname("localhost")) == LOCALHOST_IPV4
