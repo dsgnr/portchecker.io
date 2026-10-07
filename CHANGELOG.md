@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.2.0] - 2026-08-10
+- fix: apply `DEFAULT_PORT` to correct input id at runtime by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/504
+- fix: read API error detail field for fallback error message by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/505
+- fix: send ports as integers in query request by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/506
+- fix: handle socket errors per port instead of failing the request by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/507
+- docs: correct stale workflow path and v1 endpoint reference by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/508
+- test: exercise the real frontend module instead of inline copies by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/509
+- perf: Reduce overall CPU usage to manage high concurrency better by @dsgnr in https://github.com/dsgnr/portchecker.io/pull/520
+- Various package updates
+
 ## [4.1.0] - 2026-06-06
 - Upgrade Node to v26 [#450](https://github.com/dsgnr/portchecker.io/pull/450)
 - Migrate from Yarn to npm [#460](https://github.com/dsgnr/portchecker.io/pull/460)
