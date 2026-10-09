@@ -7,14 +7,14 @@ from .conftest import LOCALHOST_IPV4, VALID_PRIVATE_IPV4, VALID_PUBLIC_IPV4
 
 
 def test_is_address_valid_public_ipv4():
-    """Test is_address_valid returns True for a public IPv4 address."""
-    assert is_address_valid(VALID_PUBLIC_IPV4) is True
+    """Test is_address_valid accepts a public IPv4 address."""
+    assert is_address_valid(VALID_PUBLIC_IPV4) is None
 
 
 def test_is_address_valid_private_ipv4_with_allow_private(monkeypatch):
     """Test is_address_valid allows private IPv4 if ALLOW_PRIVATE is set."""
     monkeypatch.setenv("ALLOW_PRIVATE", "True")
-    assert is_address_valid(VALID_PRIVATE_IPV4) is True
+    assert is_address_valid(VALID_PRIVATE_IPV4) is None
 
 
 def test_is_address_valid_private_ipv4_without_allow_private():

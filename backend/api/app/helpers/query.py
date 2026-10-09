@@ -37,19 +37,15 @@ def is_ip_address(address: str) -> bool:
         return False
 
 
-def is_address_valid(address: str) -> bool:
+def is_address_valid(address: str) -> None:
     """
-    Validates whether a given IP address string is a public IPv4 address.
+    Validates that a given IP address string is a public IPv4 address.
 
-    Checks if the provided address is a valid IPv4 address. If the address is
-    private and the environment variable `ALLOW_PRIVATE` is not set, an error is raised.
-    IPv6 addresses are not supported and will raise a `ValueError`.
+    If the address is private and the environment variable `ALLOW_PRIVATE` is not
+    set, an error is raised. IPv6 addresses are not supported.
 
     Args:
         address (str): The IPv4 address string to validate.
-
-    Returns:
-        bool: `True` If the IPv4 address is valid.
 
     Raises:
         ValueError: If the address is invalid, private, or IPv6.
@@ -66,7 +62,6 @@ def is_address_valid(address: str) -> bool:
         raise ValueError(
             f"IPv{address_obj.version} address '{address}' does not appear to be public"
         )
-    return True
 
 
 async def resolve_hostname(hostname: str) -> str:
@@ -87,11 +82,8 @@ async def resolve_hostname(hostname: str) -> str:
     """
     if not hostname:
         raise ValueError("A hostname must be provided")
-    try:
-        if urlparse(hostname).scheme:
-            raise ValueError("The hostname must not have a scheme")
-    except Exception as ex:
-        raise ValueError(str(ex)) from ex
+    if urlparse(hostname).scheme:
+        raise ValueError("The hostname must not have a scheme")
 
     try:
         addr_info = await asyncio.get_running_loop().getaddrinfo(
@@ -138,10 +130,6 @@ async def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bo
         list[dict[str, int | bool]]:
             A list of dictionaries containing the ports checked and their statuses.
     """
-    # Explicit type check for ports
-    for port in ports:
-        if not isinstance(port, int):
-            raise TypeError(f"Port '{port}' is not an integer.")
     # gather preserves input order so results line up with the input ports.
     return await asyncio.gather(*(_check_port_status(address, port) for port in ports))
 
