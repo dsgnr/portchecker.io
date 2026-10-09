@@ -58,7 +58,7 @@ def is_address_valid(address: str) -> bool:
     if address_obj.version == 6:
         raise ValueError("IPv6 is not currently supported")
     if (
-        address_obj.is_private
+        not address_obj.is_global
         and os.environ.get("ALLOW_PRIVATE", "false").lower() != "true"
     ):
         raise ValueError(
@@ -169,11 +169,11 @@ async def query_address(address: str, ports: list[int]) -> list[dict]:
         JsonAPIException: If the `address` is invalid, not public, or cannot be resolved.
     """
     try:
-        if is_ip_address(address):
-            is_address_valid(address)
-            resolved = address
-        else:
-            resolved = await resolve_hostname(address)
+        resolved = (
+            address if is_ip_address(address) else await resolve_hostname(address)
+        )
+        # Hostnames are checked after resolution so they cannot reach private ranges.
+        is_address_valid(resolved)
     except Exception as ex:
         raise JsonAPIException(key="host", message=str(ex)) from ex
     return await check_ports(resolved, ports)

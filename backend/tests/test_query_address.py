@@ -170,3 +170,15 @@ def test_query_address_resolves_hostname_once(mocker):
     asyncio.run(query_address(VALID_DOMAIN, PORTS))
     getaddrinfo.assert_called_once()
     assert sorted(connected) == sorted((VALID_PUBLIC_IPV4, port) for port in PORTS)
+
+
+@pytest.mark.parametrize("resolved", ["127.0.0.1", "10.0.0.5", "100.64.0.1"])
+def test_query_address_hostname_resolving_to_non_public_address(
+    mocker, monkeypatch, resolved
+):
+    """Test a hostname resolving to a non-public address is rejected."""
+    monkeypatch.delenv("ALLOW_PRIVATE", raising=False)
+    mocker.patch("socket.getaddrinfo", return_value=mock_getaddrinfo(resolved))
+    with pytest.raises(JsonAPIException) as exc_info:
+        asyncio.run(query_address(VALID_DOMAIN, [443]))
+    assert "does not appear to be public" in exc_info.value.message
