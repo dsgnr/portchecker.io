@@ -3,8 +3,8 @@ The portchecker.io App
 """
 
 import pathlib
+import tomllib
 
-import tomli
 from litestar import Litestar
 from litestar.exceptions import ValidationException
 from litestar.openapi.config import OpenAPIConfig
@@ -27,7 +27,7 @@ def _get_project_meta():
     with open(
         f"{pathlib.Path(__file__).parent.resolve().parent}/pyproject.toml", mode="rb"
     ) as pyproject:
-        return tomli.load(pyproject)["tool"]["poetry"]
+        return tomllib.load(pyproject)["tool"]["poetry"]
 
 
 project_meta = _get_project_meta()
