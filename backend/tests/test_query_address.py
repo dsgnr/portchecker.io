@@ -6,6 +6,7 @@ from asyncio.selector_events import BaseSelectorEventLoop
 import pytest
 
 from api.app.helpers.query import (
+    MAX_CONCURRENT_CHECKS,
     JsonAPIException,
     _check_port_status,
     check_ports,
@@ -182,3 +183,26 @@ def test_query_address_hostname_resolving_to_non_public_address(
     with pytest.raises(JsonAPIException) as exc_info:
         asyncio.run(query_address(VALID_DOMAIN, [443]))
     assert "does not appear to be public" in exc_info.value.message
+
+
+def test_check_ports_limit_applies_across_concurrent_requests(monkeypatch):
+    """Test concurrent connections stay bounded when several requests run together."""
+    active = peak = 0
+
+    async def slow_connect(_loop, _sock, _address_port):
+        nonlocal active, peak
+        active += 1
+        peak = max(peak, active)
+        await asyncio.sleep(0.01)
+        active -= 1
+
+    monkeypatch.setattr(BaseSelectorEventLoop, "sock_connect", slow_connect)
+
+    async def run():
+        await asyncio.gather(
+            check_ports(VALID_PUBLIC_IPV4, list(range(1, 41))),
+            check_ports(VALID_PUBLIC_IPV4, list(range(41, 81))),
+        )
+
+    asyncio.run(run())
+    assert peak == MAX_CONCURRENT_CHECKS
