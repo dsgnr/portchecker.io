@@ -14,6 +14,8 @@ from app.helpers.exceptions import JsonAPIException
 
 CONNECT_TIMEOUT = 1
 MAX_CONCURRENT_CHECKS = 32
+# Shared by all requests in the process to bound open sockets.
+_connection_slots = asyncio.Semaphore(MAX_CONCURRENT_CHECKS)
 
 
 def is_ip_address(address: str) -> bool:
@@ -113,14 +115,15 @@ async def _check_port_status(address: str, port: int) -> dict[str, int | bool]:
         dict[str, int | bool]: Returns a dictionary with the port and the connection status.
     """
     loop = asyncio.get_running_loop()
-    with socket.socket() as sock:
-        sock.setblocking(False)
-        try:
-            async with asyncio.timeout(CONNECT_TIMEOUT):
-                await loop.sock_connect(sock, (address, port))
-        except OSError:
-            # Covers refused connections, unreachable hosts and timeouts.
-            return {"port": port, "status": False}
+    async with _connection_slots:
+        with socket.socket() as sock:
+            sock.setblocking(False)
+            try:
+                async with asyncio.timeout(CONNECT_TIMEOUT):
+                    await loop.sock_connect(sock, (address, port))
+            except OSError:
+                # Covers refused connections, unreachable hosts and timeouts.
+                return {"port": port, "status": False}
     return {"port": port, "status": True}
 
 
@@ -139,14 +142,8 @@ async def check_ports(address: str, ports: list[int]) -> list[dict[str, int | bo
     for port in ports:
         if not isinstance(port, int):
             raise TypeError(f"Port '{port}' is not an integer.")
-    semaphore = asyncio.Semaphore(MAX_CONCURRENT_CHECKS)
-
-    async def _bounded_check(port: int) -> dict[str, int | bool]:
-        async with semaphore:
-            return await _check_port_status(address, port)
-
     # gather preserves input order so results line up with the input ports.
-    return await asyncio.gather(*(_bounded_check(port) for port in ports))
+    return await asyncio.gather(*(_check_port_status(address, port) for port in ports))
 
 
 async def query_address(address: str, ports: list[int]) -> list[dict]:
