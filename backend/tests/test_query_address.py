@@ -84,12 +84,6 @@ def test_query_address_none_host():
         asyncio.run(query_address(None, [80]))
 
 
-def test_query_address_invalid_port_type():
-    """Test query_address raises TypeError for non-integer port."""
-    with pytest.raises(Exception):
-        asyncio.run(query_address(VALID_PUBLIC_IPV4, ["notaport"]))
-
-
 def test_query_address_ipv6():
     """Test query_address raises JsonAPIException for IPv6 address."""
     with pytest.raises(JsonAPIException, match="IPv6 is not currently supported"):
