@@ -27,5 +27,10 @@ COPY pyproject.toml entrypoint.sh ./
 COPY api /src
 WORKDIR /src
 
+# COPY keeps the build host's modes, which can be unreadable to a non-root user.
+RUN chmod -R a+rX /src /pyproject.toml /entrypoint.sh \
+    && adduser -D -H app
+USER app
+
 EXPOSE 8000
 CMD ["sh", "/entrypoint.sh"]
