@@ -40,7 +40,7 @@ prometheus_config = PrometheusConfig(
     labels={
         "version": project_meta["version"],
     },
-    buckets=[0.1, 0.2, 0.3, 0.4, 0.5],
+    buckets=[0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 5],
 )
 
 app = Litestar(
