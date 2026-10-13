@@ -199,8 +199,9 @@ def get_requester(request: Request) -> str:
         ValueError: If none of the known headers are found in the request.
     """
     known_headers = ["cf-connecting-ip", "do-connecting-ip", "x-real-ip"]
-    headers = {**{k.lower(): v for k, v in request.headers.items()}}
-    requester = next((headers[key] for key in known_headers if key in headers), None)
+    requester = next(
+        (request.headers[key] for key in known_headers if key in request.headers), None
+    )
     if requester is None:
         raise ValueError("The requester IP was not detected")
     return requester

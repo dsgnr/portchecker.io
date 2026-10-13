@@ -1,5 +1,6 @@
 """Tests for get_requester"""
 import pytest
+from litestar.datastructures import Headers
 
 from api.app.helpers.query import get_requester
 
@@ -50,5 +51,7 @@ def test_get_requester_empty_headers(mock_request):
 
 def test_get_requester_case_insensitivity(mock_request):
     """Test get_requester handles case-insensitive header keys."""
-    request = mock_request({"Cf-Connecting-Ip": "192.168.1.5"})
+    request = mock_request(
+        Headers.from_scope({"headers": [(b"Cf-Connecting-Ip", b"192.168.1.5")]})
+    )
     assert get_requester(request) == "192.168.1.5"
