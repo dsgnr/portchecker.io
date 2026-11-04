@@ -439,14 +439,14 @@ colors = ["colorama"]
 
 [[package]]
 name = "litestar"
-version = "2.24.0"
+version = "2.25.0"
 description = "Litestar - A production-ready, highly performant, extensible ASGI API Framework"
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
 files = [
-    {file = "litestar-2.24.0-py3-none-any.whl", hash = "sha256:0ef13630173ea147847363f03f0459877ab14a572e68b2af7a25796055513a31"},
-    {file = "litestar-2.24.0.tar.gz", hash = "sha256:8f4b137cb115554b9fbc12bd01d398d5bb40ba85f2d333dd73f4b747308bbb46"},
+    {file = "litestar-2.25.0-py3-none-any.whl", hash = "sha256:ff16470b6aa3031ea3210bbb474b00b24c636ddfe8e0ee3d09c85aff3058a93f"},
+    {file = "litestar-2.25.0.tar.gz", hash = "sha256:7fad91fcd89367fcd26534ab19b6b05763cc67ab9574baa914546089e1ed1fb4"},
 ]
 
 [package.dependencies]
@@ -470,8 +470,8 @@ annotated-types = ["annotated-types"]
 attrs = ["attrs"]
 brotli = ["brotli"]
 cli = ["jsbeautifier", "uvicorn[standard]"]
-cryptography = ["cryptography"]
-full = ["advanced-alchemy (>=0.2.2)", "annotated-types", "attrs", "brotli", "cryptography", "email-validator", "jinja2", "jinja2 (>=3.1.2)", "jsbeautifier", "mako (>=1.2.4)", "minijinja (>=1.0.0)", "opentelemetry-instrumentation-asgi", "opentelemetry-sdk", "piccolo", "picologging ; python_version < \"3.13\"", "prometheus-client", "pydantic", "pydantic-extra-types (!=2.9.0) ; python_version < \"3.9\"", "pydantic-extra-types ; python_version >= \"3.9\"", "pyjwt (>=2.9.0)", "redis[hiredis] (>=4.4.4,<5.3)", "structlog", "uvicorn[standard]", "valkey[libvalkey] (>=6.0.2)"]
+cryptography = ["cryptography (<47.0) ; python_version == \"3.8\"", "cryptography ; python_version > \"3.8\""]
+full = ["advanced-alchemy (>=0.2.2)", "annotated-types", "attrs", "brotli", "cryptography", "cryptography (<47.0) ; python_version == \"3.8\"", "cryptography ; python_version > \"3.8\"", "email-validator", "jinja2", "jinja2 (>=3.1.2)", "jsbeautifier", "mako (>=1.2.4)", "minijinja (>=1.0.0)", "opentelemetry-instrumentation-asgi", "opentelemetry-sdk", "piccolo", "picologging ; python_version < \"3.13\"", "prometheus-client", "pydantic", "pydantic-extra-types (!=2.9.0) ; python_version < \"3.9\"", "pydantic-extra-types ; python_version >= \"3.9\"", "pyjwt (>=2.9.0)", "redis[hiredis] (>=4.4.4,<5.3)", "structlog", "uvicorn[standard]", "valkey[libvalkey] (>=6.0.2)"]
 jinja = ["jinja2 (>=3.1.2)"]
 jwt = ["cryptography", "pyjwt (>=2.9.0)"]
 mako = ["mako (>=1.2.4)"]
